@@ -1,6 +1,14 @@
 {
+<<<<<<< HEAD
   "name": "Inhaby",
   "description": "Rent verified, trust-backed homes directly from owners with zero brokerage and total transparency.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
+=======
+  "name": "INHABY",
+  "description": "INHABY helps students and professionals discover PGs, hostels, rooms, flats, and rental accommodations with a modern and trusted experience.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
+>>>>>>> c1264eda7be93591894f3c675f2eb1367638f4bd

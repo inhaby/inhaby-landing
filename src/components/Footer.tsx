@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState } from "react";
 import { motion } from "motion/react";
 import { Twitter, Instagram, Linkedin, Github, Mail, Globe, Sun, Moon, Sparkles } from "lucide-react";
@@ -14,25 +15,66 @@ const footerColumns = [
       { name: "Verification", href: "/verify", external: false },
       { name: "Pricing", href: "/pricing", external: false },
       { name: "Support Desk", href: "mailto:support@inhaby.com", external: true },
+=======
+import { motion } from "motion/react";
+import { Twitter, Instagram, Linkedin, Github, Mail, Globe } from "lucide-react";
+import { Link } from "react-router-dom";
+import Logo from "./Logo";
+
+const footerLinks = [
+  {
+    title: "Platform",
+    links: [
+      { name: "Rent Homes", href: "/listings" },
+      { name: "List Property", href: "#" },
+      { name: "Verify Listing", href: "/verify" },
+      { name: "Verified Owners", href: "/verified-owners" },
+      { name: "Pricing", href: "/pricing" },
+>>>>>>> c1264eda7be93591894f3c675f2eb1367638f4bd
     ],
   },
   {
     title: "Company",
     links: [
+<<<<<<< HEAD
       { name: "About Inhaby", href: "#", external: false },
       { name: "Our Mission", href: "#", external: false },
       { name: "Careers (Hiring!)", href: "#", external: false },
       { name: "Press Room", href: "#", external: false },
       { name: "Contact Verification", href: "#", external: false },
+=======
+      { name: "About Us", href: "#" },
+      { name: "Careers", href: "#" },
+      { name: "Press", href: "#" },
+      { name: "News", href: "#" },
+      { name: "Contact", href: "#" },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { name: "Blog", href: "#" },
+      { name: "Help Center", href: "#" },
+      { name: "Safety Guide", href: "#" },
+      { name: "Rental Tips", href: "#" },
+      { name: "Community", href: "#" },
+>>>>>>> c1264eda7be93591894f3c675f2eb1367638f4bd
     ],
   },
   {
     title: "Legal",
     links: [
+<<<<<<< HEAD
       { name: "Privacy Policy", href: "#", external: false },
       { name: "Terms of Service", href: "#", external: false },
       { name: "E-Stamp Integrity", href: "#", external: false },
       { name: "Security Protocols", href: "#", external: false },
+=======
+      { name: "Privacy Policy", href: "#" },
+      { name: "Terms of Service", href: "#" },
+      { name: "Cookie Policy", href: "#" },
+      { name: "Security", href: "#" },
+>>>>>>> c1264eda7be93591894f3c675f2eb1367638f4bd
     ],
   },
 ];
@@ -45,6 +87,7 @@ const socialLinks = [
 ];
 
 export default function Footer() {
+<<<<<<< HEAD
   const { theme, toggleTheme } = useTheme();
   const [lang, setLang] = useState("English");
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
@@ -82,11 +125,44 @@ export default function Footer() {
                 </div>
                 <button className="px-6 py-3 bg-primary text-primary-foreground text-xs font-extrabold rounded-xl hover:bg-primary/90 transition-colors shadow-sm">
                   Subscribe
+=======
+  return (
+    <footer className="bg-background border-t border-border pt-20 pb-10">
+      <div className="container px-6 mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
+          {/* Brand and Newsletter */}
+          <div className="lg:col-span-6 space-y-8">
+            <div>
+              <Logo className="h-12 mb-4" />
+              <p className="mt-4 text-muted-foreground text-sm leading-relaxed max-w-md">
+                The premium rental platform for modern living. Finding trusted homes with total clarity and zero brokerage.
+              </p>
+              <p className="mt-2 text-primary font-semibold text-sm tracking-wide">
+                "Live Better. Stay Smarter."
+              </p>
+            </div>
+            
+            <div className="space-y-4">
+              <h4 className="text-sm font-bold text-foreground uppercase tracking-wider">Stay Updated</h4>
+              <p className="text-sm text-muted-foreground">Get the latest rental tips and property news.</p>
+              <form className="flex max-w-sm" onSubmit={(e) => e.preventDefault()}>
+                <div className="relative flex-grow">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <input 
+                    type="email" 
+                    placeholder="Email address" 
+                    className="w-full pl-10 pr-4 py-3 bg-muted border border-border rounded-l-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                  />
+                </div>
+                <button className="px-6 py-3 bg-foreground text-background text-sm font-semibold rounded-r-xl hover:bg-foreground/90 transition-colors">
+                  Join
+>>>>>>> c1264eda7be93591894f3c675f2eb1367638f4bd
                 </button>
               </form>
             </div>
           </div>
 
+<<<<<<< HEAD
           {/* Contact coordinates section */}
           <div className="lg:col-span-6 flex flex-col items-center lg:items-end justify-center text-center lg:text-right space-y-6">
             <h3 className="text-2xl font-extrabold text-foreground max-w-sm tracking-tight leading-snug">
@@ -95,11 +171,22 @@ export default function Footer() {
             <div className="inline-flex items-center space-x-3 px-6 py-3.5 bg-muted border border-border rounded-full hover:border-primary/20 transition-all cursor-pointer group">
               <Mail className="w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
               <span className="text-sm font-extrabold text-foreground">support@inhaby.com</span>
+=======
+          {/* Contact Section */}
+          <div className="lg:col-span-6 flex flex-col items-center lg:items-end justify-center text-center lg:text-right">
+            <h3 className="text-3xl font-bold text-foreground mb-6 max-w-[280px] lg:max-w-none">
+              Feel free to reach us at:
+            </h3>
+            <div className="inline-flex items-center space-x-3 px-8 py-4 bg-muted border border-border rounded-full shadow-sm hover:shadow-md transition-all cursor-pointer group">
+              <Mail className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
+              <span className="text-lg font-semibold text-foreground">support@inhaby.com</span>
+>>>>>>> c1264eda7be93591894f3c675f2eb1367638f4bd
             </div>
           </div>
         </div>
 
         {/* Links Grid */}
+<<<<<<< HEAD
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 pt-16 border-t border-border/60">
           {footerColumns.map((column) => (
             <div key={column.title} className="space-y-4">
@@ -123,12 +210,36 @@ export default function Footer() {
                       >
                         {link.name}
                       </Link>
+=======
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 pt-16 border-t border-border/50">
+          {footerLinks.map((column) => (
+            <div key={column.title} className="space-y-4">
+              <h4 className="text-sm font-bold text-foreground uppercase tracking-wider">{column.title}</h4>
+              <ul className="space-y-3">
+                {column.links.map((link) => (
+                  <li key={link.name}>
+                    {link.href.startsWith("/") ? (
+                      <Link 
+                        to={link.href} 
+                        className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        {link.name}
+                      </Link>
+                    ) : (
+                      <a 
+                        href={link.href} 
+                        className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        {link.name}
+                      </a>
+>>>>>>> c1264eda7be93591894f3c675f2eb1367638f4bd
                     )}
                   </li>
                 ))}
               </ul>
             </div>
           ))}
+<<<<<<< HEAD
 
           {/* Custom Contact column in Footer */}
           <div className="space-y-4 text-left">
@@ -200,11 +311,29 @@ export default function Footer() {
 
           {/* Social Icons Links */}
           <div className="flex items-center space-x-4">
+=======
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
+          <div className="flex items-center space-x-6">
+            <p className="text-muted-foreground text-xs">
+              © {new Date().getFullYear()} INHABY Inc. All rights reserved.
+            </p>
+            <div className="hidden md:flex items-center space-x-2 text-muted-foreground text-xs cursor-pointer hover:text-foreground transition-colors">
+              <Globe className="w-3 h-3" />
+              <span>English (US)</span>
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-5">
+>>>>>>> c1264eda7be93591894f3c675f2eb1367638f4bd
             {socialLinks.map((social) => (
               <motion.a
                 key={social.label}
                 href={social.href}
                 whileHover={{ y: -2 }}
+<<<<<<< HEAD
                 className="w-8 h-8 bg-muted rounded-full flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary-soft transition-all"
                 aria-label={social.label}
               >
@@ -213,6 +342,15 @@ export default function Footer() {
             ))}
           </div>
 
+=======
+                className="w-9 h-9 bg-muted rounded-full flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary-soft transition-all"
+                aria-label={social.label}
+              >
+                <social.icon className="w-4 h-4" />
+              </motion.a>
+            ))}
+          </div>
+>>>>>>> c1264eda7be93591894f3c675f2eb1367638f4bd
         </div>
       </div>
     </footer>
