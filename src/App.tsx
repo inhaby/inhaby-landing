@@ -3,10 +3,7 @@ import { useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ThemeSwitcher from "./components/ThemeSwitcher";
-<<<<<<< HEAD
 import LivingBackground from "./components/LivingBackground";
-=======
->>>>>>> c1264eda7be93591894f3c675f2eb1367638f4bd
 import { ThemeProvider } from "./context/ThemeContext";
 import HomePage from "./pages/HomePage";
 import PhotosPage from "./pages/PhotosPage";
@@ -28,12 +25,8 @@ export default function App() {
     <ThemeProvider>
       <BrowserRouter>
         <ScrollToTop />
-<<<<<<< HEAD
         <div className="min-h-screen bg-background selection:bg-primary/20 selection:text-primary relative">
           <LivingBackground />
-=======
-        <div className="min-h-screen bg-background selection:bg-primary/20 selection:text-primary">
->>>>>>> c1264eda7be93591894f3c675f2eb1367638f4bd
           <Navbar />
           <Routes>
             <Route path="/" element={<HomePage />} />

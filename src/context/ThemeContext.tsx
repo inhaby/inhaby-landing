@@ -23,15 +23,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const [accent, setAccentState] = useState<Accent>(() => {
     if (typeof window !== "undefined") {
-<<<<<<< HEAD
       return (localStorage.getItem("accent") as Accent) || "green";
     }
     return "green";
-=======
-      return (localStorage.getItem("accent") as Accent) || "blue";
-    }
-    return "blue";
->>>>>>> c1264eda7be93591894f3c675f2eb1367638f4bd
   });
 
   useEffect(() => {

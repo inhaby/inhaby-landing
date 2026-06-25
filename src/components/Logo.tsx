@@ -25,57 +25,29 @@ export default function Logo({ className = "h-8" }: LogoProps) {
           {/* Dot for 'i' */}
           <circle 
             cx="22" 
-<<<<<<< HEAD
             cy="18" 
-=======
-            cy="20" 
->>>>>>> c1264eda7be93591894f3c675f2eb1367638f4bd
             r="5" 
             fill="var(--primary)" 
             stroke="none" 
             style={{ transition: "fill 300ms cubic-bezier(0.4, 0, 0.2, 1)" }}
           />
           
-<<<<<<< HEAD
           {/* Seamless continuous path matching the updated official brand shape */}
           <path 
             d="M 22,42 L 22,74 L 40,74 L 40,42 L 56,26 L 82,42 L 82,74 L 64,74 L 64,58 A 8,8 0 0,0 48,58 L 48,74" 
-=======
-          {/* Continuous elegant mathematical single-path layout:
-              - Starts at top of 'i' stem
-              - Goes down, curves right into base
-              - Rises into house left-wall
-              - Creates steep asymmetric rise to roof peak
-              - Flows into outer right-wall
-              - Wraps around bottom right wall/base
-              - Curves up & left to form the smooth inner doorway arch
-          */}
-          <path 
-            d="M 22,44 L 22,74 L 40,74 L 40,42 L 55,24 L 82,42 L 82,74 L 62,74 L 62,56 Q 51,46 40,56" 
->>>>>>> c1264eda7be93591894f3c675f2eb1367638f4bd
           />
         </g>
         
         {/* Soft, geometric 'haby' typography perfectly aligned to bottom baseline */}
         <text
-<<<<<<< HEAD
           x="96"
           y="74"
           className="fill-foreground font-bold"
-=======
-          x="100"
-          y="74"
-          className="fill-foreground"
->>>>>>> c1264eda7be93591894f3c675f2eb1367638f4bd
           style={{ 
             fontSize: "56px", 
             fontFamily: "'Space Grotesk', Inter, ui-sans-serif, system-ui, sans-serif",
             letterSpacing: "-0.03em",
-<<<<<<< HEAD
             fontWeight: 700,
-=======
-            fontWeight: 500,
->>>>>>> c1264eda7be93591894f3c675f2eb1367638f4bd
             transition: "fill 300ms cubic-bezier(0.4, 0, 0.2, 1)"
           }}
         >
