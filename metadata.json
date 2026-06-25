@@ -1,0 +1,6 @@
+{
+  "name": "Inhaby",
+  "description": "Rent verified, trust-backed homes directly from owners with zero brokerage and total transparency.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

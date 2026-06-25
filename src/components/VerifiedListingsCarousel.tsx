@@ -1,0 +1,208 @@
+import { useState, useRef } from "react";
+import { motion } from "motion/react";
+import { Link } from "react-router-dom";
+import { ShieldCheck, Star, MapPin, User, ChevronRight, ArrowLeft, ArrowRight, MessageCircle } from "lucide-react";
+
+const carouselListings = [
+  {
+    id: 1,
+    title: "Luxury 1BHK Studio • No Brokerage",
+    location: "Koramangala 4th Block, Bangalore",
+    price: "₹18,500/mo",
+    deposit: "2 Months",
+    type: "1 BHK Studio",
+    ownerType: "Direct Owner",
+    rating: "4.9",
+    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=800",
+    postedAt: "Just updated",
+  },
+  {
+    id: 2,
+    title: "Modern 2BHK with Sky Balcony",
+    location: "Sector 2, HSR Layout, Bangalore",
+    price: "₹35,000/mo",
+    deposit: "2 Months",
+    type: "2 BHK",
+    ownerType: "Direct Owner",
+    rating: "4.8",
+    image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=800",
+    postedAt: "Verified today",
+  },
+  {
+    id: 3,
+    title: "Cozy Penthouse for Professionals",
+    location: "Indiranagar, Bangalore",
+    price: "₹42,000/mo",
+    deposit: "3 Months",
+    type: "3 BHK Penthouse",
+    ownerType: "Managed Owner",
+    rating: "4.9",
+    image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&q=80&w=800",
+    postedAt: "3 hours ago",
+  },
+  {
+    id: 4,
+    title: "Premium 3BHK Family Flat",
+    location: "Prestige Shantiniketan, Whitefield",
+    price: "₹65,000/mo",
+    deposit: "3 Months",
+    type: "3 BHK",
+    ownerType: "Direct Owner",
+    rating: "4.7",
+    image: "https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&q=80&w=800",
+    postedAt: "Verified yesterday",
+  }
+];
+
+export default function VerifiedListingsCarousel() {
+  const [scrollIndex, setScrollIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const slideLeft = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollBy({ left: -350, behavior: "smooth" });
+    }
+  };
+
+  const slideRight = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollBy({ left: 350, behavior: "smooth" });
+    }
+  };
+
+  return (
+    <section className="py-24 bg-background relative overflow-hidden border-b border-border">
+      {/* Background radial soft light glow */}
+      <div className="absolute top-[40%] right-[-10%] w-96 h-96 bg-primary/3 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="container px-6 mx-auto relative z-10">
+        
+        {/* Carousel Header with Navigation Arrows */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div>
+            <span className="inline-block px-4 py-1.5 mb-4 text-xs font-bold tracking-widest text-primary uppercase bg-primary-soft rounded-full border border-primary/10">
+              Live Verified Catalog
+            </span>
+            <h2 className="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl lg:text-5xl">
+              Featured verified properties
+            </h2>
+            <p className="mt-4 text-lg text-muted-foreground max-w-xl">
+              Direct connection with owners. Zero brokerage fees. Click any card to view photos or inspect verification certificates.
+            </p>
+          </div>
+
+          {/* Navigation Controls */}
+          <div className="flex space-x-3.5">
+            <button 
+              onClick={slideLeft}
+              className="w-12 h-12 rounded-full border border-border bg-background hover:bg-muted text-foreground flex items-center justify-center transition-all shadow-xs hover:border-primary/20 active:scale-95 cursor-pointer"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </button>
+            <button 
+              onClick={slideRight}
+              className="w-12 h-12 rounded-full border border-border bg-background hover:bg-muted text-foreground flex items-center justify-center transition-all shadow-xs hover:border-primary/20 active:scale-95 cursor-pointer"
+            >
+              <ArrowRight className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Horizontal Scrollable Carousel Track */}
+        <div 
+          ref={containerRef}
+          className="flex overflow-x-auto gap-8 pb-10 scrollbar-none snap-x snap-mandatory no-scrollbar -mx-6 px-6"
+          style={{ scrollSnapType: "x mandatory", scrollbarWidth: "none" }}
+        >
+          {carouselListings.map((item) => (
+            <motion.div
+              key={item.id}
+              className="flex-shrink-0 w-[300px] md:w-[380px] snap-start bg-background rounded-[2rem] border border-border overflow-hidden hover:shadow-xl hover:border-primary/20 transition-all duration-300 group"
+              whileHover={{ y: -6 }}
+            >
+              {/* Card Image and Floating Badges */}
+              <div className="relative aspect-[16/11] bg-muted overflow-hidden">
+                <img 
+                  src={item.image} 
+                  alt={item.title} 
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                
+                {/* Upper badges: Verified Tag & No Brokerage Tag */}
+                <div className="absolute top-5 left-5 flex flex-col gap-2 z-10">
+                  <div className="px-3.5 py-1.5 bg-primary text-primary-foreground text-[10px] font-extrabold rounded-full flex items-center space-x-1 uppercase tracking-wider shadow-md">
+                    <ShieldCheck className="w-3.5 h-3.5 fill-current text-primary-foreground" />
+                    <span>Verified</span>
+                  </div>
+                  <div className="px-3.5 py-1.5 bg-emerald-500 text-white text-[10px] font-extrabold rounded-full uppercase tracking-wider shadow-md">
+                    No Brokerage
+                  </div>
+                </div>
+
+                {/* Rating Badge */}
+                <div className="absolute bottom-5 left-5 px-3 py-1.5 bg-background/90 backdrop-blur-md text-foreground text-xs font-extrabold rounded-xl flex items-center space-x-1 shadow-sm">
+                  <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                  <span>{item.rating}</span>
+                </div>
+
+                {/* Live update pill */}
+                <div className="absolute bottom-5 right-5 px-3 py-1 bg-black/50 backdrop-blur-md text-white text-[9px] font-extrabold uppercase tracking-wide rounded-md">
+                  {item.postedAt}
+                </div>
+              </div>
+
+              {/* Card Bottom Metadata Content */}
+              <div className="p-6 md:p-7 space-y-4">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h3 className="text-lg font-extrabold text-foreground leading-snug group-hover:text-primary transition-colors truncate max-w-[220px] md:max-w-[260px]">
+                      {item.title}
+                    </h3>
+                    <div className="flex items-center text-xs text-muted-foreground font-semibold mt-1.5">
+                      <MapPin className="w-3.5 h-3.5 mr-1 text-primary shrink-0" />
+                      <span className="truncate max-w-[220px]">{item.location}</span>
+                    </div>
+                  </div>
+                  <div className="text-right shrink-0">
+                    <div className="text-lg font-extrabold text-foreground">{item.price}</div>
+                    <div className="text-[10px] text-muted-foreground font-extrabold uppercase tracking-wider">Dep: {item.deposit}</div>
+                  </div>
+                </div>
+
+                {/* Direct Owner contact label footer */}
+                <div className="flex items-center justify-between pt-4 border-t border-border mt-2">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-6 h-6 rounded-full bg-primary-soft text-primary flex items-center justify-center">
+                      <User className="w-3 h-3" />
+                    </div>
+                    <span className="text-xs font-bold text-foreground">{item.ownerType}</span>
+                  </div>
+                  <Link 
+                    to="/listings" 
+                    className="text-xs font-bold text-primary flex items-center space-x-1 hover:underline"
+                  >
+                    <span>View Listing</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* View all button under listings */}
+        <div className="text-center mt-4">
+          <Link 
+            to="/listings"
+            className="inline-flex items-center space-x-2 px-8 py-4 bg-muted hover:bg-border/80 border border-border rounded-2xl font-bold text-foreground transition-all active:scale-98"
+          >
+            <span>Explore All 12,000+ Verified Listings</span>
+            <ChevronRight className="w-4 h-4 text-primary" />
+          </Link>
+        </div>
+
+      </div>
+    </section>
+  );
+}
