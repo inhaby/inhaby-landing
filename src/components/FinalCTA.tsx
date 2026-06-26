@@ -6,7 +6,7 @@ export default function FinalCTA() {
     <section className="py-24 bg-[#0B091B] text-white relative overflow-hidden border-t border-primary/20">
       {/* Background gradients and visual elements */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[160px] pointer-events-none" />
-      <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-emerald-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="container px-6 mx-auto relative z-10">
         <div className="max-w-5xl mx-auto bg-gradient-to-br from-white/[0.03] to-white/[0.01] backdrop-blur-md rounded-[3.5rem] border border-white/10 p-8 md:p-16 shadow-2xl">
@@ -23,7 +23,7 @@ export default function FinalCTA() {
                 We're not building another rental platform.
               </h2>
               
-              <p className="text-emerald-400 text-lg md:text-xl font-bold tracking-wide">
+              <p className="text-primary text-lg md:text-xl font-bold tracking-wide">
                 We're building India's most trusted way to rent a home.
               </p>
               
@@ -33,9 +33,9 @@ export default function FinalCTA() {
 
               {/* Bullet proof list */}
               <div className="flex flex-wrap justify-center lg:justify-start gap-4 text-xs font-semibold text-slate-300 pt-2 pb-6">
-                <span className="flex items-center"><CheckCircle2 className="w-4 h-4 text-emerald-500 mr-1.5" /> Direct Owner Contract</span>
-                <span className="flex items-center"><CheckCircle2 className="w-4 h-4 text-emerald-500 mr-1.5" /> Instant Video Tours</span>
-                <span className="flex items-center"><CheckCircle2 className="w-4 h-4 text-emerald-500 mr-1.5" /> Escrow Deposit Protection</span>
+                <span className="flex items-center"><CheckCircle2 className="w-4 h-4 text-primary mr-1.5" /> Direct Owner Contract</span>
+                <span className="flex items-center"><CheckCircle2 className="w-4 h-4 text-primary mr-1.5" /> Instant Video Tours</span>
+                <span className="flex items-center"><CheckCircle2 className="w-4 h-4 text-primary mr-1.5" /> Escrow Deposit Protection</span>
               </div>
               
               {/* Clean web-first gateway CTA stack */}
@@ -44,7 +44,7 @@ export default function FinalCTA() {
                   href="https://inhaby.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto px-8 py-4 bg-primary text-primary-foreground font-bold rounded-2xl hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/25 transition-all text-center flex items-center justify-center text-sm"
+                  className="w-full sm:w-auto px-8 py-4 bg-primary text-white font-bold rounded-2xl hover:opacity-90 hover:shadow-xl hover:shadow-primary/25 transition-all text-center flex items-center justify-center text-sm"
                 >
                   <span>Get Started (Tenant Portal)</span>
                   <ArrowRight className="w-4.5 h-4.5 ml-2" />
@@ -54,7 +54,7 @@ export default function FinalCTA() {
                   href="https://owner.inhaby.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto px-8 py-4 bg-transparent border border-white/20 hover:border-white/40 text-white font-bold rounded-2xl hover:bg-white/5 transition-all text-center flex items-center justify-center text-sm"
+                  className="w-full sm:w-auto px-8 py-4 bg-transparent border border-primary/40 hover:border-primary text-primary font-bold rounded-2xl hover:bg-primary/10 transition-all text-center flex items-center justify-center text-sm"
                 >
                   <span>List Your Property</span>
                 </a>
@@ -83,12 +83,12 @@ export default function FinalCTA() {
                 {/* Visual mini-cards representing checks */}
                 <div className="space-y-3.5 text-left">
                   <div className="p-3 bg-white/[0.04] border border-white/10 rounded-xl flex items-center space-x-3">
-                    <FileCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <FileCheck className="w-4 h-4 text-primary shrink-0" />
                     <span className="text-[11px] font-bold text-slate-200">Municipal Land Deed Checked</span>
                   </div>
                   
                   <div className="p-3 bg-white/[0.04] border border-white/10 rounded-xl flex items-center space-x-3">
-                    <Landmark className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <Landmark className="w-4 h-4 text-primary shrink-0" />
                     <span className="text-[11px] font-bold text-slate-200">Zero Brokerage Verified</span>
                   </div>
                 </div>

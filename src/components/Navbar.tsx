@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Link } from "react-router-dom";
-import { Menu, X, ArrowRight, ShieldCheck, Home } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Logo from "./Logo";
 
 export default function Navbar() {
@@ -10,50 +10,40 @@ export default function Navbar() {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border transition-all">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/85 backdrop-blur-md border-b border-border transition-all">
       <div className="container px-6 py-4 mx-auto flex justify-between items-center">
         {/* Left: INHABY Logo */}
         <Link to="/" className="hover:opacity-90 transition-opacity flex items-center">
           <Logo className="h-9 md:h-10" />
         </Link>
         
-        {/* Center: Main Links */}
+        {/* Center: Main Links (Desktop) */}
         <div className="hidden lg:flex items-center space-x-8 text-sm font-semibold text-muted-foreground">
           <Link to="/listings" className="hover:text-primary transition-colors">Browse Listings</Link>
-          <a href="/#how-it-works" className="hover:text-primary transition-colors">How it Works</a>
-          <a href="/#trust" className="hover:text-primary transition-colors">Trust</a>
+          <a href="https://careers.inhaby.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Careers</a>
           <Link to="/pricing" className="hover:text-primary transition-colors">Pricing</Link>
-          <a href="/#faq" className="hover:text-primary transition-colors">FAQ</a>
+          <Link to="/blog" className="hover:text-primary transition-colors">Trust Blog</Link>
+          <a href="https://help.inhaby.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Help</a>
         </div>
         
-        {/* Right: Portal CTAs */}
-        <div className="hidden lg:flex items-center space-x-4">
-          <a
-            href="https://owner.inhaby.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-5 py-2.5 text-xs font-bold text-muted-foreground hover:text-foreground border border-border rounded-xl hover:bg-muted transition-all"
-          >
-            List Your Property
-          </a>
+        {/* Right / Mobile & Tablet Actions: Login & Hamburger */}
+        <div className="flex items-center space-x-3">
+          {/* Primary Login Button (Visible on Desktop, Tablet, and Mobile) */}
           <motion.a
             href="https://inhaby.com"
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="px-6 py-2.5 text-xs font-bold text-primary-foreground bg-primary rounded-xl shadow-md shadow-primary/10 hover:bg-primary/90 transition-all flex items-center space-x-1"
+            className="px-5 py-2 md:px-6 md:py-2.5 text-xs md:text-sm font-black text-primary-foreground bg-primary rounded-xl shadow-md shadow-primary/15 hover:opacity-95 transition-all flex items-center justify-center whitespace-nowrap cursor-pointer"
           >
-            <span>Get Started</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            Login
           </motion.a>
-        </div>
 
-        {/* Mobile Hamburger Trigger */}
-        <div className="lg:hidden flex items-center">
+          {/* Hamburger Menu (Visible on lg-hidden, i.e., Tablet and Mobile) */}
           <button
             onClick={toggleMenu}
-            className="p-2 text-foreground hover:bg-muted rounded-lg transition-colors focus:outline-none"
+            className="lg:hidden p-2 text-foreground hover:bg-muted rounded-xl transition-colors focus:outline-none min-w-[40px] min-h-[40px] flex items-center justify-center cursor-pointer"
             aria-label="Toggle navigation menu"
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -61,78 +51,90 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Drawer Overlay */}
+      {/* Mobile / Tablet Drawer Overlay and Panel */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="lg:hidden bg-background border-b border-border overflow-hidden"
-          >
-            <div className="px-6 py-6 space-y-6 flex flex-col">
-              {/* Menu Links */}
-              <div className="flex flex-col space-y-4">
-                <Link
-                  to="/listings"
-                  onClick={() => setIsOpen(false)}
-                  className="text-base font-semibold text-foreground hover:text-primary py-1 transition-colors"
-                >
-                  Browse Listings
-                </Link>
-                <a
-                  href="/#how-it-works"
-                  onClick={() => setIsOpen(false)}
-                  className="text-base font-semibold text-foreground hover:text-primary py-1 transition-colors"
-                >
-                  How it Works
-                </a>
-                <a
-                  href="/#trust"
-                  onClick={() => setIsOpen(false)}
-                  className="text-base font-semibold text-foreground hover:text-primary py-1 transition-colors"
-                >
-                  Trust
-                </a>
-                <Link
-                  to="/pricing"
-                  onClick={() => setIsOpen(false)}
-                  className="text-base font-semibold text-foreground hover:text-primary py-1 transition-colors"
-                >
-                  Pricing
-                </Link>
-                <a
-                  href="/#faq"
-                  onClick={() => setIsOpen(false)}
-                  className="text-base font-semibold text-foreground hover:text-primary py-1 transition-colors"
-                >
-                  FAQ
-                </a>
+          <>
+            {/* Backdrop Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.4 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setIsOpen(false)}
+              className="lg:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-xs h-screen w-screen"
+            />
+
+            {/* Slide-in Drawer from Right */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="lg:hidden fixed top-0 right-0 bottom-0 z-50 w-4/5 max-w-[340px] h-screen bg-background border-l border-border shadow-2xl p-6 flex flex-col justify-between overflow-y-auto"
+            >
+              <div className="space-y-6">
+                {/* Header inside Menu */}
+                <div className="flex items-center justify-between pb-4 border-b border-border">
+                  <Logo className="h-8" />
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="p-2 hover:bg-muted rounded-xl text-foreground focus:outline-none min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer"
+                  >
+                    <X className="w-5.5 h-5.5" />
+                  </button>
+                </div>
+
+                {/* Primary Menu Links inside Hamburger */}
+                <div className="flex flex-col space-y-1">
+                  <Link
+                    to="/listings"
+                    onClick={() => setIsOpen(false)}
+                    className="text-base font-bold text-foreground hover:text-primary transition-colors py-3 px-2 rounded-xl hover:bg-muted flex items-center"
+                  >
+                    Browse Listings
+                  </Link>
+                  <a
+                    href="https://careers.inhaby.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setIsOpen(false)}
+                    className="text-base font-bold text-foreground hover:text-primary transition-colors py-3 px-2 rounded-xl hover:bg-muted flex items-center"
+                  >
+                    Careers
+                  </a>
+                  <Link
+                    to="/pricing"
+                    onClick={() => setIsOpen(false)}
+                    className="text-base font-bold text-foreground hover:text-primary transition-colors py-3 px-2 rounded-xl hover:bg-muted flex items-center"
+                  >
+                    Pricing
+                  </Link>
+                  <Link
+                    to="/blog"
+                    onClick={() => setIsOpen(false)}
+                    className="text-base font-bold text-foreground hover:text-primary transition-colors py-3 px-2 rounded-xl hover:bg-muted flex items-center"
+                  >
+                    Trust Blog
+                  </Link>
+                  <a
+                    href="https://help.inhaby.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setIsOpen(false)}
+                    className="text-base font-bold text-foreground hover:text-primary transition-colors py-3 px-2 rounded-xl hover:bg-muted flex items-center"
+                  >
+                    Help
+                  </a>
+                </div>
               </div>
 
-              {/* Action Buttons Stack (optimized for 48px touch targets) */}
-              <div className="flex flex-col space-y-3 pt-4 border-t border-border">
-                <a
-                  href="https://inhaby.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center space-x-2 w-full h-12 bg-primary text-primary-foreground font-bold rounded-xl shadow-lg shadow-primary/10 hover:bg-primary/90 transition-all text-sm"
-                >
-                  <span>Get Started</span>
-                  <ArrowRight className="w-4 h-4" />
-                </a>
-                <a
-                  href="https://owner.inhaby.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center w-full h-12 bg-background border border-border text-muted-foreground hover:text-foreground font-bold rounded-xl hover:bg-muted transition-all text-sm"
-                >
-                  List Your Property
-                </a>
+              {/* Bottom Brand Slogan */}
+              <div className="pt-6 mt-8 border-t border-border/40 text-center text-[10px] font-bold text-muted-foreground tracking-widest uppercase">
+                INHABY ECOSYSTEM
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </nav>

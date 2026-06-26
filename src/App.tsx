@@ -11,6 +11,8 @@ import VerifiedOwnersPage from "./pages/VerifiedOwnersPage";
 import PricingPage from "./pages/PricingPage";
 import ListingsPage from "./pages/ListingsPage";
 import VerificationPage from "./pages/VerificationPage";
+import BlogPage from "./pages/BlogPage";
+import BlogListingPage from "./pages/BlogListingPage";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -35,6 +37,8 @@ export default function App() {
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/listings" element={<ListingsPage />} />
             <Route path="/verify" element={<VerificationPage />} />
+            <Route path="/blog" element={<BlogListingPage />} />
+            <Route path="/blog/the-zero-brokerage-revolution" element={<BlogPage />} />
           </Routes>
           <Footer />
           <ThemeSwitcher />

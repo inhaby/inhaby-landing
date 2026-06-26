@@ -35,8 +35,8 @@ export default function OwnerSection() {
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <span className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse" />
-                  <span className="text-[10px] text-emerald-500 font-bold uppercase tracking-wider">Connected Live</span>
+                  <span className="w-2.5 h-2.5 bg-primary rounded-full animate-pulse" />
+                  <span className="text-[10px] text-primary font-bold uppercase tracking-wider">Connected Live</span>
                 </div>
               </div>
 
@@ -48,7 +48,7 @@ export default function OwnerSection() {
                     <Users className="w-3.5 h-3.5 text-primary" />
                   </div>
                   <div className="text-lg font-extrabold text-foreground">24 Real</div>
-                  <div className="text-[9px] text-emerald-500 font-semibold mt-0.5">+12% this week</div>
+                  <div className="text-[9px] text-primary font-semibold mt-0.5">+12% this week</div>
                 </div>
 
                 <div className="bg-muted/50 p-4 rounded-2xl border border-border/40">
@@ -75,7 +75,7 @@ export default function OwnerSection() {
                 <h5 className="text-[11px] font-extrabold text-foreground uppercase tracking-wider">Recent Tenant Enquiries</h5>
                 
                 {/* Request 1 */}
-                <div className="p-3.5 bg-background border border-border rounded-2xl flex items-center justify-between shadow-xs hover:border-primary/20 transition-all">
+                <div className="p-3.5 bg-background border border-border rounded-2xl flex items-center justify-between shadow-xs hover:border-primary/30 transition-all">
                   <div className="flex items-center space-x-3">
                     <div className="w-8 h-8 rounded-full bg-indigo-500 text-white font-bold text-xs flex items-center justify-center">
                       KP
@@ -85,13 +85,13 @@ export default function OwnerSection() {
                       <p className="text-[10px] text-muted-foreground">Software Dev • Wants 2BHK walkthrough</p>
                     </div>
                   </div>
-                  <span className="px-2.5 py-1 bg-emerald-500/10 text-emerald-600 rounded-lg text-[9px] font-bold uppercase tracking-wide">
+                  <span className="px-2.5 py-1 bg-primary/10 text-primary rounded-lg text-[9px] font-bold uppercase tracking-wide">
                     ID Checked
                   </span>
                 </div>
 
                 {/* Request 2 */}
-                <div className="p-3.5 bg-background border border-border rounded-2xl flex items-center justify-between shadow-xs hover:border-primary/20 transition-all">
+                <div className="p-3.5 bg-background border border-border rounded-2xl flex items-center justify-between shadow-xs hover:border-primary/30 transition-all">
                   <div className="flex items-center space-x-3">
                     <div className="w-8 h-8 rounded-full bg-amber-500 text-white font-bold text-xs flex items-center justify-center">
                       SM
@@ -101,7 +101,7 @@ export default function OwnerSection() {
                       <p className="text-[10px] text-muted-foreground">MBA Student • Requested lease draft</p>
                     </div>
                   </div>
-                  <span className="px-2.5 py-1 bg-indigo-500/10 text-indigo-600 rounded-lg text-[9px] font-bold uppercase tracking-wide">
+                  <span className="px-2.5 py-1 bg-primary/10 text-primary rounded-lg text-[9px] font-bold uppercase tracking-wide">
                     Profile Verified
                   </span>
                 </div>
@@ -145,7 +145,7 @@ export default function OwnerSection() {
                 href="https://owner.inhaby.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center space-x-2 px-8 py-4 bg-foreground text-background font-bold rounded-2xl hover:bg-foreground/90 transition-all active:scale-98 shadow-md"
+                className="inline-flex items-center justify-center space-x-2 px-8 py-4 bg-primary hover:opacity-90 text-primary-foreground font-bold rounded-2xl transition-all active:scale-98 shadow-lg shadow-primary/15"
               >
                 <span>Go to Owner Portal</span>
                 <ArrowRight className="w-4.5 h-4.5" />

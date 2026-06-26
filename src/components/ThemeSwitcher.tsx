@@ -4,10 +4,10 @@ import { useTheme } from "../context/ThemeContext";
 import { useState } from "react";
 
 const accents = [
-  { name: "blue", color: "bg-[#007AFF]" },
-  { name: "purple", color: "bg-[#8b5cf6]" },
-  { name: "green", color: "bg-[#10b981]" },
-  { name: "orange", color: "bg-[#f97316]" },
+  { name: "terracotta", label: "Terracotta Luxury", color: "bg-[#C25D3D]" },
+  { name: "olive", label: "Olive Luxury", color: "bg-[#556B4D]" },
+  { name: "sand", label: "Sand Gold", color: "bg-[#C2A86A]" },
+  { name: "slate", label: "Slate Calm", color: "bg-[#55738A]" },
 ] as const;
 
 export default function ThemeSwitcher() {
@@ -22,7 +22,7 @@ export default function ThemeSwitcher() {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="absolute bottom-16 right-0 mb-4 p-4 bg-background border border-border rounded-2xl shadow-2xl min-w-[200px]"
+            className="absolute bottom-16 right-0 mb-4 p-5 bg-background border border-border rounded-2xl shadow-2xl min-w-[240px]"
           >
             <div className="space-y-6">
               {/* Mode Toggle */}
@@ -52,18 +52,24 @@ export default function ThemeSwitcher() {
 
               {/* Accent Selector */}
               <div className="space-y-3">
-                <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Accent Color</p>
-                <div className="grid grid-cols-4 gap-2">
+                <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Brand Theme Preset</p>
+                <div className="space-y-2">
                   {accents.map((a) => (
                     <button
                       key={a.name}
                       onClick={() => setAccent(a.name)}
-                      className={`relative w-10 h-10 rounded-full ${a.color} flex items-center justify-center transition-transform hover:scale-110 active:scale-95`}
+                      className={`w-full flex items-center justify-between p-2.5 rounded-xl border text-left transition-all ${
+                        accent === a.name
+                          ? "bg-primary/10 border-primary text-primary"
+                          : "bg-muted border-transparent text-muted-foreground hover:bg-muted/80"
+                      }`}
                     >
+                      <div className="flex items-center space-x-2.5">
+                        <span className={`w-3.5 h-3.5 rounded-full ${a.color} border border-white/20`} />
+                        <span className="text-xs font-bold">{a.label}</span>
+                      </div>
                       {accent === a.name && (
-                        <motion.div layoutId="check" className="text-white">
-                          <Check className="w-5 h-5" />
-                        </motion.div>
+                        <Check className="w-4 h-4 text-primary shrink-0" />
                       )}
                     </button>
                   ))}

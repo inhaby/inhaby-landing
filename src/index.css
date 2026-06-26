@@ -12,58 +12,82 @@
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-soft: var(--primary-soft);
+
+  /* Specific design system palettes */
+  --color-terracotta: #C25D3D;
+  --color-terracotta-dark: #A44A2F;
+  --color-terracotta-soft: #E9B39C;
+  --color-terracotta-light: #FDF5F2;
+
+  --color-olive: #556B4D;
+  --color-olive-dark: #3F5A3A;
+  --color-olive-soft: #A6B89A;
+  --color-olive-light: #F4F7F4;
+
+  --color-sand: #C2A86A;
+  --color-sand-dark: #A18C4D;
+  --color-sand-soft: #E8D9B0;
+  --color-sand-light: #FAF7EF;
+
+  --color-slate-calm: #55738A;
+  --color-slate-dark: #395666;
+  --color-slate-soft: #A6B7C4;
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
-  --muted: #f8fafc;
-  --muted-foreground: #64748b;
-  --border: #f1f5f9;
+  --background: #FCFAF7; /* soft warm neutral boutique backdrop */
+  --foreground: #1F242D; /* elegant dark slate neutral */
+  --muted: #F5F1EB; /* sand gold light tint */
+  --muted-foreground: #55738A; /* Slate Calm neutral text */
+  --border: #E6DFD5; /* soft sand-gold border */
   
-  --primary: #10b981;
+  --primary: #C25D3D; /* Terracotta Luxury for Tenant */
   --primary-foreground: #ffffff;
-  --primary-soft: #ecfdf5;
+  --primary-soft: #FDF5F2;
 }
 
 [data-theme="dark"] {
-  --background: #020617;
-  --foreground: #f8fafc;
-  --muted: #0f172a;
-  --muted-foreground: #94a3b8;
-  --border: #1e293b;
+  --background: #0D1117; /* Midnight Dark Style */
+  --foreground: #F0F3F6;
+  --muted: #161B22;
+  --muted-foreground: #8FA3B5;
+  --border: #21262D;
+  
+  --primary: #C25D3D;
+  --primary-foreground: #ffffff;
+  --primary-soft: #281B18;
 }
 
-[data-accent="purple"] {
-  --primary: #8b5cf6;
-  --primary-soft: #f5f3ff;
+[data-accent="terracotta"] {
+  --primary: #C25D3D;
+  --primary-soft: #FDF5F2;
 }
-[data-theme="dark"][data-accent="purple"] {
-  --primary-soft: #2e1065;
-}
-
-[data-accent="green"] {
-  --primary: #10b981;
-  --primary-soft: #ecfdf5;
-}
-[data-theme="dark"][data-accent="green"] {
-  --primary-soft: #064e3b;
+[data-theme="dark"][data-accent="terracotta"] {
+  --primary-soft: #281B18;
 }
 
-[data-accent="orange"] {
-  --primary: #f97316;
-  --primary-soft: #fff7ed;
+[data-accent="olive"] {
+  --primary: #556B4D;
+  --primary-soft: #F4F7F4;
 }
-[data-theme="dark"][data-accent="orange"] {
-  --primary-soft: #7c2d12;
+[data-theme="dark"][data-accent="olive"] {
+  --primary-soft: #1D241C;
 }
 
-[data-accent="blue"] {
-  --primary: #007AFF;
-  --primary-soft: #eff6ff;
+[data-accent="sand"] {
+  --primary: #C2A86A;
+  --primary-soft: #FAF7EF;
 }
-[data-theme="dark"][data-accent="blue"] {
-  --primary-soft: #172554;
+[data-theme="dark"][data-accent="sand"] {
+  --primary-soft: #2B2516;
+}
+
+[data-accent="slate"] {
+  --primary: #55738A;
+  --primary-soft: #F2F5F7;
+}
+[data-theme="dark"][data-accent="slate"] {
+  --primary-soft: #172027;
 }
 
 @layer base {

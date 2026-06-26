@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 type Theme = "light" | "dark";
-type Accent = "blue" | "purple" | "green" | "orange";
+type Accent = "terracotta" | "olive" | "sand" | "slate";
 
 interface ThemeContextType {
   theme: Theme;
@@ -23,9 +23,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const [accent, setAccentState] = useState<Accent>(() => {
     if (typeof window !== "undefined") {
-      return (localStorage.getItem("accent") as Accent) || "green";
+      return (localStorage.getItem("accent") as Accent) || "terracotta";
     }
-    return "green";
+    return "terracotta";
   });
 
   useEffect(() => {

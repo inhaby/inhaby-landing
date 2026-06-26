@@ -42,15 +42,9 @@ export default function Benefits() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               {benefits.map((benefit, index) => {
                 const isVerified = benefit.title === "Verified Listings";
-                const Wrapper = isVerified ? Link : "div";
-                const wrapperProps = isVerified ? { to: "/listings" } : {};
                 
-                return (
-                  <Wrapper 
-                    key={index} 
-                    {...wrapperProps}
-                    className={`flex flex-col ${isVerified ? "group cursor-pointer p-4 -m-4 rounded-2xl hover:bg-primary/5 transition-colors" : ""}`}
-                  >
+                const cardContent = (
+                  <>
                     <div className="w-12 h-12 bg-primary-soft rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                       <benefit.icon className="w-6 h-6 text-primary" />
                     </div>
@@ -59,7 +53,28 @@ export default function Benefits() {
                       {isVerified && <Shield className="w-4 h-4 ml-2 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />}
                     </h3>
                     <p className="text-muted-foreground text-sm leading-relaxed">{benefit.description}</p>
-                  </Wrapper>
+                  </>
+                );
+
+                if (isVerified) {
+                  return (
+                    <Link 
+                      key={index} 
+                      to="/listings"
+                      className="flex flex-col group cursor-pointer p-4 -m-4 rounded-2xl hover:bg-primary/5 transition-colors"
+                    >
+                      {cardContent}
+                    </Link>
+                  );
+                }
+                
+                return (
+                  <div 
+                    key={index} 
+                    className="flex flex-col"
+                  >
+                    {cardContent}
+                  </div>
                 );
               })}
             </div>

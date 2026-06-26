@@ -27,11 +27,10 @@ export default function Hero() {
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
               <div className="inline-flex items-center space-x-2 px-4 py-1.5 mb-6 text-sm font-semibold tracking-wide text-primary uppercase bg-primary-soft rounded-full border border-primary/10">
-                <Sparkles className="w-4 h-4 animate-pulse" />
-                <span>Web-First Modern Rental Gateway</span>
+                <span>Currently live in Metro Cities</span>
               </div>
               
-              <h1 className="mb-6 text-4xl font-extrabold tracking-tight text-foreground md:text-5xl lg:text-6xl leading-[1.1] font-sans">
+              <h1 className="mb-4 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-6xl leading-[1.15] font-sans">
                 Find trusted homes <br className="hidden sm:inline" />
                 with{" "}
                 <span className="text-primary relative inline-block">
@@ -40,18 +39,17 @@ export default function Hero() {
                 </span>
               </h1>
               
-              <p className="mb-8 text-lg leading-relaxed text-muted-foreground md:text-xl font-medium max-w-xl">
+              <p className="mb-6 text-base leading-relaxed text-muted-foreground md:text-xl font-medium max-w-xl">
                 Discover verified homes, connect directly with verified owners, and rent with confidence—without brokerage or hidden surprises.
               </p>
               
-              {/* Responsive Portal Selection Stack */}
-              <div className="space-y-4 mb-10 max-w-md mx-auto lg:mx-0">
+              <div className="space-y-4 mb-8 max-w-md mx-auto lg:mx-0">
                 <div className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4 justify-center lg:justify-start">
                   <a 
                     href="https://inhaby.com" 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full sm:w-auto px-8 h-12 bg-primary text-primary-foreground rounded-2xl font-bold hover:shadow-xl hover:shadow-primary/35 hover:-translate-y-0.5 active:translate-y-0 transition-all text-center flex items-center justify-center text-sm"
+                    className="w-full sm:w-auto px-8 h-[52px] bg-primary text-primary-foreground rounded-2xl font-bold hover:shadow-xl hover:shadow-primary/35 hover:-translate-y-0.5 active:translate-y-0 transition-all text-center flex items-center justify-center text-sm shadow-md"
                   >
                     Get Started
                     <ChevronRight className="w-5 h-5 ml-1.5" />
@@ -61,7 +59,7 @@ export default function Hero() {
                     href="https://owner.inhaby.com" 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full sm:w-auto px-8 h-12 bg-background border border-border hover:border-primary/30 text-foreground hover:bg-muted rounded-2xl font-bold hover:-translate-y-0.5 active:translate-y-0 transition-all text-center flex items-center justify-center text-sm"
+                    className="w-full sm:w-auto px-8 h-[52px] bg-background border border-primary/35 text-primary hover:bg-primary-soft hover:border-primary rounded-2xl font-bold hover:-translate-y-0.5 active:translate-y-0 transition-all text-center flex items-center justify-center text-sm shadow-xs"
                   >
                     List Your Property
                   </a>
@@ -129,7 +127,7 @@ export default function Hero() {
             <motion.div
               animate={{ y: [0, -12, 0] }}
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              className="relative w-full max-w-[320px] md:max-w-[380px] z-10"
+              className="relative w-full max-w-[280px] xs:max-w-[320px] md:max-w-[380px] z-10"
             >
               {/* Phone Body with premium shadow depth */}
               <div className="relative p-3 bg-slate-950 rounded-[48px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.3)] border-[8px] border-slate-900 overflow-hidden">
@@ -234,9 +232,9 @@ export default function Hero() {
               <motion.div
                 animate={{ y: [0, -8, 0], x: [0, 4, 0] }}
                 transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute top-[15%] -left-[10%] md:-left-[18%] bg-background/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-primary/20 shadow-xl flex items-center space-x-2 z-20"
+                className="absolute top-[15%] -left-[10%] md:-left-[18%] bg-background/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-primary/20 shadow-xl hidden sm:flex items-center space-x-2 z-20"
               >
-                <div className="w-7 h-7 bg-emerald-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-sm">
+                <div className="w-7 h-7 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-bold shadow-sm">
                   ✓
                 </div>
                 <div>
@@ -249,7 +247,7 @@ export default function Hero() {
               <motion.div
                 animate={{ y: [0, 8, 0], x: [0, -4, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                className="absolute bottom-[20%] -left-[12%] md:-left-[20%] bg-background/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-primary/20 shadow-xl flex items-center space-x-2 z-20"
+                className="absolute bottom-[20%] -left-[12%] md:-left-[20%] bg-background/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-primary/20 shadow-xl hidden sm:flex items-center space-x-2 z-20"
               >
                 <div className="w-7 h-7 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-bold shadow-sm">
                   ✓
@@ -264,7 +262,7 @@ export default function Hero() {
               <motion.div
                 animate={{ y: [0, -10, 0], x: [0, -3, 0] }}
                 transition={{ duration: 4.6, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-                className="absolute top-[30%] -right-[8%] md:-right-[14%] bg-background/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-primary/10 shadow-xl flex items-center space-x-2 z-20"
+                className="absolute top-[30%] -right-[8%] md:-right-[14%] bg-background/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-primary/10 shadow-xl hidden sm:flex items-center space-x-2 z-20"
               >
                 <div className="w-7 h-7 bg-amber-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-sm">
                   ⭐
@@ -279,9 +277,9 @@ export default function Hero() {
               <motion.div
                 animate={{ y: [0, 7, 0], x: [0, 5, 0] }}
                 transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
-                className="absolute bottom-[12%] -right-[10%] md:-right-[16%] bg-background/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-primary/20 shadow-xl flex items-center space-x-2.5 z-20"
+                className="absolute bottom-[12%] -right-[10%] md:-right-[16%] bg-background/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-primary/20 shadow-xl hidden sm:flex items-center space-x-2.5 z-20"
               >
-                <div className="w-7 h-7 bg-emerald-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-sm">
+                <div className="w-7 h-7 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-bold shadow-sm">
                   ✓
                 </div>
                 <div>
@@ -294,9 +292,9 @@ export default function Hero() {
               <motion.div
                 animate={{ scale: [1, 1.04, 1] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute top-[3%] right-[10%] bg-emerald-500 text-white px-3.5 py-1.5 rounded-full shadow-lg flex items-center space-x-1.5 z-30 text-[10px] font-extrabold uppercase tracking-wider"
+                className="absolute top-[3%] right-[10%] bg-primary text-primary-foreground px-3.5 py-1.5 rounded-full shadow-lg hidden sm:flex items-center space-x-1.5 z-30 text-[10px] font-extrabold uppercase tracking-wider"
               >
-                <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping" />
+                <span className="w-1.5 h-1.5 bg-primary-foreground rounded-full animate-ping" />
                 <span>Verified Today</span>
               </motion.div>
 

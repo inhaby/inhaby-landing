@@ -45,7 +45,7 @@ export default function TrustSection() {
             className="group bg-background rounded-[2.5rem] border border-border overflow-hidden flex flex-col justify-between p-8 md:p-10 hover:border-primary/20 hover:shadow-xl transition-all duration-300"
           >
             <div>
-              <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center mb-6">
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-6">
                 <Camera className="w-6 h-6" />
               </div>
               <h3 className="text-2xl font-extrabold text-foreground mb-3 tracking-tight">Real Photos</h3>
@@ -73,7 +73,7 @@ export default function TrustSection() {
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover"
                       />
-                      <div className="absolute top-3 left-3 bg-emerald-500 text-white text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider flex items-center space-x-1 shadow-md">
+                      <div className="absolute top-3 left-3 bg-primary text-primary-foreground text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider flex items-center space-x-1 shadow-md">
                         <Check className="w-3 h-3" />
                         <span>Inhaby Verified: Actual Room</span>
                       </div>
@@ -106,13 +106,13 @@ export default function TrustSection() {
               <div className="flex bg-muted p-1 rounded-xl w-full">
                 <button
                   onClick={() => setPhotoComparison("real")}
-                  className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${photoComparison === "real" ? "bg-background text-primary shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
+                  className={`flex-1 py-3 text-xs font-bold rounded-lg transition-all ${photoComparison === "real" ? "bg-background text-primary shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
                 >
                   Inhaby Verified View
                 </button>
                 <button
                   onClick={() => setPhotoComparison("stock")}
-                  className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${photoComparison === "stock" ? "bg-background text-rose-500 shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
+                  className={`flex-1 py-3 text-xs font-bold rounded-lg transition-all ${photoComparison === "stock" ? "bg-background text-rose-500 shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
                 >
                   Distorted Agent View
                 </button>
@@ -129,7 +129,7 @@ export default function TrustSection() {
             className="group bg-background rounded-[2.5rem] border border-border overflow-hidden flex flex-col justify-between p-8 md:p-10 hover:border-primary/20 hover:shadow-xl transition-all duration-300"
           >
             <div>
-              <div className="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-500 flex items-center justify-center mb-6">
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-6">
                 <ShieldCheck className="w-6 h-6" />
               </div>
               <h3 className="text-2xl font-extrabold text-foreground mb-3 tracking-tight">Verified Owners</h3>
@@ -152,8 +152,8 @@ export default function TrustSection() {
                     <p className="text-[10px] text-muted-foreground font-semibold">Verified Owner since 2024</p>
                   </div>
                 </div>
-                <div className="px-3 py-1 bg-emerald-500/10 text-emerald-500 rounded-full text-[10px] font-extrabold flex items-center space-x-1 border border-emerald-500/20">
-                  <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping" />
+                <div className="px-3 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-extrabold flex items-center space-x-1 border border-primary/20">
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full animate-ping" />
                   <span>DEED MATCHED</span>
                 </div>
               </div>
@@ -161,16 +161,16 @@ export default function TrustSection() {
               {/* ID Check Progress Steps */}
               <div className="space-y-2.5 pt-2 border-t border-border">
                 <div className="flex items-center justify-between text-xs font-semibold">
-                  <span className="text-muted-foreground flex items-center"><Check className="w-4 h-4 text-emerald-500 mr-1.5" /> Identity Checked (Aadhaar / Passport)</span>
-                  <span className="text-emerald-500 font-bold">100% Passed</span>
+                  <span className="text-muted-foreground flex items-center"><Check className="w-4 h-4 text-primary mr-1.5" /> Identity Checked (Aadhaar / Passport)</span>
+                  <span className="text-primary font-bold">100% Passed</span>
                 </div>
                 <div className="flex items-center justify-between text-xs font-semibold">
-                  <span className="text-muted-foreground flex items-center"><Check className="w-4 h-4 text-emerald-500 mr-1.5" /> Property Registration Document</span>
-                  <span className="text-emerald-500 font-bold">Matched</span>
+                  <span className="text-muted-foreground flex items-center"><Check className="w-4 h-4 text-primary mr-1.5" /> Property Registration Document</span>
+                  <span className="text-primary font-bold">Matched</span>
                 </div>
                 <div className="flex items-center justify-between text-xs font-semibold">
-                  <span className="text-muted-foreground flex items-center"><Check className="w-4 h-4 text-emerald-500 mr-1.5" /> Direct Owner Connection Check</span>
-                  <span className="text-emerald-500 font-bold">No Agent Link</span>
+                  <span className="text-muted-foreground flex items-center"><Check className="w-4 h-4 text-primary mr-1.5" /> Direct Owner Connection Check</span>
+                  <span className="text-primary font-bold">No Agent Link</span>
                 </div>
               </div>
             </div>
@@ -185,7 +185,7 @@ export default function TrustSection() {
             className="group bg-background rounded-[2.5rem] border border-border overflow-hidden flex flex-col justify-between p-8 md:p-10 hover:border-primary/20 hover:shadow-xl transition-all duration-300"
           >
             <div>
-              <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center mb-6">
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-6">
                 <Tag className="w-6 h-6" />
               </div>
               <h3 className="text-2xl font-extrabold text-foreground mb-3 tracking-tight">Transparent Pricing</h3>
@@ -198,8 +198,8 @@ export default function TrustSection() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               
               {/* Inhaby receipt */}
-              <div className="p-5 bg-emerald-500/5 rounded-2xl border border-emerald-500/20 relative">
-                <div className="text-[10px] font-extrabold text-emerald-600 uppercase tracking-widest mb-3">INHABY BILL</div>
+              <div className="p-5 bg-primary/5 rounded-2xl border border-primary/20 relative">
+                <div className="text-[10px] font-extrabold text-primary uppercase tracking-widest mb-3">INHABY BILL</div>
                 <div className="space-y-2 text-xs">
                   <div className="flex justify-between font-semibold">
                     <span className="text-muted-foreground">Monthly Rent</span>
@@ -210,14 +210,14 @@ export default function TrustSection() {
                     <span className="text-foreground">₹2,000</span>
                   </div>
                   <div className="flex justify-between font-semibold">
-                    <span className="text-emerald-600">Brokerage</span>
-                    <span className="text-emerald-600 font-bold">₹0 Free</span>
+                    <span className="text-primary">Brokerage</span>
+                    <span className="text-primary font-bold">₹0 Free</span>
                   </div>
                   <div className="flex justify-between font-semibold">
                     <span className="text-muted-foreground">Lease Creation</span>
-                    <span className="text-emerald-600 font-bold">Free</span>
+                    <span className="text-primary font-bold">Free</span>
                   </div>
-                  <div className="flex justify-between font-bold border-t border-emerald-500/20 pt-2 text-sm text-foreground">
+                  <div className="flex justify-between font-bold border-t border-primary/20 pt-2 text-sm text-foreground">
                     <span>True Total</span>
                     <span>₹20,000</span>
                   </div>
@@ -263,7 +263,7 @@ export default function TrustSection() {
             className="group bg-background rounded-[2.5rem] border border-border overflow-hidden flex flex-col justify-between p-8 md:p-10 hover:border-primary/20 hover:shadow-xl transition-all duration-300"
           >
             <div>
-              <div className="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-500 flex items-center justify-center mb-6">
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-6">
                 <MessageSquare className="w-6 h-6" />
               </div>
               <h3 className="text-2xl font-extrabold text-foreground mb-3 tracking-tight">Direct Connections</h3>
@@ -289,10 +289,10 @@ export default function TrustSection() {
               {/* Message 2 */}
               <div className="flex items-start space-x-2.5 justify-end">
                 <div className="bg-primary text-primary-foreground p-3 rounded-2xl rounded-tr-none shadow-xs text-xs max-w-[80%] text-right">
-                  <div className="font-extrabold text-white text-[10px] mb-0.5">Mr. Sharma (Owner)</div>
-                  <p className="text-white/90 font-medium">Yes Amit! I'm free between 4:00 PM and 7:00 PM. No brokers, you can visit directly.</p>
+                  <div className="font-extrabold text-primary-foreground text-[10px] mb-0.5">Mr. Sharma (Owner)</div>
+                  <p className="text-primary-foreground/90 font-medium">Yes Amit! I'm free between 4:00 PM and 7:00 PM. No brokers, you can visit directly.</p>
                 </div>
-                <div className="w-7 h-7 rounded-full bg-emerald-500 text-white text-xs font-bold flex items-center justify-center shrink-0">
+                <div className="w-7 h-7 rounded-full bg-primary/80 text-primary-foreground text-xs font-bold flex items-center justify-center shrink-0">
                   S
                 </div>
               </div>

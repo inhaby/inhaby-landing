@@ -20,9 +20,9 @@ const footerColumns = [
     title: "Company",
     links: [
       { name: "About Inhaby", href: "#", external: false },
+      { name: "Trust Blog", href: "/blog", external: false },
       { name: "Our Mission", href: "#", external: false },
       { name: "Careers (Hiring!)", href: "#", external: false },
-      { name: "Press Room", href: "#", external: false },
       { name: "Contact Verification", href: "#", external: false },
     ],
   },
@@ -100,7 +100,7 @@ export default function Footer() {
         </div>
 
         {/* Links Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 pt-16 border-t border-border/60">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-16 pt-16 border-t border-border/60">
           {footerColumns.map((column) => (
             <div key={column.title} className="space-y-4">
               <h4 className="text-xs font-extrabold text-foreground uppercase tracking-wider">{column.title}</h4>

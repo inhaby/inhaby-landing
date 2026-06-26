@@ -80,7 +80,7 @@ export default function VerifiedListingsCarousel() {
         {/* Carousel Header with Navigation Arrows */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div>
-            <span className="inline-block px-4 py-1.5 mb-4 text-xs font-bold tracking-widest text-primary uppercase bg-primary-soft rounded-full border border-primary/10">
+            <span className="inline-block px-4 py-1.5 mb-4 text-xs font-bold tracking-widest text-primary uppercase bg-primary/10 rounded-full border border-primary/10">
               Live Verified Catalog
             </span>
             <h2 className="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl lg:text-5xl">
@@ -95,13 +95,13 @@ export default function VerifiedListingsCarousel() {
           <div className="flex space-x-3.5">
             <button 
               onClick={slideLeft}
-              className="w-12 h-12 rounded-full border border-border bg-background hover:bg-muted text-foreground flex items-center justify-center transition-all shadow-xs hover:border-primary/20 active:scale-95 cursor-pointer"
+              className="w-12 h-12 rounded-full border border-border bg-background hover:bg-muted text-foreground flex items-center justify-center transition-all shadow-xs hover:border-primary/30 active:scale-95 cursor-pointer"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
             <button 
               onClick={slideRight}
-              className="w-12 h-12 rounded-full border border-border bg-background hover:bg-muted text-foreground flex items-center justify-center transition-all shadow-xs hover:border-primary/20 active:scale-95 cursor-pointer"
+              className="w-12 h-12 rounded-full border border-border bg-background hover:bg-muted text-foreground flex items-center justify-center transition-all shadow-xs hover:border-primary/30 active:scale-95 cursor-pointer"
             >
               <ArrowRight className="w-5 h-5" />
             </button>
@@ -117,7 +117,7 @@ export default function VerifiedListingsCarousel() {
           {carouselListings.map((item) => (
             <motion.div
               key={item.id}
-              className="flex-shrink-0 w-[300px] md:w-[380px] snap-start bg-background rounded-[2rem] border border-border overflow-hidden hover:shadow-xl hover:border-primary/20 transition-all duration-300 group"
+              className="flex-shrink-0 w-[300px] md:w-[380px] snap-start bg-background rounded-[2rem] border border-border overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300 group"
               whileHover={{ y: -6 }}
             >
               {/* Card Image and Floating Badges */}
@@ -135,7 +135,7 @@ export default function VerifiedListingsCarousel() {
                     <ShieldCheck className="w-3.5 h-3.5 fill-current text-primary-foreground" />
                     <span>Verified</span>
                   </div>
-                  <div className="px-3.5 py-1.5 bg-emerald-500 text-white text-[10px] font-extrabold rounded-full uppercase tracking-wider shadow-md">
+                  <div className="px-3.5 py-1.5 bg-primary/95 text-primary-foreground text-[10px] font-extrabold rounded-full uppercase tracking-wider shadow-md">
                     No Brokerage
                   </div>
                 </div>
@@ -173,7 +173,7 @@ export default function VerifiedListingsCarousel() {
                 {/* Direct Owner contact label footer */}
                 <div className="flex items-center justify-between pt-4 border-t border-border mt-2">
                   <div className="flex items-center space-x-2">
-                    <div className="w-6 h-6 rounded-full bg-primary-soft text-primary flex items-center justify-center">
+                    <div className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center">
                       <User className="w-3 h-3" />
                     </div>
                     <span className="text-xs font-bold text-foreground">{item.ownerType}</span>

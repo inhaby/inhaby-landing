@@ -33,10 +33,10 @@ export default function UserJourneys() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="relative bg-background border-[2px] border-primary/80 rounded-[2.5rem] p-8 md:p-12 shadow-[0_20px_50px_rgba(16,185,129,0.08)] flex flex-col justify-between group overflow-hidden"
+            className="relative bg-background border-[2px] border-primary rounded-[2.5rem] p-8 md:p-12 shadow-[0_20px_50px_rgba(var(--primary),0.12)] shadow-primary/10 flex flex-col justify-between group overflow-hidden"
           >
             {/* Visual background gradient for active emphasis */}
-            <div className="absolute top-0 right-0 w-48 h-48 bg-primary/3 rounded-full blur-3xl pointer-events-none group-hover:scale-110 transition-transform duration-500" />
+            <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full blur-3xl pointer-events-none group-hover:scale-110 transition-transform duration-500" />
             
             <div>
               {/* Premium Badge indicating active emphasis */}
@@ -49,8 +49,9 @@ export default function UserJourneys() {
                 </span>
               </div>
 
-              <h3 className="text-2xl md:text-3xl font-extrabold text-foreground mb-4 tracking-tight">
-                Looking for a Home?
+              <h3 className="text-2xl md:text-3xl font-extrabold text-foreground mb-4 tracking-tight flex items-center">
+                <span className="mr-2">🏠</span>
+                <span>Looking for a Home</span>
               </h3>
               <p className="text-muted-foreground text-sm font-semibold leading-relaxed mb-8">
                 Skip the agent fees. Discover thousands of verified flats, PGs, and houses. Communicate directly with deed-verified owners.
@@ -76,7 +77,7 @@ export default function UserJourneys() {
               href="https://inhaby.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full h-14 bg-primary hover:bg-primary/95 text-primary-foreground font-extrabold text-center flex items-center justify-center space-x-2 rounded-2xl shadow-lg shadow-primary/20 hover:shadow-xl transition-all hover:-translate-y-0.5"
+              className="w-full h-14 bg-primary hover:opacity-90 text-primary-foreground font-extrabold text-center flex items-center justify-center space-x-2 rounded-2xl shadow-lg shadow-primary/20 hover:shadow-xl transition-all hover:-translate-y-0.5"
             >
               <span>Get Started</span>
               <ArrowRight className="w-4.5 h-4.5" />
@@ -89,22 +90,23 @@ export default function UserJourneys() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="relative bg-background border border-border rounded-[2.5rem] p-8 md:p-12 shadow-md hover:border-primary/20 transition-all duration-300 flex flex-col justify-between group overflow-hidden"
+            className="relative bg-background border border-primary/20 rounded-[2.5rem] p-8 md:p-12 shadow-md hover:border-primary transition-all duration-300 flex flex-col justify-between group overflow-hidden"
           >
-            <div className="absolute top-0 right-0 w-48 h-48 bg-muted/40 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
             
             <div>
               <div className="flex justify-between items-center mb-8">
-                <div className="w-14 h-14 bg-muted text-foreground border border-border rounded-2xl flex items-center justify-center shadow-xs">
-                  <Building2 className="w-7 h-7 text-muted-foreground" />
+                <div className="w-14 h-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center shadow-lg">
+                  <Building2 className="w-7 h-7" />
                 </div>
-                <span className="px-3.5 py-1 bg-muted text-muted-foreground text-[10px] font-extrabold rounded-full uppercase tracking-wider">
+                <span className="px-3.5 py-1 bg-primary/15 text-primary text-[10px] font-extrabold rounded-full uppercase tracking-wider">
                   Landlords
                 </span>
               </div>
 
-              <h3 className="text-2xl md:text-3xl font-extrabold text-foreground mb-4 tracking-tight">
-                Want to Rent Out?
+              <h3 className="text-2xl md:text-3xl font-extrabold text-foreground mb-4 tracking-tight flex items-center">
+                <span className="mr-2">🏡</span>
+                <span>List Your Property</span>
               </h3>
               <p className="text-muted-foreground text-sm font-semibold leading-relaxed mb-8">
                 Publish listings to a massive pre-verified tenant base. Keep track of lead verifications, coordinate walkthroughs, and create legal digital leases.
@@ -119,7 +121,7 @@ export default function UserJourneys() {
                   "Reach trusted tenants."
                 ].map((item, idx) => (
                   <li key={idx} className="flex items-center text-sm font-semibold text-muted-foreground">
-                    <CheckCircle2 className="w-5 h-5 text-muted-foreground/50 mr-3 shrink-0" />
+                    <CheckCircle2 className="w-5 h-5 text-primary/70 mr-3 shrink-0" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -130,10 +132,10 @@ export default function UserJourneys() {
               href="https://owner.inhaby.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full h-14 bg-background border border-border text-foreground hover:bg-muted font-extrabold text-center flex items-center justify-center space-x-2 rounded-2xl hover:border-primary/30 transition-all hover:-translate-y-0.5"
+              className="w-full h-14 bg-background border border-primary/30 text-primary hover:text-primary-foreground hover:bg-primary font-extrabold text-center flex items-center justify-center space-x-2 rounded-2xl transition-all hover:-translate-y-0.5"
             >
               <span>Go to Owner Portal</span>
-              <ArrowRight className="w-4.5 h-4.5 text-primary" />
+              <ArrowRight className="w-4.5 h-4.5" />
             </a>
           </motion.div>
 
