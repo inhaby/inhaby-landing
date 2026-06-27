@@ -242,11 +242,18 @@ export default function DemoPage() {
 
   // --- Hide scrollbars on root document element and body for iframe high-fidelity ---
   useEffect(() => {
-    document.documentElement.classList.add("no-scrollbar");
-    document.body.classList.add("no-scrollbar");
+    document.documentElement.classList.add("no-scrollbar", "h-full", "overflow-hidden");
+    document.body.classList.add("no-scrollbar", "h-full", "overflow-hidden");
+    const rootEl = document.getElementById("root");
+    if (rootEl) {
+      rootEl.classList.add("h-full", "overflow-hidden");
+    }
     return () => {
-      document.documentElement.classList.remove("no-scrollbar");
-      document.body.classList.remove("no-scrollbar");
+      document.documentElement.classList.remove("no-scrollbar", "h-full", "overflow-hidden");
+      document.body.classList.remove("no-scrollbar", "h-full", "overflow-hidden");
+      if (rootEl) {
+        rootEl.classList.remove("h-full", "overflow-hidden");
+      }
     };
   }, []);
 
