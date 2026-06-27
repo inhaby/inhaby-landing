@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   ArrowRight, Home, Building2, CheckCircle2, Sparkles,
@@ -49,6 +49,50 @@ export default function UserJourneys() {
   const [activeTab, setActiveTab] = useState<"journey" | "verification">("journey");
   const [activeStep, setActiveStep] = useState(0);
   const [activeJourney, setActiveJourney] = useState<"renter" | "landlord">("renter");
+
+  // 1. Auto switch journey and verification in every 9 sec
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveTab((prev) => {
+        const next = prev === "journey" ? "verification" : "journey";
+        if (next === "verification") {
+          setActiveStep(0);
+        } else {
+          setActiveJourney("renter");
+        }
+        return next;
+      });
+    }, 9000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // 2. Inside journey, automatically switch looking for home and list property in every 3 sec
+  useEffect(() => {
+    if (activeTab !== "journey") return;
+
+    const interval = setInterval(() => {
+      setActiveJourney((prev) => (prev === "renter" ? "landlord" : "renter"));
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [activeTab]);
+
+  // 3. Inside verification, auto scroll steps until 100% (step 6, index 5) in 9 sec (1.5 sec per step)
+  useEffect(() => {
+    if (activeTab !== "verification") return;
+
+    const interval = setInterval(() => {
+      setActiveStep((prev) => {
+        if (prev < verificationSteps.length - 1) {
+          return prev + 1;
+        }
+        return prev; // Stay at 100% until tab switches
+      });
+    }, 1500);
+
+    return () => clearInterval(interval);
+  }, [activeTab]);
 
   const handleNextStep = () => {
     setActiveStep((prev) => (prev + 1) % verificationSteps.length);

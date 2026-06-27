@@ -157,7 +157,7 @@ export default function VerifiedListingsCarousel() {
             Array.from({ length: 4 }).map((_, idx) => (
               <div
                 key={idx}
-                className="flex-shrink-0 w-[300px] md:w-[380px] snap-start bg-background rounded-[2rem] border border-border overflow-hidden"
+                className="flex-shrink-0 w-[300px] md:w-[380px] snap-start scroll-mx-5 sm:scroll-mx-0 bg-background rounded-[2rem] border border-border overflow-hidden"
               >
                 <div className={`relative aspect-[16/11] shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`}>
                   <div className="absolute top-5 left-5 flex flex-col gap-2">
@@ -192,7 +192,7 @@ export default function VerifiedListingsCarousel() {
             carouselListings.map((item) => (
               <motion.div
                 key={item.id}
-                className="flex-shrink-0 w-[300px] md:w-[380px] snap-start bg-background rounded-[2rem] border border-border overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300 group"
+                className="flex-shrink-0 w-[300px] md:w-[380px] snap-start scroll-mx-5 sm:scroll-mx-0 bg-background rounded-[2rem] border border-border overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300 group"
                 whileHover={prefersReduced ? {} : { y: -6 }}
               >
                 {/* Card Image and Floating Badges with Optimized progressive load */}
