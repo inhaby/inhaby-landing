@@ -1,12 +1,13 @@
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   Search, BookOpen, Clock, Calendar, ArrowRight, Mail, Share2, 
-  Copy, Check, ChevronRight, Sparkles, Star, Flame, User, 
-  Award, Tag, Compass, Shield, ArrowUpRight, Bookmark, X,
-  FileText, ArrowLeft, Send
+  Check, ChevronRight, Sparkles, Star, Flame, User, 
+  Tag, Compass, Shield, Bookmark, X, FileText, Send
 } from "lucide-react";
+import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
+import OptimizedImage from "../components/OptimizedImage";
 
 // Curated high-EEAT editorial articles list with modern luxury architecture images
 const EDITORIAL_ARTICLES = [
@@ -148,10 +149,19 @@ export default function BlogListingPage() {
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [bookmarkedIds, setBookmarkedIds] = useState<string[]>([]);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const prefersReduced = usePrefersReducedMotion();
   
   // Newsletter state
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterSuccess, setNewsletterSuccess] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 850);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Filter logic
   const filteredArticles = useMemo(() => {
@@ -314,144 +324,213 @@ export default function BlogListingPage() {
           {/* LEFT SECTION (8 COLS): EDITORIAL STORIES AND GRIDS */}
           <main className="lg:col-span-8 space-y-16">
             
-            {/* If NO SEARCH/CATEGORY active, render the main horizontal Featured masterpiece */}
-            {!searchQuery && selectedCategory === "All Articles" && !selectedTag && (
-              <section className="space-y-6" id="primary-featured-section">
-                <div className="flex items-center space-x-2.5 text-xs text-primary font-black uppercase tracking-wider">
-                  <Flame className="w-4 h-4 text-primary" />
-                  <span>Featured Cover Story</span>
-                </div>
-
-                <Link 
-                  to={`/blog/${primaryFeatured.slug}`}
-                  className="block group bg-background border border-border/80 rounded-[2.5rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:border-primary/20"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-12">
-                    {/* Visual Card Image */}
-                    <div className="md:col-span-6 relative aspect-[16/10] md:aspect-auto overflow-hidden bg-muted">
-                      <img 
-                        src={primaryFeatured.image} 
-                        alt={primaryFeatured.title} 
-                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                      />
-                      <div className="absolute top-4 left-4">
-                        <span className="bg-primary/95 text-primary-foreground text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-md">
-                          {primaryFeatured.category}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Card Description and Text */}
-                    <div className="md:col-span-6 p-8 md:p-10 flex flex-col justify-between space-y-6">
-                      <div className="space-y-4">
-                        <div className="flex items-center space-x-4 text-xs text-muted-foreground font-semibold">
-                          <span className="flex items-center space-x-1">
-                            <Calendar className="w-3.5 h-3.5 text-primary" />
-                            <span>{primaryFeatured.publishedDate}</span>
-                          </span>
-                          <span>•</span>
-                          <span className="flex items-center space-x-1">
-                            <Clock className="w-3.5 h-3.5 text-primary" />
-                            <span>{primaryFeatured.readingTime}</span>
-                          </span>
-                        </div>
-
-                        <h3 className="text-xl sm:text-2xl font-black text-foreground group-hover:text-primary transition-colors font-sans leading-tight">
-                          {primaryFeatured.title}
-                        </h3>
-
-                        <p className="text-sm text-muted-foreground leading-relaxed font-medium">
-                          {primaryFeatured.description}
-                        </p>
-                      </div>
-
-                      {/* Author & Footer Elements */}
-                      <div className="flex items-center justify-between border-t border-border/60 pt-4">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-8 h-8 rounded-full bg-primary/10 text-primary border border-primary/20 flex items-center justify-center font-bold text-xs">
-                            {primaryFeatured.author.avatar}
+            {isLoading ? (
+              // Shimmering skeletons for Blog Listing page content blocks
+              <div className="space-y-16">
+                {/* Cover Story Skeleton */}
+                <div className="space-y-6">
+                  <div className="w-40 h-4 rounded-md shimmer-bg" />
+                  <div className="block bg-background border border-border/80 rounded-[2.5rem] overflow-hidden">
+                    <div className="grid grid-cols-1 md:grid-cols-12">
+                      <div className="md:col-span-6 aspect-[16/10] md:aspect-auto shimmer-bg" />
+                      <div className="md:col-span-6 p-8 md:p-10 flex flex-col justify-between space-y-6">
+                        <div className="space-y-4">
+                          <div className="flex space-x-3">
+                            <div className="h-3 w-20 rounded shimmer-bg" />
+                            <div className="h-3 w-16 rounded shimmer-bg" />
                           </div>
-                          <div>
-                            <p className="text-xs font-black text-foreground">{primaryFeatured.author.name}</p>
-                            <p className="text-[10px] text-muted-foreground font-medium">{primaryFeatured.author.role}</p>
+                          <div className="h-6 w-5/6 rounded shimmer-bg" />
+                          <div className="h-6 w-4/5 rounded shimmer-bg" />
+                          <div className="space-y-2">
+                            <div className="h-3 w-full rounded shimmer-bg" />
+                            <div className="h-3 w-11/12 rounded shimmer-bg" />
                           </div>
                         </div>
-
-                        {/* Direct action buttons */}
-                        <div className="flex items-center space-x-2">
-                          <button 
-                            onClick={(e) => toggleBookmark(primaryFeatured.id, e)}
-                            className="p-2 bg-muted hover:bg-primary-soft hover:text-primary rounded-xl border border-border/60 transition-colors"
-                            title="Bookmark post"
-                          >
-                            <Bookmark className={`w-4 h-4 ${bookmarkedIds.includes(primaryFeatured.id) ? "fill-primary text-primary" : "text-muted-foreground"}`} />
-                          </button>
-                          <button 
-                            onClick={(e) => handleCopyLink(primaryFeatured.slug, primaryFeatured.id, e)}
-                            className="p-2 bg-muted hover:bg-primary-soft hover:text-primary rounded-xl border border-border/60 transition-colors"
-                            title="Copy link"
-                          >
-                            {copiedId === primaryFeatured.id ? <Check className="w-4 h-4 text-emerald-500" /> : <Share2 className="w-4 h-4 text-muted-foreground" />}
-                          </button>
+                        <div className="flex justify-between items-center pt-4 border-t border-border/60">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 rounded-full shimmer-bg" />
+                            <div className="space-y-1.5">
+                              <div className="h-3 w-16 rounded shimmer-bg" />
+                              <div className="h-2 w-24 rounded shimmer-bg" />
+                            </div>
+                          </div>
+                          <div className="flex space-x-2">
+                            <div className="w-8 h-8 rounded-xl shimmer-bg" />
+                            <div className="w-8 h-8 rounded-xl shimmer-bg" />
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </Link>
-              </section>
-            )}
-
-            {/* HORIZONTAL CAROUSEL FOR TRENDING ARTICLES */}
-            {!searchQuery && selectedCategory === "All Articles" && !selectedTag && (
-              <section className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2 text-xs text-primary font-black uppercase tracking-wider">
-                    <Star className="w-4 h-4 text-primary animate-pulse" />
-                    <span>Trending in the Community</span>
-                  </div>
-                  <span className="text-xs text-muted-foreground font-semibold">Swipe to explore →</span>
                 </div>
 
-                <div className="flex gap-6 overflow-x-auto pb-4 no-scrollbar -mx-6 px-6" id="trending-horizontal-carousel">
-                  {trendingArticles.map((article) => (
-                    <Link
-                      key={article.id}
-                      to={`/blog/${article.slug}`}
-                      className="min-w-[280px] sm:min-w-[340px] max-w-[340px] bg-background border border-border rounded-[2rem] overflow-hidden shadow-md hover:shadow-xl transition-all hover:border-primary/20 group flex flex-col justify-between shrink-0"
+                {/* Trending Slider Skeleton */}
+                <div className="space-y-6">
+                  <div className="w-48 h-4 rounded-md shimmer-bg" />
+                  <div className="flex gap-6 overflow-x-auto pb-4 no-scrollbar">
+                    {Array.from({ length: 3 }).map((_, idx) => (
+                      <div key={idx} className="min-w-[280px] sm:min-w-[340px] max-w-[340px] border border-border rounded-[2rem] overflow-hidden flex flex-col">
+                        <div className="aspect-[16/10] shimmer-bg" />
+                        <div className="p-6 flex flex-col space-y-4">
+                          <div className="space-y-2">
+                            <div className="h-3 w-24 rounded shimmer-bg" />
+                            <div className="h-4.5 w-full rounded shimmer-bg" />
+                            <div className="h-4.5 w-5/6 rounded shimmer-bg" />
+                          </div>
+                          <div className="pt-3 border-t border-border/40 flex justify-between">
+                            <div className="h-3 w-16 rounded shimmer-bg" />
+                            <div className="h-3 w-20 rounded shimmer-bg" />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <>
+                {/* If NO SEARCH/CATEGORY active, render the main horizontal Featured masterpiece */}
+                {!searchQuery && selectedCategory === "All Articles" && !selectedTag && (
+                  <section className="space-y-6" id="primary-featured-section">
+                    <div className="flex items-center space-x-2.5 text-xs text-primary font-black uppercase tracking-wider">
+                      <Flame className="w-4 h-4 text-primary" />
+                      <span>Featured Cover Story</span>
+                    </div>
+
+                    <Link 
+                      to={`/blog/${primaryFeatured.slug}`}
+                      className="block group bg-background border border-border/80 rounded-[2.5rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:border-primary/20"
                     >
-                      <div className="aspect-[16/10] overflow-hidden bg-muted relative">
-                        <img 
-                          src={article.image} 
-                          alt={article.title} 
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        />
-                        <span className="absolute top-3 left-3 bg-background/90 text-foreground text-[9px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full border border-border">
-                          {article.category}
-                        </span>
-                      </div>
-                      <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
-                        <div className="space-y-2">
-                          <div className="flex items-center space-x-2 text-[10px] text-muted-foreground font-bold">
-                            <span>{article.publishedDate}</span>
-                            <span>•</span>
-                            <span>{article.readingTime}</span>
+                      <div className="grid grid-cols-1 md:grid-cols-12">
+                        {/* Visual Card Image */}
+                        <div className="md:col-span-6 relative aspect-[16/10] md:aspect-auto overflow-hidden">
+                          <OptimizedImage 
+                            src={primaryFeatured.image} 
+                            alt={primaryFeatured.title} 
+                            aspectRatio="aspect-full h-full w-full"
+                            loading="eager"
+                          />
+                          <div className="absolute top-4 left-4 z-10">
+                            <span className="bg-primary/95 text-primary-foreground text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-md">
+                              {primaryFeatured.category}
+                            </span>
                           </div>
-                          <h4 className="text-base font-black text-foreground group-hover:text-primary transition-colors line-clamp-2">
-                            {article.title}
-                          </h4>
                         </div>
-                        <div className="flex items-center justify-between border-t border-border/40 pt-3">
-                          <span className="text-xs text-primary font-black flex items-center space-x-1 group-hover:translate-x-1 transition-transform">
-                            <span>Read Article</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </span>
-                          <span className="text-[10px] text-muted-foreground font-semibold">{article.author.name}</span>
+
+                        {/* Card Description and Text */}
+                        <div className="md:col-span-6 p-8 md:p-10 flex flex-col justify-between space-y-6">
+                          <div className="space-y-4">
+                            <div className="flex items-center space-x-4 text-xs text-muted-foreground font-semibold">
+                              <span className="flex items-center space-x-1">
+                                <Calendar className="w-3.5 h-3.5 text-primary" />
+                                <span>{primaryFeatured.publishedDate}</span>
+                              </span>
+                              <span>•</span>
+                              <span className="flex items-center space-x-1">
+                                <Clock className="w-3.5 h-3.5 text-primary" />
+                                <span>{primaryFeatured.readingTime}</span>
+                              </span>
+                            </div>
+
+                            <h3 className="text-xl sm:text-2xl font-black text-foreground group-hover:text-primary transition-colors font-sans leading-tight">
+                              {primaryFeatured.title}
+                            </h3>
+
+                            <p className="text-sm text-muted-foreground leading-relaxed font-medium">
+                              {primaryFeatured.description}
+                            </p>
+                          </div>
+
+                          {/* Author & Footer Elements */}
+                          <div className="flex items-center justify-between border-t border-border/60 pt-4">
+                            <div className="flex items-center space-x-3">
+                              <div className="w-8 h-8 rounded-full bg-primary/10 text-primary border border-primary/20 flex items-center justify-center font-bold text-xs">
+                                {primaryFeatured.author.avatar}
+                              </div>
+                              <div>
+                                <p className="text-xs font-black text-foreground">{primaryFeatured.author.name}</p>
+                                <p className="text-[10px] text-muted-foreground font-medium">{primaryFeatured.author.role}</p>
+                              </div>
+                            </div>
+
+                            {/* Direct action buttons */}
+                            <div className="flex items-center space-x-2">
+                              <button 
+                                onClick={(e) => toggleBookmark(primaryFeatured.id, e)}
+                                className="p-2 bg-muted hover:bg-primary-soft hover:text-primary rounded-xl border border-border/60 transition-colors cursor-pointer"
+                                title="Bookmark post"
+                              >
+                                <Bookmark className={`w-4 h-4 ${bookmarkedIds.includes(primaryFeatured.id) ? "fill-primary text-primary" : "text-muted-foreground"}`} />
+                              </button>
+                              <button 
+                                onClick={(e) => handleCopyLink(primaryFeatured.slug, primaryFeatured.id, e)}
+                                className="p-2 bg-muted hover:bg-primary-soft hover:text-primary rounded-xl border border-border/60 transition-colors cursor-pointer"
+                                title="Copy link"
+                              >
+                                {copiedId === primaryFeatured.id ? <Check className="w-4 h-4 text-emerald-500" /> : <Share2 className="w-4 h-4 text-muted-foreground" />}
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </Link>
-                  ))}
-                </div>
-              </section>
+                  </section>
+                )}
+
+                {/* HORIZONTAL CAROUSEL FOR TRENDING ARTICLES */}
+                {!searchQuery && selectedCategory === "All Articles" && !selectedTag && (
+                  <section className="space-y-6">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2 text-xs text-primary font-black uppercase tracking-wider">
+                        <Star className="w-4 h-4 text-primary animate-pulse" />
+                        <span>Trending in the Community</span>
+                      </div>
+                      <span className="text-xs text-muted-foreground font-semibold">Swipe to explore →</span>
+                    </div>
+
+                    <div className="flex gap-6 overflow-x-auto pb-4 no-scrollbar -mx-6 px-6" id="trending-horizontal-carousel">
+                      {trendingArticles.map((article) => (
+                        <Link
+                          key={article.id}
+                          to={`/blog/${article.slug}`}
+                          className="min-w-[280px] sm:min-w-[340px] max-w-[340px] bg-background border border-border rounded-[2rem] overflow-hidden shadow-md hover:shadow-xl transition-all hover:border-primary/20 group flex flex-col justify-between shrink-0"
+                        >
+                          <div className="aspect-[16/10] overflow-hidden relative">
+                            <OptimizedImage 
+                              src={article.image} 
+                              alt={article.title} 
+                              aspectRatio="aspect-full h-full w-full"
+                              loading="lazy"
+                            />
+                            <span className="absolute top-3 left-3 bg-background/90 text-foreground text-[9px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full border border-border z-10">
+                              {article.category}
+                            </span>
+                          </div>
+                          <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                            <div className="space-y-2">
+                              <div className="flex items-center space-x-2 text-[10px] text-muted-foreground font-bold">
+                                <span>{article.publishedDate}</span>
+                                <span>•</span>
+                                <span>{article.readingTime}</span>
+                              </div>
+                              <h4 className="text-base font-black text-foreground group-hover:text-primary transition-colors line-clamp-2">
+                                {article.title}
+                              </h4>
+                            </div>
+                            <div className="flex items-center justify-between border-t border-border/40 pt-3">
+                              <span className="text-xs text-primary font-black flex items-center space-x-1 group-hover:translate-x-1 transition-transform">
+                                <span>Read Article</span>
+                                <ArrowRight className="w-3.5 h-3.5" />
+                              </span>
+                              <span className="text-[10px] text-muted-foreground font-semibold">{article.author.name}</span>
+                            </div>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </section>
+                )}
+              </>
             )}
 
             {/* THE LATEST ARTICLES GRID */}
@@ -469,79 +548,227 @@ export default function BlogListingPage() {
                 {(searchQuery || selectedCategory !== "All Articles" || selectedTag) && (
                   <button 
                     onClick={clearFilters}
-                    className="text-xs text-primary font-bold hover:underline"
+                    className="text-xs text-primary font-bold hover:underline cursor-pointer"
                   >
                     Reset Filters
                   </button>
                 )}
               </div>
 
-              {filteredArticles.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8" id="latest-articles-grid">
-                  {filteredArticles.map((article) => (
-                    <Link
-                      key={article.id}
-                      to={`/blog/${article.slug}`}
-                      className="group bg-background border border-border/80 rounded-[2rem] overflow-hidden shadow-md hover:shadow-xl transition-all hover:border-primary/20 flex flex-col justify-between h-full"
-                    >
-                      <div className="aspect-[16/10] overflow-hidden bg-muted relative">
-                        <img 
-                          src={article.image} 
-                          alt={article.title} 
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                          loading="lazy"
-                        />
-                        <span className="absolute top-4 left-4 bg-background/95 text-foreground text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-border/80 shadow-sm">
-                          {article.category}
-                        </span>
-                      </div>
-
-                      <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+              {isLoading ? (
+                // Latest articles grid skeleton
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                  {Array.from({ length: 4 }).map((_, idx) => (
+                    <div key={idx} className="bg-background border border-border/80 rounded-[2rem] overflow-hidden flex flex-col h-full">
+                      <div className="aspect-[16/10] shimmer-bg" />
+                      <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
                         <div className="space-y-3">
-                          <div className="flex items-center space-x-3 text-[10px] text-muted-foreground font-semibold">
-                            <span>{article.publishedDate}</span>
-                            <span>•</span>
-                            <span>{article.readingTime}</span>
+                          <div className="flex space-x-2.5">
+                            <div className="h-3 w-20 rounded shimmer-bg" />
+                            <div className="h-3 w-16 rounded shimmer-bg" />
                           </div>
-
-                          <h4 className="text-base sm:text-lg font-black text-foreground group-hover:text-primary transition-colors font-sans line-clamp-2 leading-snug">
-                            {article.title}
-                          </h4>
-
-                          <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2 font-medium">
-                            {article.description}
-                          </p>
+                          <div className="h-5 w-4/5 rounded shimmer-bg" />
+                          <div className="space-y-1.5">
+                            <div className="h-3 w-full rounded shimmer-bg" />
+                            <div className="h-3 w-5/6 rounded shimmer-bg" />
+                          </div>
                         </div>
-
-                        <div className="flex items-center justify-between border-t border-border/40 pt-4">
+                        <div className="pt-4 border-t border-border/40 flex justify-between items-center">
                           <div className="flex items-center space-x-2">
-                            <div className="w-7 h-7 rounded-full bg-primary/15 text-primary flex items-center justify-center font-bold text-[10px]">
-                              {article.author.avatar}
-                            </div>
-                            <span className="text-xs text-foreground font-bold">{article.author.name}</span>
+                            <div className="w-6 h-6 rounded-full shimmer-bg" />
+                            <div className="h-3 w-16 rounded shimmer-bg" />
                           </div>
-
-                          <div className="flex items-center space-x-1">
-                            <button 
-                              onClick={(e) => toggleBookmark(article.id, e)}
-                              className="p-1.5 hover:bg-muted hover:text-primary rounded-lg text-muted-foreground transition-colors"
-                              title="Bookmark post"
-                            >
-                              <Bookmark className={`w-4 h-4 ${bookmarkedIds.includes(article.id) ? "fill-primary text-primary" : ""}`} />
-                            </button>
-                            <button 
-                              onClick={(e) => handleCopyLink(article.slug, article.id, e)}
-                              className="p-1.5 hover:bg-muted hover:text-primary rounded-lg text-muted-foreground transition-colors"
-                              title="Copy link"
-                            >
-                              {copiedId === article.id ? <Check className="w-4 h-4 text-emerald-500" /> : <Share2 className="w-4 h-4" />}
-                            </button>
+                          <div className="flex space-x-1">
+                            <div className="w-6 h-6 rounded shimmer-bg" />
+                            <div className="w-6 h-6 rounded shimmer-bg" />
                           </div>
                         </div>
                       </div>
-                    </Link>
+                    </div>
                   ))}
                 </div>
+              ) : filteredArticles.length > 0 ? (
+                <>
+                  {/* Mobile-first layout: Show one featured article, swipe carousel for remaining (Hidden on Desktop) */}
+                  <div className="sm:hidden space-y-8">
+                    {/* Featured Article */}
+                    {filteredArticles.length > 0 && (
+                      <div className="space-y-4">
+                        <div className="text-xs text-primary font-black uppercase tracking-wider flex items-center space-x-2">
+                          <Flame className="w-3.5 h-3.5 text-primary" />
+                          <span>Featured Guide</span>
+                        </div>
+                        {(() => {
+                          const article = filteredArticles[0];
+                          return (
+                            <Link
+                              to={`/blog/${article.slug}`}
+                              className="block bg-background border border-border rounded-3xl overflow-hidden shadow-md"
+                            >
+                              <div className="aspect-[16/10] overflow-hidden relative">
+                                <OptimizedImage 
+                                  src={article.image} 
+                                  alt={article.title} 
+                                  aspectRatio="aspect-full h-full w-full"
+                                  loading="eager"
+                                />
+                                <span className="absolute top-4 left-4 bg-background/95 text-foreground text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-border/80 z-10">
+                                  {article.category}
+                                </span>
+                              </div>
+                              <div className="p-5 space-y-3">
+                                <div className="flex items-center space-x-3 text-[10px] text-muted-foreground font-semibold">
+                                  <span>{article.publishedDate}</span>
+                                  <span>•</span>
+                                  <span>{article.readingTime}</span>
+                                </div>
+                                <h4 className="text-base font-black text-foreground line-clamp-2 leading-snug">
+                                  {article.title}
+                                </h4>
+                                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2 font-medium">
+                                  {article.description}
+                                </p>
+                                <div className="pt-3 border-t border-border/40 flex items-center justify-between">
+                                  <div className="flex items-center space-x-2">
+                                    <div className="w-6 h-6 rounded-full bg-primary/15 text-primary flex items-center justify-center font-bold text-[9px]">
+                                      {article.author.avatar}
+                                    </div>
+                                    <span className="text-xs text-foreground font-bold">{article.author.name}</span>
+                                  </div>
+                                  <span className="text-xs text-primary font-black flex items-center space-x-1">
+                                    <span>Read Guide</span>
+                                    <ArrowRight className="w-3 h-3" />
+                                  </span>
+                                </div>
+                              </div>
+                            </Link>
+                          );
+                        })()}
+                      </div>
+                    )}
+
+                    {/* Swipe Carousel for Remaining Articles */}
+                    {filteredArticles.length > 1 && (
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <div className="text-xs text-primary font-black uppercase tracking-wider flex items-center space-x-2">
+                            <BookOpen className="w-3.5 h-3.5 text-primary" />
+                            <span>More Inhaby Masterclasses</span>
+                          </div>
+                          <span className="text-[10px] text-muted-foreground font-semibold">Swipe to explore →</span>
+                        </div>
+
+                        <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar -mx-6 px-6" id="mobile-remaining-carousel">
+                          {filteredArticles.slice(1).map((article) => (
+                            <Link
+                              key={article.id}
+                              to={`/blog/${article.slug}`}
+                              className="min-w-[260px] max-w-[260px] bg-background border border-border rounded-3xl overflow-hidden shadow-sm flex flex-col justify-between shrink-0"
+                            >
+                              <div className="aspect-[16/10] overflow-hidden relative">
+                                <OptimizedImage 
+                                  src={article.image} 
+                                  alt={article.title} 
+                                  aspectRatio="aspect-full h-full w-full"
+                                  loading="lazy"
+                                />
+                                <span className="absolute top-3 left-3 bg-background/95 text-foreground text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full border border-border/80 z-10">
+                                  {article.category}
+                                </span>
+                              </div>
+                              <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
+                                <div className="space-y-2">
+                                  <div className="flex items-center space-x-2 text-[9px] text-muted-foreground font-semibold">
+                                    <span>{article.publishedDate}</span>
+                                    <span>•</span>
+                                    <span>{article.readingTime}</span>
+                                  </div>
+                                  <h5 className="text-sm font-black text-foreground line-clamp-2 leading-snug">
+                                    {article.title}
+                                  </h5>
+                                </div>
+                                <div className="pt-2.5 border-t border-border/40 flex items-center justify-between">
+                                  <span className="text-[11px] text-primary font-black flex items-center space-x-1">
+                                    <span>Read Guide</span>
+                                    <ArrowRight className="w-3 h-3" />
+                                  </span>
+                                  <span className="text-[9px] text-muted-foreground font-semibold">{article.author.name}</span>
+                                </div>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Standard Grid Layout (Hidden on Mobile) */}
+                  <div className="hidden sm:grid grid-cols-2 gap-8" id="latest-articles-grid">
+                    {filteredArticles.map((article) => (
+                      <Link
+                        key={article.id}
+                        to={`/blog/${article.slug}`}
+                        className="group bg-background border border-border/80 rounded-[2rem] overflow-hidden shadow-md hover:shadow-xl transition-all hover:border-primary/20 flex flex-col justify-between h-full"
+                      >
+                        <div className="aspect-[16/10] overflow-hidden relative bg-muted">
+                          <OptimizedImage 
+                            src={article.image} 
+                            alt={article.title} 
+                            aspectRatio="aspect-full h-full w-full"
+                            loading="lazy"
+                          />
+                          <span className="absolute top-4 left-4 bg-background/95 text-foreground text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-border/80 shadow-sm z-10">
+                            {article.category}
+                          </span>
+                        </div>
+
+                        <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                          <div className="space-y-3">
+                            <div className="flex items-center space-x-3 text-[10px] text-muted-foreground font-semibold">
+                              <span>{article.publishedDate}</span>
+                              <span>•</span>
+                              <span>{article.readingTime}</span>
+                            </div>
+
+                            <h4 className="text-base sm:text-lg font-black text-foreground group-hover:text-primary transition-colors font-sans line-clamp-2 leading-snug">
+                              {article.title}
+                            </h4>
+
+                            <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2 font-medium">
+                              {article.description}
+                            </p>
+                          </div>
+
+                          <div className="flex items-center justify-between border-t border-border/40 pt-4">
+                            <div className="flex items-center space-x-2">
+                              <div className="w-7 h-7 rounded-full bg-primary/15 text-primary flex items-center justify-center font-bold text-[10px]">
+                                {article.author.avatar}
+                              </div>
+                              <span className="text-xs text-foreground font-bold">{article.author.name}</span>
+                            </div>
+
+                            <div className="flex items-center space-x-1">
+                              <button 
+                                onClick={(e) => toggleBookmark(article.id, e)}
+                                className="p-1.5 hover:bg-muted hover:text-primary rounded-lg text-muted-foreground transition-colors cursor-pointer"
+                                title="Bookmark post"
+                              >
+                                <Bookmark className={`w-4 h-4 ${bookmarkedIds.includes(article.id) ? "fill-primary text-primary" : ""}`} />
+                              </button>
+                              <button 
+                                onClick={(e) => handleCopyLink(article.slug, article.id, e)}
+                                className="p-1.5 hover:bg-muted hover:text-primary rounded-lg text-muted-foreground transition-colors cursor-pointer"
+                                title="Copy link"
+                              >
+                                {copiedId === article.id ? <Check className="w-4 h-4 text-emerald-500" /> : <Share2 className="w-4 h-4" />}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </>
               ) : (
                 <div className="text-center py-12 bg-muted/30 border border-border rounded-3xl space-y-4">
                   <FileText className="w-12 h-12 text-muted-foreground/60 mx-auto" />
@@ -579,7 +806,7 @@ export default function BlogListingPage() {
                         setSelectedTag(isActive ? null : tag);
                         setSelectedCategory("All Articles"); // Reset category to avoid filter collision
                       }}
-                      className={`px-3 py-1.5 text-[10px] font-bold rounded-lg transition-all ${
+                      className={`px-3 py-1.5 text-[10px] font-bold rounded-lg transition-all cursor-pointer ${
                         isActive 
                           ? "bg-primary text-primary-foreground border-primary scale-102" 
                           : "bg-muted/60 hover:bg-muted text-muted-foreground hover:text-foreground border border-border/40"
@@ -603,13 +830,14 @@ export default function BlogListingPage() {
                   <Link
                     key={article.id}
                     to={`/blog/${article.slug}`}
-                    className="flex items-start space-x-3.5 group"
+                    className="flex items-start space-x-3.5 group animate-none"
                   >
                     <div className="w-14 h-14 rounded-xl overflow-hidden shrink-0 bg-muted border border-border">
-                      <img 
+                      <OptimizedImage 
                         src={article.image} 
                         alt={article.title} 
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        aspectRatio="aspect-square w-full h-full"
+                        loading="lazy"
                       />
                     </div>
                     <div className="space-y-1">
@@ -681,10 +909,10 @@ export default function BlogListingPage() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
             <Link 
-              to="/listings" 
+              to="/savings" 
               className="w-full sm:w-auto px-8 py-4 bg-primary text-primary-foreground font-black rounded-full text-xs hover:opacity-95 transition-all shadow-lg flex items-center justify-center space-x-2"
             >
-              <span>Browse Direct Listings</span>
+              <span>Calculate Savings</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link 

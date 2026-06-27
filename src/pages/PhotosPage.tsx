@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { ArrowLeft, Camera, MapPin, Star } from "lucide-react";
 import { Link } from "react-router-dom";
+import OptimizedImage from "../components/OptimizedImage";
 
 const propertyPhotos = [
   {
@@ -92,11 +93,11 @@ export default function PhotosPage() {
               className="group bg-background rounded-[2rem] overflow-hidden border border-border hover:shadow-2xl transition-all duration-500"
             >
               <div className="aspect-[4/3] overflow-hidden relative">
-                <img 
+                <OptimizedImage 
                   src={photo.url} 
                   alt={photo.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  referrerPolicy="no-referrer"
+                  aspectRatio="aspect-full h-full w-full"
+                  loading="lazy"
                 />
                 <div className="absolute top-4 right-4 px-3 py-1 bg-white/80 backdrop-blur-md rounded-full flex items-center space-x-1 shadow-sm">
                   <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />

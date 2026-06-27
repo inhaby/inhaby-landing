@@ -91,8 +91,40 @@
 }
 
 @layer base {
+  html, body {
+    @apply overflow-x-hidden w-full max-w-full;
+  }
   body {
     @apply font-sans text-foreground antialiased bg-background transition-colors duration-300;
+  }
+}
+
+.shimmer-bg {
+  background: linear-gradient(
+    90deg,
+    var(--muted) 25%,
+    var(--border) 50%,
+    var(--muted) 75%
+  );
+  background-size: 200% 100%;
+}
+
+.animate-shimmer {
+  animation: shimmer-anim 1.8s infinite linear;
+}
+
+@keyframes shimmer-anim {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-shimmer {
+    animation: none !important;
   }
 }
 

@@ -8,7 +8,7 @@ export default function OwnerSection() {
       <div className="absolute top-[20%] left-[-10%] w-[350px] h-[350px] bg-primary/3 rounded-full blur-[90px] pointer-events-none" />
       <div className="absolute bottom-[10%] right-[-10%] w-[400px] h-[400px] bg-primary/2 rounded-full blur-[110px] pointer-events-none" />
 
-      <div className="container px-6 mx-auto relative z-10">
+      <div className="container px-5 sm:px-6 mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           
           {/* Left Side: Premium Illustration of Owner Dashboard */}
@@ -41,7 +41,7 @@ export default function OwnerSection() {
               </div>
 
               {/* Grid of Owner Metrics */}
-              <div className="grid grid-cols-3 gap-4 mb-6">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
                 <div className="bg-muted/50 p-4 rounded-2xl border border-border/40">
                   <div className="text-muted-foreground mb-1 flex items-center justify-between">
                     <span className="text-[10px] font-bold uppercase tracking-wider">Enquiries</span>

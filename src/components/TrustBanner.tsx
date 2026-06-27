@@ -1,12 +1,12 @@
 import React from "react";
 import { motion } from "motion/react";
-import { ShieldCheck, ArrowRight, Search } from "lucide-react";
+import { ShieldCheck, ArrowRight, Calculator } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function TrustBanner() {
   return (
     <section className="py-12 bg-primary/5 border-y border-primary/10">
-      <div className="container px-6 mx-auto">
+      <div className="container px-5 sm:px-6 mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="flex items-center space-x-6">
             <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center shrink-0">
@@ -27,11 +27,11 @@ export default function TrustBanner() {
               <ArrowRight className="w-5 h-5 ml-2" />
             </Link>
             <Link 
-              to="/listings" 
+              to="/savings" 
               className="w-full sm:w-auto px-8 py-4 bg-background border border-border text-foreground rounded-2xl font-bold hover:bg-muted transition-all flex items-center justify-center"
             >
-              <Search className="w-5 h-5 mr-2" />
-              Browse Verified
+              <Calculator className="w-5 h-5 mr-2" />
+              Calculate Savings
             </Link>
           </div>
         </div>

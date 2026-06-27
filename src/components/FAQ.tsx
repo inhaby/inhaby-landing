@@ -45,7 +45,7 @@ export default function FAQ() {
       {/* Background soft glow */}
       <div className="absolute bottom-[-10%] left-[10%] w-96 h-96 bg-primary/2 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="container px-6 mx-auto relative z-10 max-w-4xl">
+      <div className="container px-5 sm:px-6 mx-auto relative z-10 max-w-4xl">
         
         {/* Section Header */}
         <motion.div

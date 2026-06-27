@@ -10,7 +10,7 @@ const previews = [
 export default function AppPreview() {
   return (
     <section className="py-24 overflow-hidden bg-slate-950 text-white">
-      <div className="container px-6 mx-auto mb-16">
+      <div className="container px-5 sm:px-6 mx-auto mb-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -26,7 +26,7 @@ export default function AppPreview() {
         </motion.div>
       </div>
 
-      <div className="flex overflow-x-auto pb-12 px-6 space-x-8 no-scrollbar">
+      <div className="flex overflow-x-auto pb-12 px-5 sm:px-6 space-x-8 no-scrollbar">
         {previews.map((preview, index) => (
           <motion.div
             key={index}

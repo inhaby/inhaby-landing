@@ -11,7 +11,7 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/85 backdrop-blur-md border-b border-border transition-all">
-      <div className="container px-6 py-4 mx-auto flex justify-between items-center">
+      <div className="container px-5 sm:px-6 py-4 mx-auto flex justify-between items-center">
         {/* Left: INHABY Logo */}
         <Link to="/" className="hover:opacity-90 transition-opacity flex items-center">
           <Logo className="h-9 md:h-10" />
@@ -19,7 +19,7 @@ export default function Navbar() {
         
         {/* Center: Main Links (Desktop) */}
         <div className="hidden lg:flex items-center space-x-8 text-sm font-semibold text-muted-foreground">
-          <Link to="/listings" className="hover:text-primary transition-colors">Browse Listings</Link>
+          <Link to="/savings" className="hover:text-primary transition-colors">Savings Calculator</Link>
           <a href="https://careers.inhaby.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Careers</a>
           <Link to="/pricing" className="hover:text-primary transition-colors">Pricing</Link>
           <Link to="/blog" className="hover:text-primary transition-colors">Trust Blog</Link>
@@ -88,11 +88,11 @@ export default function Navbar() {
                 {/* Primary Menu Links inside Hamburger */}
                 <div className="flex flex-col space-y-1">
                   <Link
-                    to="/listings"
+                    to="/savings"
                     onClick={() => setIsOpen(false)}
                     className="text-base font-bold text-foreground hover:text-primary transition-colors py-3 px-2 rounded-xl hover:bg-muted flex items-center"
                   >
-                    Browse Listings
+                    Savings Calculator
                   </Link>
                   <a
                     href="https://careers.inhaby.com"

@@ -28,7 +28,7 @@ const benefits = [
 export default function Benefits() {
   return (
     <section id="benefits" className="py-24 bg-background">
-      <div className="container px-6 mx-auto">
+      <div className="container px-5 sm:px-6 mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -60,7 +60,7 @@ export default function Benefits() {
                   return (
                     <Link 
                       key={index} 
-                      to="/listings"
+                      to="/verify"
                       className="flex flex-col group cursor-pointer p-4 -m-4 rounded-2xl hover:bg-primary/5 transition-colors"
                     >
                       {cardContent}
@@ -101,10 +101,10 @@ export default function Benefits() {
                   <div className="h-4 w-3/4 bg-muted rounded"></div>
                 </div>
                 <Link 
-                  to="/listings"
+                  to="/verify"
                   className="bg-primary h-12 w-full rounded-xl flex items-center justify-center text-primary-foreground font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
                 >
-                  Verified Listing
+                  Verify Now
                 </Link>
               </div>
             </div>

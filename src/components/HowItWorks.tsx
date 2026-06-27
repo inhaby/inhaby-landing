@@ -47,7 +47,7 @@ export default function HowItWorks() {
       <div className="absolute top-[30%] left-[5%] w-72 h-72 bg-primary/3 rounded-full blur-[90px] -z-10 pointer-events-none" />
       <div className="absolute bottom-[20%] right-[5%] w-80 h-80 bg-primary/2 rounded-full blur-[100px] -z-10 pointer-events-none" />
 
-      <div className="container px-6 mx-auto relative z-10">
+      <div className="container px-5 sm:px-6 mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

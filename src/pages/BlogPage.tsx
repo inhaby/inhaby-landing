@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
+import OptimizedImage from "../components/OptimizedImage";
 
 // Markdown of the article for SEO/AI-crawlers and direct copying
 const BLOG_MARKDOWN = `# The Zero Brokerage Revolution: How to Rent a House in India Safely and Avoid Common Scams
@@ -105,7 +106,7 @@ A robust rental contract protects both parties and must include:
 
 Renting a home in India does not have to involve paying exorbitant commissions to middlemen or exposing yourself to financial scams. By shifting to direct-owner platforms, insisting on robust legal document checks, and refusing to transfer money prior to physical site visits, you can navigate the rental search securely and save thousands of rupees.
 
-If you are looking for a verified rental home with transparent pricing, direct owner connections, and ₹0 brokerage, explore verified listings on [INHABY](/listings).
+If you are looking for a verified rental home with transparent pricing, direct owner connections, and ₹0 brokerage, calculate your zero-brokerage savings on [INHABY](/savings).
 `;
 
 // Meta configuration
@@ -404,10 +405,11 @@ export default function BlogPage() {
 
             {/* FEATURED IMAGE WITH HOVER INTERACTION */}
             <div className="max-w-5xl mx-auto mb-16 rounded-[2.5rem] overflow-hidden shadow-2xl border border-border group relative aspect-[16/9]" id="featured-image-container">
-              <img 
+              <OptimizedImage 
                 src={SEO_METADATA.featuredImage.url} 
                 alt={SEO_METADATA.featuredImage.alt}
-                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                aspectRatio="aspect-full h-full w-full"
+                loading="eager"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6 md:p-12">
                 <p className="text-white text-xs md:text-sm font-bold tracking-wide drop-shadow-md bg-black/30 backdrop-blur-md py-2 px-4 rounded-xl border border-white/10">
@@ -884,7 +886,7 @@ export default function BlogPage() {
                       Renting a home in India does not have to involve paying exorbitant commissions to middlemen or exposing yourself to financial scams. By shifting to direct-owner platforms, insisting on robust legal document checks, and refusing to transfer money prior to physical site visits, you can navigate the rental search securely and save thousands of rupees.
                     </p>
                     <p className="font-semibold text-foreground bg-primary-soft p-5 border border-primary/10 rounded-2xl">
-                      If you're looking for a verified rental home with transparent pricing and direct owner connections, explore verified listings on <Link to="/listings" className="text-primary hover:underline font-bold inline-flex items-center">INHABY Listings <ArrowRight className="w-4 h-4 ml-1" /></Link>.
+                      If you're looking for a verified rental home with transparent pricing and direct owner connections, calculate your zero-brokerage savings on <Link to="/savings" className="text-primary hover:underline font-bold inline-flex items-center">INHABY Savings Calculator <ArrowRight className="w-4 h-4 ml-1" /></Link>.
                     </p>
                   </div>
                 </div>
@@ -946,10 +948,11 @@ export default function BlogPage() {
                     className="group flex flex-col bg-background border border-border hover:border-primary/30 rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1.5 p-4"
                   >
                     <div className="aspect-[16/10] rounded-2xl overflow-hidden mb-4 relative">
-                      <img 
+                      <OptimizedImage 
                         src={article.image} 
                         alt={article.title} 
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        aspectRatio="aspect-full h-full w-full"
+                        loading="lazy"
                       />
                       <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>

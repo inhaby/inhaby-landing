@@ -48,10 +48,30 @@ export default function Footer() {
   const { theme, toggleTheme } = useTheme();
   const [lang, setLang] = useState("English");
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
+  const [activeAccordion, setActiveAccordion] = useState<number | null>(null);
+
+  const mobileColumns = [
+    ...footerColumns,
+    {
+      title: "Contact & Support",
+      links: [], // Empty links to identify type, content handled explicitly
+      content: (
+        <div className="space-y-2 text-left">
+          <p className="text-xs text-muted-foreground font-semibold leading-relaxed">
+            Inhaby Support is active 24/7. Reach out via email or visit our offices:
+          </p>
+          <div className="text-xs text-foreground font-bold space-y-1 pt-1">
+            <p>Email: support@inhaby.com</p>
+            <p>Corporate Hub: Indiranagar, Bangalore, KA</p>
+          </div>
+        </div>
+      )
+    }
+  ];
 
   return (
     <footer className="bg-background border-t border-border pt-20 pb-12 relative z-10">
-      <div className="container px-6 mx-auto">
+      <div className="container px-5 sm:px-6 mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
           
           {/* Brand & Newsletter Section */}
@@ -99,8 +119,58 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Links Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-16 pt-16 border-t border-border/60">
+        {/* Mobile Accordions (Only on mobile) */}
+        <div className="sm:hidden border-t border-border/60 pt-8 mb-10 space-y-3">
+          {mobileColumns.map((column, idx) => {
+            const isOpen = activeAccordion === idx;
+            return (
+              <div key={column.title} className="border border-border rounded-2xl overflow-hidden bg-muted/10">
+                <button
+                  type="button"
+                  onClick={() => setActiveAccordion(isOpen ? null : idx)}
+                  className="w-full flex items-center justify-between p-5 text-left font-extrabold text-xs uppercase tracking-wider text-foreground select-none cursor-pointer"
+                >
+                  <span>{column.title}</span>
+                  <span className="text-primary text-sm font-bold">{isOpen ? "−" : "+"}</span>
+                </button>
+                {isOpen && (
+                  <div className="p-5 bg-background border-t border-border/40">
+                    {"content" in column ? (
+                      column.content
+                    ) : (
+                      <ul className="space-y-3">
+                        {column.links.map((link) => (
+                          <li key={link.name}>
+                            {link.external ? (
+                              <a 
+                                href={link.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-xs font-semibold text-muted-foreground hover:text-primary transition-colors block py-0.5"
+                              >
+                                {link.name}
+                              </a>
+                            ) : (
+                              <Link 
+                                to={link.href} 
+                                className="text-xs font-semibold text-muted-foreground hover:text-primary transition-colors block py-0.5"
+                              >
+                                {link.name}
+                              </Link>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Desktop / Tablet Links Grid (Hidden on Mobile) */}
+        <div className="hidden sm:grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 pt-16 border-t border-border/60">
           {footerColumns.map((column) => (
             <div key={column.title} className="space-y-4">
               <h4 className="text-xs font-extrabold text-foreground uppercase tracking-wider">{column.title}</h4>

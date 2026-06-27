@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { ArrowLeft, ShieldCheck, UserCheck, Award, CheckCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import OptimizedImage from "../components/OptimizedImage";
 
 const verifiedOwners = [
   {
@@ -75,12 +76,14 @@ export default function VerifiedOwnersPage() {
             >
               <div className="flex items-start justify-between mb-6">
                 <div className="relative">
-                  <img 
-                    src={owner.avatar} 
-                    alt={owner.name}
-                    className="w-20 h-20 rounded-2xl object-cover border-2 border-primary/10"
-                    referrerPolicy="no-referrer"
-                  />
+                  <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-primary/10">
+                    <OptimizedImage 
+                      src={owner.avatar} 
+                      alt={owner.name}
+                      aspectRatio="aspect-square w-full h-full"
+                      loading="lazy"
+                    />
+                  </div>
                   <div className="absolute -bottom-2 -right-2 bg-primary text-primary-foreground p-1 rounded-lg shadow-lg">
                     <UserCheck className="w-4 h-4" />
                   </div>

@@ -1,7 +1,9 @@
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
-import { ShieldCheck, Star, MapPin, User, ChevronRight, ArrowLeft, ArrowRight, MessageCircle } from "lucide-react";
+import { ShieldCheck, Star, MapPin, User, ChevronRight, ArrowLeft, ArrowRight } from "lucide-react";
+import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
+import OptimizedImage from "./OptimizedImage";
 
 const carouselListings = [
   {
@@ -43,7 +45,7 @@ const carouselListings = [
   {
     id: 4,
     title: "Premium 3BHK Family Flat",
-    location: "Prestige Shantiniketan, Whitefield",
+    location: "Whitefield, Bangalore",
     price: "₹65,000/mo",
     deposit: "3 Months",
     type: "3 BHK",
@@ -55,18 +57,26 @@ const carouselListings = [
 ];
 
 export default function VerifiedListingsCarousel() {
-  const [scrollIndex, setScrollIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
+  const prefersReduced = usePrefersReducedMotion();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 850);
+    return () => clearTimeout(timer);
+  }, []);
 
   const slideLeft = () => {
     if (containerRef.current) {
-      containerRef.current.scrollBy({ left: -350, behavior: "smooth" });
+      containerRef.current.scrollBy({ left: -350, behavior: prefersReduced ? "auto" : "smooth" });
     }
   };
 
   const slideRight = () => {
     if (containerRef.current) {
-      containerRef.current.scrollBy({ left: 350, behavior: "smooth" });
+      containerRef.current.scrollBy({ left: 350, behavior: prefersReduced ? "auto" : "smooth" });
     }
   };
 
@@ -75,7 +85,7 @@ export default function VerifiedListingsCarousel() {
       {/* Background radial soft light glow */}
       <div className="absolute top-[40%] right-[-10%] w-96 h-96 bg-primary/3 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="container px-6 mx-auto relative z-10">
+      <div className="container px-5 sm:px-6 mx-auto relative z-10">
         
         {/* Carousel Header with Navigation Arrows */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
@@ -111,93 +121,131 @@ export default function VerifiedListingsCarousel() {
         {/* Horizontal Scrollable Carousel Track */}
         <div 
           ref={containerRef}
-          className="flex overflow-x-auto gap-8 pb-10 scrollbar-none snap-x snap-mandatory no-scrollbar -mx-6 px-6"
+          className="flex overflow-x-auto gap-8 pb-10 scrollbar-none snap-x snap-mandatory no-scrollbar -mx-5 sm:-mx-6 px-5 sm:px-6"
           style={{ scrollSnapType: "x mandatory", scrollbarWidth: "none" }}
         >
-          {carouselListings.map((item) => (
-            <motion.div
-              key={item.id}
-              className="flex-shrink-0 w-[300px] md:w-[380px] snap-start bg-background rounded-[2rem] border border-border overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300 group"
-              whileHover={{ y: -6 }}
-            >
-              {/* Card Image and Floating Badges */}
-              <div className="relative aspect-[16/11] bg-muted overflow-hidden">
-                <img 
-                  src={item.image} 
-                  alt={item.title} 
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                
-                {/* Upper badges: Verified Tag & No Brokerage Tag */}
-                <div className="absolute top-5 left-5 flex flex-col gap-2 z-10">
-                  <div className="px-3.5 py-1.5 bg-primary text-primary-foreground text-[10px] font-extrabold rounded-full flex items-center space-x-1 uppercase tracking-wider shadow-md">
-                    <ShieldCheck className="w-3.5 h-3.5 fill-current text-primary-foreground" />
-                    <span>Verified</span>
+          {isLoading ? (
+            // Shimmering skeletons for property cards that match final layout exactly
+            Array.from({ length: 4 }).map((_, idx) => (
+              <div
+                key={idx}
+                className="flex-shrink-0 w-[300px] md:w-[380px] snap-start bg-background rounded-[2rem] border border-border overflow-hidden"
+              >
+                <div className={`relative aspect-[16/11] shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`}>
+                  <div className="absolute top-5 left-5 flex flex-col gap-2">
+                    <div className={`w-20 h-6 rounded-full bg-background/50`} />
+                    <div className={`w-24 h-6 rounded-full bg-background/50`} />
                   </div>
-                  <div className="px-3.5 py-1.5 bg-primary/95 text-primary-foreground text-[10px] font-extrabold rounded-full uppercase tracking-wider shadow-md">
-                    No Brokerage
-                  </div>
+                  <div className="absolute bottom-5 left-5 w-16 h-8 rounded-xl bg-background/50" />
+                  <div className="absolute bottom-5 right-5 w-24 h-5 rounded bg-background/50" />
                 </div>
-
-                {/* Rating Badge */}
-                <div className="absolute bottom-5 left-5 px-3 py-1.5 bg-background/90 backdrop-blur-md text-foreground text-xs font-extrabold rounded-xl flex items-center space-x-1 shadow-sm">
-                  <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-                  <span>{item.rating}</span>
-                </div>
-
-                {/* Live update pill */}
-                <div className="absolute bottom-5 right-5 px-3 py-1 bg-black/50 backdrop-blur-md text-white text-[9px] font-extrabold uppercase tracking-wide rounded-md">
-                  {item.postedAt}
-                </div>
-              </div>
-
-              {/* Card Bottom Metadata Content */}
-              <div className="p-6 md:p-7 space-y-4">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <h3 className="text-lg font-extrabold text-foreground leading-snug group-hover:text-primary transition-colors truncate max-w-[220px] md:max-w-[260px]">
-                      {item.title}
-                    </h3>
-                    <div className="flex items-center text-xs text-muted-foreground font-semibold mt-1.5">
-                      <MapPin className="w-3.5 h-3.5 mr-1 text-primary shrink-0" />
-                      <span className="truncate max-w-[220px]">{item.location}</span>
+                <div className="p-6 md:p-7 space-y-4">
+                  <div className="flex justify-between items-start gap-4">
+                    <div className="space-y-2">
+                      <div className={`h-5 w-48 rounded shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`} />
+                      <div className={`h-3 w-32 rounded shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`} />
+                    </div>
+                    <div className="space-y-1.5 text-right flex flex-col items-end shrink-0">
+                      <div className={`h-5 w-16 rounded shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`} />
+                      <div className={`h-2.5 w-12 rounded shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`} />
                     </div>
                   </div>
-                  <div className="text-right shrink-0">
-                    <div className="text-lg font-extrabold text-foreground">{item.price}</div>
-                    <div className="text-[10px] text-muted-foreground font-extrabold uppercase tracking-wider">Dep: {item.deposit}</div>
+                  <div className="flex items-center justify-between pt-4 border-t border-border mt-2">
+                    <div className="flex items-center space-x-2">
+                      <div className={`w-6 h-6 rounded-full shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`} />
+                      <div className={`h-3.5 w-20 rounded shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`} />
+                    </div>
+                    <div className={`h-3.5 w-16 rounded shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`} />
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            carouselListings.map((item) => (
+              <motion.div
+                key={item.id}
+                className="flex-shrink-0 w-[300px] md:w-[380px] snap-start bg-background rounded-[2rem] border border-border overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300 group"
+                whileHover={prefersReduced ? {} : { y: -6 }}
+              >
+                {/* Card Image and Floating Badges with Optimized progressive load */}
+                <div className="relative aspect-[16/11]">
+                  <OptimizedImage 
+                    src={item.image} 
+                    alt={item.title} 
+                    aspectRatio="aspect-full h-full w-full"
+                    loading="lazy"
+                  />
+                  
+                  {/* Upper badges: Verified Tag & No Brokerage Tag */}
+                  <div className="absolute top-5 left-5 flex flex-col gap-2 z-10">
+                    <div className="px-3.5 py-1.5 bg-primary text-primary-foreground text-[10px] font-extrabold rounded-full flex items-center space-x-1 uppercase tracking-wider shadow-md">
+                      <ShieldCheck className="w-3.5 h-3.5 fill-current text-primary-foreground" />
+                      <span>Verified</span>
+                    </div>
+                    <div className="px-3.5 py-1.5 bg-primary/95 text-primary-foreground text-[10px] font-extrabold rounded-full uppercase tracking-wider shadow-md">
+                      No Brokerage
+                    </div>
+                  </div>
+
+                  {/* Rating Badge */}
+                  <div className="absolute bottom-5 left-5 px-3 py-1.5 bg-background/90 backdrop-blur-md text-foreground text-xs font-extrabold rounded-xl flex items-center space-x-1 shadow-sm">
+                    <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                    <span>{item.rating}</span>
+                  </div>
+
+                  {/* Live update pill */}
+                  <div className="absolute bottom-5 right-5 px-3 py-1 bg-black/50 backdrop-blur-md text-white text-[9px] font-extrabold uppercase tracking-wide rounded-md">
+                    {item.postedAt}
                   </div>
                 </div>
 
-                {/* Direct Owner contact label footer */}
-                <div className="flex items-center justify-between pt-4 border-t border-border mt-2">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-                      <User className="w-3 h-3" />
+                {/* Card Bottom Metadata Content */}
+                <div className="p-6 md:p-7 space-y-4">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <h3 className="text-lg font-extrabold text-foreground leading-snug group-hover:text-primary transition-colors truncate max-w-[220px] md:max-w-[260px]">
+                        {item.title}
+                      </h3>
+                      <div className="flex items-center text-xs text-muted-foreground font-semibold mt-1.5">
+                        <MapPin className="w-3.5 h-3.5 mr-1 text-primary shrink-0" />
+                        <span className="truncate max-w-[220px]">{item.location}</span>
+                      </div>
                     </div>
-                    <span className="text-xs font-bold text-foreground">{item.ownerType}</span>
+                    <div className="text-right shrink-0">
+                      <div className="text-lg font-extrabold text-foreground">{item.price}</div>
+                      <div className="text-[10px] text-muted-foreground font-extrabold uppercase tracking-wider">Dep: {item.deposit}</div>
+                    </div>
                   </div>
-                  <Link 
-                    to="/listings" 
-                    className="text-xs font-bold text-primary flex items-center space-x-1 hover:underline"
-                  >
-                    <span>View Listing</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </Link>
+
+                  {/* Direct Owner contact label footer */}
+                  <div className="flex items-center justify-between pt-4 border-t border-border mt-2">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                        <User className="w-3 h-3" />
+                      </div>
+                      <span className="text-xs font-bold text-foreground">{item.ownerType}</span>
+                    </div>
+                    <Link 
+                      to="/verify" 
+                      className="text-xs font-bold text-primary flex items-center space-x-1 hover:underline"
+                    >
+                      <span>Verify Property</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))
+          )}
         </div>
 
         {/* View all button under listings */}
         <div className="text-center mt-4">
           <Link 
-            to="/listings"
+            to="/savings"
             className="inline-flex items-center space-x-2 px-8 py-4 bg-muted hover:bg-border/80 border border-border rounded-2xl font-bold text-foreground transition-all active:scale-98"
           >
-            <span>Explore All 12,000+ Verified Listings</span>
+            <span>Calculate Your Rental Savings</span>
             <ChevronRight className="w-4 h-4 text-primary" />
           </Link>
         </div>
