@@ -58,6 +58,7 @@ const carouselListings = [
 
 export default function VerifiedListingsCarousel() {
   const [isLoading, setIsLoading] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const prefersReduced = usePrefersReducedMotion();
 
@@ -68,15 +69,38 @@ export default function VerifiedListingsCarousel() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Automatic smooth horizontal scrolling
+  useEffect(() => {
+    if (isLoading || prefersReduced || isPaused) return;
+
+    const interval = setInterval(() => {
+      if (containerRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
+        // If we are at the end, wrap back to the start
+        if (scrollLeft + clientWidth >= scrollWidth - 25) {
+          containerRef.current.scrollTo({ left: 0, behavior: "smooth" });
+        } else {
+          // Slide by roughly one card width plus gap
+          const cardWidth = window.innerWidth < 768 ? 332 : 412; // 300+32 or 380+32
+          containerRef.current.scrollBy({ left: cardWidth, behavior: "smooth" });
+        }
+      }
+    }, 4500);
+
+    return () => clearInterval(interval);
+  }, [isLoading, prefersReduced, isPaused]);
+
   const slideLeft = () => {
     if (containerRef.current) {
-      containerRef.current.scrollBy({ left: -350, behavior: prefersReduced ? "auto" : "smooth" });
+      const cardWidth = window.innerWidth < 768 ? 332 : 412;
+      containerRef.current.scrollBy({ left: -cardWidth, behavior: prefersReduced ? "auto" : "smooth" });
     }
   };
 
   const slideRight = () => {
     if (containerRef.current) {
-      containerRef.current.scrollBy({ left: 350, behavior: prefersReduced ? "auto" : "smooth" });
+      const cardWidth = window.innerWidth < 768 ? 332 : 412;
+      containerRef.current.scrollBy({ left: cardWidth, behavior: prefersReduced ? "auto" : "smooth" });
     }
   };
 
@@ -121,6 +145,10 @@ export default function VerifiedListingsCarousel() {
         {/* Horizontal Scrollable Carousel Track */}
         <div 
           ref={containerRef}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => setIsPaused(false)}
           className="flex overflow-x-auto gap-8 pb-10 scrollbar-none snap-x snap-mandatory no-scrollbar -mx-5 sm:-mx-6 px-5 sm:px-6"
           style={{ scrollSnapType: "x mandatory", scrollbarWidth: "none" }}
         >
@@ -201,19 +229,19 @@ export default function VerifiedListingsCarousel() {
 
                 {/* Card Bottom Metadata Content */}
                 <div className="p-6 md:p-7 space-y-4">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <h3 className="text-lg font-extrabold text-foreground leading-snug group-hover:text-primary transition-colors truncate max-w-[220px] md:max-w-[260px]">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0 flex-1 text-left">
+                      <h3 className="text-base md:text-lg font-extrabold text-foreground leading-snug group-hover:text-primary transition-colors truncate">
                         {item.title}
                       </h3>
                       <div className="flex items-center text-xs text-muted-foreground font-semibold mt-1.5">
                         <MapPin className="w-3.5 h-3.5 mr-1 text-primary shrink-0" />
-                        <span className="truncate max-w-[220px]">{item.location}</span>
+                        <span className="truncate">{item.location}</span>
                       </div>
                     </div>
                     <div className="text-right shrink-0">
-                      <div className="text-lg font-extrabold text-foreground">{item.price}</div>
-                      <div className="text-[10px] text-muted-foreground font-extrabold uppercase tracking-wider">Dep: {item.deposit}</div>
+                      <div className="text-base md:text-lg font-extrabold text-foreground whitespace-nowrap">{item.price}</div>
+                      <div className="text-[10px] text-muted-foreground font-extrabold uppercase tracking-wider whitespace-nowrap">Dep: {item.deposit}</div>
                     </div>
                   </div>
 

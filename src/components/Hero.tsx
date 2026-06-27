@@ -122,7 +122,7 @@ export default function Hero() {
   }
 
   return (
-    <section className="relative pt-[114px] pb-4 sm:pt-20 sm:pb-6 md:pt-28 md:pb-12 lg:pt-36 lg:pb-28 overflow-hidden">
+    <section className="relative pt-[144px] pb-4 sm:pt-20 sm:pb-6 md:pt-28 md:pb-12 lg:pt-36 lg:pb-28 overflow-hidden">
       {/* Decorative blurred green glow and geometric circles behind the hero */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/8 rounded-full blur-[120px] -z-10 pointer-events-none opacity-80" />
       <div className="absolute top-[20%] left-[-10%] w-[400px] h-[400px] bg-primary/4 rounded-full blur-[100px] -z-10 pointer-events-none" />
