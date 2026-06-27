@@ -122,7 +122,7 @@ export default function Hero() {
   }
 
   return (
-    <section className="relative pt-16 pb-4 sm:pt-20 sm:pb-6 md:pt-28 md:pb-12 lg:pt-36 lg:pb-28 overflow-hidden">
+    <section className="relative pt-[114px] pb-4 sm:pt-20 sm:pb-6 md:pt-28 md:pb-12 lg:pt-36 lg:pb-28 overflow-hidden">
       {/* Decorative blurred green glow and geometric circles behind the hero */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/8 rounded-full blur-[120px] -z-10 pointer-events-none opacity-80" />
       <div className="absolute top-[20%] left-[-10%] w-[400px] h-[400px] bg-primary/4 rounded-full blur-[100px] -z-10 pointer-events-none" />
@@ -137,11 +137,11 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <div className="inline-flex items-center space-x-2 px-2.5 py-0.5 mb-2 md:mb-6 text-[9px] md:text-sm font-semibold tracking-wide text-primary uppercase bg-primary-soft rounded-full border border-primary/10">
+              <div className="inline-flex items-center space-x-2 px-3 py-1 mb-3.5 md:mb-6 text-[10.5px] md:text-sm font-semibold tracking-wide text-primary uppercase bg-primary-soft rounded-full border border-primary/10">
                 <span>Currently live in Metro Cities</span>
               </div>
               
-              <h1 className="mb-2 md:mb-4 text-2xl font-extrabold tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-6xl leading-[1.15] font-sans max-w-xs sm:max-w-md md:max-w-none mx-auto lg:mx-0">
+              <h1 className="mb-3.5 md:mb-4 text-[34px] font-extrabold tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-6xl leading-[1.15] font-sans max-w-sm sm:max-w-md md:max-w-none mx-auto lg:mx-0">
                 Find trusted homes <br className="hidden sm:inline" />
                 with{" "}
                 <span className="text-primary relative inline-block">
@@ -150,7 +150,7 @@ export default function Hero() {
                 </span>
               </h1>
               
-              <p className="mb-3 md:mb-6 text-xs sm:text-sm md:text-xl leading-relaxed text-muted-foreground font-medium max-w-xs sm:max-w-md md:max-w-xl mx-auto lg:mx-0">
+              <p className="mb-4.5 md:mb-6 text-[15px] sm:text-sm md:text-xl leading-relaxed text-muted-foreground font-medium max-w-sm sm:max-w-md md:max-w-xl mx-auto lg:mx-0">
                 <span className="md:hidden">Discover verified homes directly from owners—zero brokerage, zero surprises.</span>
                 <span className="hidden md:inline">Discover verified homes, connect directly with verified owners, and rent with confidence—without brokerage or hidden surprises.</span>
               </p>

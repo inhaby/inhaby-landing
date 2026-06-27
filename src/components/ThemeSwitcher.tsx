@@ -15,7 +15,7 @@ export default function ThemeSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="hidden md:block fixed bottom-8 right-8 z-[100]">
+    <div className="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-[100]">
       <AnimatePresence>
         {isOpen && (
           <motion.div
