@@ -59,7 +59,7 @@ export default function UserJourneys() {
   };
 
   return (
-    <section id="user-journeys" className="py-12 md:py-24 bg-background relative overflow-hidden border-t border-border">
+    <section id="user-journeys" className="py-10 md:py-24 bg-background relative overflow-hidden border-t border-border">
       {/* Soft abstract lighting */}
       <div className="absolute top-[30%] left-[-10%] w-[300px] h-[300px] bg-primary/4 rounded-full blur-[90px] pointer-events-none" />
       <div className="absolute bottom-[20%] right-[-10%] w-[300px] h-[300px] bg-primary/4 rounded-full blur-[90px] pointer-events-none" />

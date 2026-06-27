@@ -24,7 +24,7 @@ export default function TrustSection() {
   };
 
   return (
-    <section id="trust" className="py-12 md:py-24 bg-muted relative overflow-hidden">
+    <section id="trust" className="py-10 md:py-24 bg-muted relative overflow-hidden">
       {/* Decorative atmospheric blobs */}
       <div className="absolute top-[10%] right-[-10%] w-96 h-96 bg-primary/4 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary/3 rounded-full blur-[120px] pointer-events-none" />

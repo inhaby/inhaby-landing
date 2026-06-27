@@ -9,24 +9,24 @@ const previews = [
 
 export default function AppPreview() {
   return (
-    <section className="py-24 overflow-hidden bg-slate-950 text-white">
-      <div className="container px-5 sm:px-6 mx-auto mb-16">
+    <section className="py-12 md:py-24 overflow-hidden bg-slate-950 text-white">
+      <div className="container px-4 sm:px-6 mx-auto mb-8 md:mb-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="max-w-2xl"
+          className="max-w-2xl text-left"
         >
-          <h2 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl mb-6">
+          <h2 className="text-2xl font-bold tracking-tight md:text-4xl lg:text-5xl mb-4 md:mb-6">
             Designed for the modern renter.
           </h2>
-          <p className="text-slate-400 text-lg">
+          <p className="text-slate-400 text-sm md:text-lg">
             Experience a seamless interface that makes finding your next home as easy as ordering dinner.
           </p>
         </motion.div>
       </div>
 
-      <div className="flex overflow-x-auto pb-12 px-5 sm:px-6 space-x-8 no-scrollbar">
+      <div className="flex overflow-x-auto pb-6 md:pb-12 px-4 sm:px-6 space-x-6 md:space-x-8 no-scrollbar">
         {previews.map((preview, index) => (
           <motion.div
             key={index}

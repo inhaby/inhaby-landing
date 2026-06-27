@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
-import { ShieldCheck, Star, Shield, Home, Sparkles, Check, ChevronRight } from "lucide-react";
+import { ShieldCheck, Star, Shield, Home, Sparkles, Check, ChevronRight, Heart } from "lucide-react";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import OptimizedImage from "./OptimizedImage";
 
@@ -15,6 +15,16 @@ export default function Hero() {
   const [isLoading, setIsLoading] = useState(true);
   const prefersReduced = usePrefersReducedMotion();
 
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [timeMs, setTimeMs] = useState(0);
+  const [loopIndex, setLoopIndex] = useState(0);
+  const [isPhoneEntered, setIsPhoneEntered] = useState(false);
+
+  // Live Interactive Demo states
+  const [isDemoInViewport, setIsDemoInViewport] = useState(false);
+  const [isIframeLoaded, setIsIframeLoaded] = useState(false);
+  const phoneRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -22,27 +32,116 @@ export default function Hero() {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const checkDesktop = () => {
+      setIsDesktop(window.innerWidth >= 768); // >=768 to include tablets
+    };
+    checkDesktop();
+    window.addEventListener("resize", checkDesktop);
+    return () => window.removeEventListener("resize", checkDesktop);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !phoneRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsDemoInViewport(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(phoneRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const shouldAnimate = !prefersReduced && isDesktop;
+
+  useEffect(() => {
+    if (!shouldAnimate) {
+      setIsPhoneEntered(false);
+      return;
+    }
+
+    // Set phone entered state after the 700ms entrance animation completes
+    const enteredTimeout = setTimeout(() => {
+      setIsPhoneEntered(true);
+    }, 700);
+
+    return () => clearTimeout(enteredTimeout);
+  }, [shouldAnimate]);
+
+  useEffect(() => {
+    if (!shouldAnimate) {
+      setTimeMs(0);
+      setLoopIndex(0);
+      return;
+    }
+    const startTime = Date.now();
+    const interval = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      setTimeMs(elapsed % 15000);
+      setLoopIndex(Math.floor(elapsed / 15000) % 4);
+    }, 100);
+    return () => clearInterval(interval);
+  }, [shouldAnimate]);
+
+  // Derive all active state values based on timeMs (0ms - 15000ms)
+  const searchQueries = ["Search PGs...", "Search Flats...", "Search Rooms...", "Search Apartments..."];
+  const currentQuery = searchQueries[loopIndex];
+
+  // Search typing: starts typing at 2s (2000ms), completes, stays until 15s reset.
+  let displayText = "";
+  if (!shouldAnimate) {
+    displayText = "Search PGs, Rooms, Flats...";
+  } else if (timeMs >= 2000) {
+    const charsToShow = Math.min(
+      currentQuery.length,
+      Math.floor((timeMs - 2000) / 100) // typing speed: 100ms per char
+    );
+    displayText = currentQuery.substring(0, charsToShow);
+  } else {
+    displayText = "";
+  }
+
+  // Active floating badge index cycles every 3 seconds (5 badges across 15 seconds)
+  const activeBadgeIndex = Math.floor(timeMs / 3000);
+
+  // Bottom navigation tab bar active index:
+  // - 0s to 10s: tab 0 (Explore)
+  // - 10s to 13s: tab 1 (Verify)
+  // - 13s to 15s: tab 2 (Reviews)
+  let activeTab = 0;
+  if (shouldAnimate) {
+    if (timeMs >= 13000) {
+      activeTab = 2;
+    } else if (timeMs >= 10000) {
+      activeTab = 1;
+    }
+  }
+
   return (
-    <section className="relative pt-24 pb-6 md:pt-28 md:pb-12 lg:pt-36 lg:pb-28 overflow-hidden">
+    <section className="relative pt-16 pb-4 sm:pt-20 sm:pb-6 md:pt-28 md:pb-12 lg:pt-36 lg:pb-28 overflow-hidden">
       {/* Decorative blurred green glow and geometric circles behind the hero */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/8 rounded-full blur-[120px] -z-10 pointer-events-none opacity-80" />
       <div className="absolute top-[20%] left-[-10%] w-[400px] h-[400px] bg-primary/4 rounded-full blur-[100px] -z-10 pointer-events-none" />
  
-      <div className="container px-5 sm:px-6 mx-auto relative z-10">
-        <div className="flex flex-col items-center text-center lg:flex-row lg:text-left lg:justify-between gap-6 lg:gap-8">
+      <div className="container px-4 sm:px-6 mx-auto relative z-10">
+        <div className="flex flex-col items-center text-center md:flex-row md:text-left md:justify-between gap-4 md:gap-6 lg:gap-8">
           
           {/* Hero Left Content */}
-          <div className="max-w-2xl lg:w-[55%] shrink-0">
+          <div className="max-w-2xl md:w-[52%] lg:w-[55%] shrink-0">
             <motion.div
               initial={{ opacity: 0, y: prefersReduced ? 0 : 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <div className="inline-flex items-center space-x-2 px-3 py-0.5 mb-3 md:mb-6 text-[10px] md:text-sm font-semibold tracking-wide text-primary uppercase bg-primary-soft rounded-full border border-primary/10">
+              <div className="inline-flex items-center space-x-2 px-2.5 py-0.5 mb-2 md:mb-6 text-[9px] md:text-sm font-semibold tracking-wide text-primary uppercase bg-primary-soft rounded-full border border-primary/10">
                 <span>Currently live in Metro Cities</span>
               </div>
               
-              <h1 className="mb-2 md:mb-4 text-2xl font-extrabold tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-6xl leading-[1.15] font-sans">
+              <h1 className="mb-2 md:mb-4 text-2xl font-extrabold tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-6xl leading-[1.15] font-sans max-w-xs sm:max-w-md md:max-w-none mx-auto lg:mx-0">
                 Find trusted homes <br className="hidden sm:inline" />
                 with{" "}
                 <span className="text-primary relative inline-block">
@@ -51,18 +150,18 @@ export default function Hero() {
                 </span>
               </h1>
               
-              <p className="mb-4 md:mb-6 text-xs sm:text-sm md:text-xl leading-relaxed text-muted-foreground font-medium max-w-xl mx-auto lg:mx-0">
+              <p className="mb-3 md:mb-6 text-xs sm:text-sm md:text-xl leading-relaxed text-muted-foreground font-medium max-w-xs sm:max-w-md md:max-w-xl mx-auto lg:mx-0">
                 <span className="md:hidden">Discover verified homes directly from owners—zero brokerage, zero surprises.</span>
                 <span className="hidden md:inline">Discover verified homes, connect directly with verified owners, and rent with confidence—without brokerage or hidden surprises.</span>
               </p>
               
-              <div className="space-y-2.5 md:space-y-4 mb-4 md:mb-8 max-w-md mx-auto lg:mx-0">
-                <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-4 justify-center lg:justify-start">
+              <div className="space-y-2 md:space-y-4 mb-3 md:mb-8 max-w-md mx-auto lg:mx-0">
+                <div className="flex flex-col space-y-1.5 sm:flex-row sm:space-y-0 sm:space-x-4 justify-center lg:justify-start">
                   <a 
                     href="https://inhaby.com" 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full sm:w-auto px-5 md:px-8 h-[44px] md:h-[52px] bg-primary text-primary-foreground rounded-xl font-bold hover:shadow-xl hover:shadow-primary/35 hover:-translate-y-0.5 active:translate-y-0 transition-all text-center flex items-center justify-center text-xs md:text-sm shadow-md"
+                    className="w-full sm:w-auto px-5 md:px-8 h-[48px] md:h-[52px] bg-primary text-primary-foreground rounded-xl font-bold hover:shadow-xl hover:shadow-primary/35 hover:-translate-y-0.5 active:translate-y-0 transition-all text-center flex items-center justify-center text-xs md:text-sm shadow-md"
                   >
                     Get Started
                     <ChevronRight className="w-4 h-4 md:w-5 md:h-5 ml-1 md:ml-1.5" />
@@ -72,7 +171,7 @@ export default function Hero() {
                     href="https://owner.inhaby.com" 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full sm:w-auto px-5 md:px-8 h-[44px] md:h-[52px] bg-background border border-primary/35 text-primary hover:bg-primary-soft hover:border-primary rounded-xl font-bold hover:-translate-y-0.5 active:translate-y-0 transition-all text-center flex items-center justify-center text-xs md:text-sm shadow-xs"
+                    className="w-full sm:w-auto px-5 md:px-8 h-[48px] md:h-[52px] bg-background border border-primary/35 text-primary hover:bg-primary-soft hover:border-primary rounded-xl font-bold hover:-translate-y-0.5 active:translate-y-0 transition-all text-center flex items-center justify-center text-xs md:text-sm shadow-xs"
                   >
                     List Your Property
                   </a>
@@ -91,17 +190,17 @@ export default function Hero() {
                 </div>
               </div>
  
-              {/* Trust Badge Indicators right under CTAs */}
-              <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-y-1.5 gap-x-4 md:gap-x-6 mb-4 md:mb-12 text-[10px] md:text-xs font-semibold text-muted-foreground border-t border-border pt-3 md:pt-6">
-                <div className="flex items-center space-x-1.5">
-                  <div className={`w-1.5 h-1.5 bg-primary rounded-full ${prefersReduced ? "" : "animate-ping"}`} />
-                  <span className="flex items-center"><Shield className="w-3.5 h-3.5 mr-1 text-primary" /> Every listing manually verified</span>
+              {/* Trust Badge Indicators right under CTAs - Compact layout on mobile */}
+              <div className="grid grid-cols-2 gap-x-2 gap-y-1.5 sm:flex sm:flex-row sm:flex-wrap items-center justify-center lg:justify-start sm:gap-x-4 md:gap-x-6 mb-3 md:mb-12 text-[9px] sm:text-xs font-semibold text-muted-foreground border-t border-border pt-2.5 md:pt-6">
+                <div className="col-span-2 sm:col-span-1 flex items-center justify-center lg:justify-start space-x-1">
+                  <div className={`w-1.5 h-1.5 bg-primary rounded-full ${prefersReduced ? "" : "animate-ping"} shrink-0`} />
+                  <span className="flex items-center"><Shield className="w-3.5 h-3.5 mr-1 text-primary shrink-0" /> Every listing manually verified</span>
                 </div>
-                <div className="flex items-center space-x-1.5">
-                  <span className="flex items-center"><Check className="w-3.5 h-3.5 mr-1 text-primary" /> Zero brokerage. Zero surprises.</span>
+                <div className="flex items-center justify-center lg:justify-start space-x-1">
+                  <span className="flex items-center"><Check className="w-3.5 h-3.5 mr-1 text-primary shrink-0" /> Zero brokerage.</span>
                 </div>
-                <div className="flex items-center space-x-1.5">
-                  <span className="flex items-center"><Star className="w-3.5 h-3.5 mr-1 text-amber-500 fill-amber-500" /> Rent directly from verified owners</span>
+                <div className="flex items-center justify-center lg:justify-start space-x-1">
+                  <span className="flex items-center"><Star className="w-3.5 h-3.5 mr-1 text-amber-500 fill-amber-500 shrink-0" /> Rent directly from owners</span>
                 </div>
               </div>
  
@@ -126,7 +225,7 @@ export default function Hero() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.5, delay: idx * 0.1 }}
-                      className="p-4 bg-background/40 backdrop-blur-md rounded-2xl border border-border/80 hover:border-primary/20 hover:bg-background/80 transition-colors"
+                      className="p-4 bg-background/40 backdrop-blur-md rounded-2xl border border-border/80 hover:border-primary/20 hover:bg-background/80 hover:-translate-y-1 hover:shadow-md transition-all duration-300 cursor-default"
                     >
                       <div className="text-2xl md:text-3xl font-extrabold text-foreground tracking-tight">{stat.value}</div>
                       <div className="text-xs font-bold text-muted-foreground mt-1 uppercase tracking-wide">{stat.label}</div>
@@ -139,18 +238,25 @@ export default function Hero() {
           </div>
  
           {/* Hero Right Content - Mobile Mockup and Premium Floating Cards */}
-          <div className="hidden lg:flex relative w-full lg:w-[45%] items-center justify-center">
+          <div className="hidden md:flex relative w-full md:w-[48%] lg:w-[45%] items-center justify-center hero-phone-group" ref={phoneRef}>
             
             {/* Low-opacity geometric concentric circles */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] rounded-full border border-primary/5 -z-10 pointer-events-none" />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[440px] h-[440px] rounded-full border border-primary/3 -z-10 pointer-events-none" />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[540px] h-[540px] rounded-full border border-primary/2 -z-10 pointer-events-none" />
             
+            {/* Subtle themed radial glow behind the phone */}
+            {shouldAnimate && (
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] rounded-full pointer-events-none opacity-5 animate-glow-pulse bg-themed-radial-glow -z-10" />
+            )}
+
             {/* Vertical Slow Floating Phone Wrapper */}
-            <motion.div
-              animate={prefersReduced ? {} : { y: [0, -12, 0] }}
-              transition={prefersReduced ? {} : { duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              className="relative w-full max-w-[190px] xs:max-w-[210px] md:max-w-[380px] z-10"
+            <div
+              className={`relative w-full max-w-[190px] xs:max-w-[210px] md:max-w-[380px] z-10 phone-hover-container ${
+                shouldAnimate 
+                  ? (isPhoneEntered ? "animate-phone-float" : "animate-phone-entrance") 
+                  : ""
+              }`}
             >
               {/* Phone Body with premium shadow depth */}
               <div className="relative p-3 bg-slate-950 rounded-[48px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.3)] border-[8px] border-slate-900 overflow-hidden">
@@ -161,204 +267,177 @@ export default function Hero() {
                 </div>
 
                 <div className="overflow-hidden bg-background rounded-[38px] aspect-[9/19.5] relative">
-                  {/* Real-looking iOS / Inhaby App UI */}
-                  <div className="absolute inset-0 flex flex-col bg-background">
-                    
-                    {/* App Header Status Line */}
-                    <div className="h-12 px-6 pt-3 flex justify-between items-center text-[11px] font-bold text-foreground">
-                      <span>9:41</span>
-                      <div className="flex items-center space-x-1.5">
-                        <span className="w-2.5 h-2 bg-foreground rounded-sm opacity-90" />
-                        <span className="w-3.5 h-2.5 bg-foreground rounded-sm opacity-90" />
+                  
+                  {/* Real-looking iOS Status Bar (Always on top of the iframe) */}
+                  <div className="absolute top-0 left-0 right-0 h-10 px-6 pt-3.5 flex justify-between items-center text-[10px] font-extrabold text-foreground z-30 pointer-events-none bg-background/40 backdrop-blur-xs">
+                    <span>9:41</span>
+                    <div className="flex items-center space-x-1.5">
+                      <span className="w-2.5 h-2 bg-foreground rounded-xs opacity-90" />
+                      <span className="w-3.5 h-2.5 bg-foreground rounded-xs opacity-90" />
+                    </div>
+                  </div>
+
+                  {/* Lazy-loaded Interactive Live Demo App */}
+                  {isDemoInViewport && (
+                    <iframe
+                      src="/demo"
+                      title="INHABY Live Interactive Demo"
+                      className={`absolute inset-x-0 bottom-0 w-full h-[calc(100%-2.5rem)] border-none z-10 transition-opacity duration-500 no-scrollbar ${
+                        isIframeLoaded ? "opacity-100" : "opacity-0 pointer-events-none"
+                      }`}
+                      onLoad={() => setIsIframeLoaded(true)}
+                    />
+                  )}
+
+                  {/* Real-looking iOS Home Indicator Bar (Always on top) */}
+                  <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-28 h-1 bg-foreground/15 dark:bg-foreground/20 rounded-full z-30 pointer-events-none" />
+
+                  {/* Beautiful exact layout matching shimmer skeleton for the app mockup */}
+                  {(!isDemoInViewport || !isIframeLoaded) && (
+                    <div className="absolute inset-0 z-0 bg-background flex flex-col justify-between p-5 pt-13 overflow-hidden">
+                      <div className="space-y-5">
+                        {/* Custom App Header Skeleton */}
+                        <div className="flex justify-between items-center">
+                          <div className="flex items-center space-x-2">
+                            <div className="w-8 h-8 rounded-xl shimmer-bg animate-shimmer" />
+                            <div className="h-4 w-20 rounded shimmer-bg animate-shimmer" />
+                          </div>
+                          <div className="w-8 h-8 rounded-full shimmer-bg animate-shimmer" />
+                        </div>
+
+                        {/* Search Title Skeleton */}
+                        <div className="space-y-1.5">
+                          <div className="h-4.5 w-32 rounded shimmer-bg animate-shimmer" />
+                          <div className="h-3 w-40 rounded shimmer-bg animate-shimmer" />
+                        </div>
+
+                        {/* Search Bar Mockup Skeleton */}
+                        <div className="h-9.5 w-full rounded-xl shimmer-bg animate-shimmer" />
+
+                        {/* Categories List Skeleton */}
+                        <div className="flex space-x-2 overflow-hidden -mx-5 px-5">
+                          <div className="h-7 w-12 rounded-lg shimmer-bg animate-shimmer shrink-0" />
+                          <div className="h-7 w-24 rounded-lg shimmer-bg animate-shimmer shrink-0" />
+                          <div className="h-7 w-20 rounded-lg shimmer-bg animate-shimmer shrink-0" />
+                        </div>
+
+                        {/* Premium Property Listing Mockup Skeleton */}
+                        <div className="border border-border rounded-xl overflow-hidden flex flex-col">
+                          <div className="aspect-[16/10] shimmer-bg animate-shimmer" />
+                          <div className="p-3.5 space-y-2">
+                            <div className="flex justify-between">
+                              <div className="h-3 w-24 rounded shimmer-bg animate-shimmer" />
+                              <div className="h-3.5 w-16 rounded shimmer-bg animate-shimmer" />
+                            </div>
+                            <div className="h-3.5 w-36 rounded shimmer-bg animate-shimmer" />
+                            <div className="h-3 w-28 rounded pt-1 border-t border-border/40 shimmer-bg animate-shimmer" />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* App Tabbar Skeleton */}
+                      <div className="h-13 border-t border-border flex justify-between items-center px-6 -mx-5 -mb-5 bg-background">
+                        <div className="w-5 h-5 rounded shimmer-bg animate-shimmer" />
+                        <div className="w-5 h-5 rounded shimmer-bg animate-shimmer" />
+                        <div className="w-5 h-5 rounded shimmer-bg animate-shimmer" />
                       </div>
                     </div>
-                    
-                    {/* App Body */}
-                    <div className="flex-1 p-5 overflow-hidden flex flex-col justify-between">
-                      {isLoading ? (
-                        /* Beautiful exact layout matching shimmer skeleton for the app mockup */
-                        <div className="flex-1 flex flex-col justify-between h-full space-y-6">
-                          <div className="space-y-6">
-                            {/* App Header Skeleton */}
-                            <div className="flex justify-between items-center">
-                              <div className="flex items-center space-x-2">
-                                <div className={`w-8 h-8 rounded-xl shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`} />
-                                <div className={`h-4 w-24 rounded shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`} />
-                              </div>
-                              <div className={`w-8 h-8 rounded-full shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`} />
-                            </div>
+                  )}
 
-                            {/* Search Title Skeleton */}
-                            <div className="space-y-2">
-                              <div className={`h-5 w-40 rounded shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`} />
-                              <div className={`h-3 w-48 rounded shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`} />
-                            </div>
+                </div>
+              </div>
 
-                            {/* Search Mockup Skeleton */}
-                            <div className={`h-10 w-full rounded-xl shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`} />
-
-                            {/* Premium Property Listing Mockup Skeleton */}
-                            <div className="border border-border rounded-2xl overflow-hidden flex flex-col">
-                              <div className={`aspect-[4/3] shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`} />
-                              <div className="p-3.5 space-y-2.5">
-                                <div className="flex justify-between">
-                                  <div className={`h-3 w-28 rounded shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`} />
-                                  <div className={`h-3.5 w-16 rounded shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`} />
-                                </div>
-                                <div className={`h-3.5 w-40 rounded shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`} />
-                                <div className={`h-3 w-24 rounded pt-1 border-t border-border/40 shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`} />
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* App Tabbar Skeleton */}
-                          <div className="h-14 border-t border-border flex justify-between items-center px-6 -mx-5 -mb-5 bg-background">
-                            <div className={`w-6 h-6 rounded shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`} />
-                            <div className={`w-6 h-6 rounded shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`} />
-                            <div className={`w-6 h-6 rounded shimmer-bg ${prefersReduced ? "" : "animate-shimmer"}`} />
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="flex-1 flex flex-col justify-between h-full">
-                          <div>
-                            {/* Custom App Header */}
-                            <div className="flex justify-between items-center mb-6">
-                              <div className="flex items-center space-x-2">
-                                <div className="w-8 h-8 bg-primary rounded-xl flex items-center justify-center text-primary-foreground font-extrabold text-sm shadow-md shadow-primary/20">I</div>
-                                <span className="font-bold text-sm tracking-tight">Inhaby Portal</span>
-                              </div>
-                              <div className="w-8 h-8 bg-muted rounded-full border border-border flex items-center justify-center">
-                                <div className={`w-2 h-2 bg-primary rounded-full ${prefersReduced ? "" : "animate-pulse"}`} />
-                              </div>
-                            </div>
-
-                            {/* Search Title */}
-                            <div className="space-y-1 mb-4">
-                              <h3 className="text-lg font-extrabold tracking-tight text-foreground leading-tight">Find Verified Homes</h3>
-                              <p className="text-[10px] text-muted-foreground font-medium">Direct connection with real owners</p>
-                            </div>
-
-                            {/* Search Mockup */}
-                            <div className="h-10 w-full bg-muted border border-border rounded-xl flex items-center px-3.5 mb-5">
-                              <div className="w-3 h-3 border-2 border-muted-foreground rounded-full mr-2.5" />
-                              <div className="text-[10px] text-muted-foreground font-semibold">Search PGs, Rooms, Flats...</div>
-                            </div>
-
-                            {/* Premium Property Listing Mockup inside app */}
-                            <div className="bg-background border border-border rounded-2xl overflow-hidden shadow-sm">
-                              <OptimizedImage 
-                                src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80" 
-                                alt="Premium Verified Room" 
-                                aspectRatio="aspect-[4/3]"
-                                loading="eager"
-                              />
-                              <div className="p-3.5 space-y-1.5">
-                                <div className="flex justify-between items-center">
-                                  <span className="text-[10px] font-bold text-muted-foreground">Koramangala, Bangalore</span>
-                                  <span className="text-xs font-extrabold text-primary">₹18,500/mo</span>
-                                </div>
-                                <h4 className="text-[11px] font-extrabold text-foreground truncate">Luxury 1BHK • No Brokerage</h4>
-                                <div className="flex items-center space-x-2 pt-1 border-t border-border">
-                                  <div className="w-4 h-4 bg-primary/10 text-primary rounded-full flex items-center justify-center text-[8px] font-extrabold">✓</div>
-                                  <span className="text-[9px] text-muted-foreground font-semibold">Direct Owner Verified</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* App Navigation Tabbar */}
-                          <div className="h-14 border-t border-border flex justify-between items-center px-4 -mx-5 -mb-5 bg-background">
-                            <div className="flex flex-col items-center space-y-0.5">
-                              <Home className="w-4 h-4 text-primary" />
-                              <span className="text-[8px] font-bold text-primary">Explore</span>
-                            </div>
-                            <div className="flex flex-col items-center space-y-0.5 opacity-40">
-                              <Shield className="w-4 h-4 text-foreground" />
-                              <span className="text-[8px] font-bold text-foreground">Verify</span>
-                            </div>
-                            <div className="flex flex-col items-center space-y-0.5 opacity-40">
-                              <Star className="w-4 h-4 text-foreground" />
-                              <span className="text-[8px] font-bold text-foreground">Reviews</span>
-                            </div>
-                          </div>
-                        </div>
-                      )}
+              {/* FLOATING UI CARD 1: ✓ Verified Owner (Left side) */}
+              <div className={`absolute top-[15%] -left-[10%] md:-left-[18%] hidden sm:flex z-20 transition-all duration-700 ease-out delay-100 pointer-events-none ${
+                shouldAnimate 
+                  ? (isPhoneEntered ? "animate-float-badge-1 opacity-100 scale-100" : "opacity-0 scale-90 translate-y-4") 
+                  : "opacity-100 scale-100"
+              }`}>
+                <div className="badge-hover-container pointer-events-auto">
+                  <div className="bg-background/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-primary/20 shadow-xl flex items-center space-x-2">
+                    <div className="w-7 h-7 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-bold shadow-sm">
+                      ✓
+                    </div>
+                    <div>
+                      <div className="text-xs font-extrabold text-foreground">Verified Owner</div>
+                      <div className="text-[9px] text-muted-foreground font-medium">Deed Matched</div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* FLOATING UI CARD 1: ✓ Verified Owner */}
-              <motion.div
-                animate={prefersReduced ? {} : { y: [0, -8, 0], x: [0, 4, 0] }}
-                transition={prefersReduced ? {} : { duration: 4.2, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute top-[15%] -left-[10%] md:-left-[18%] bg-background/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-primary/20 shadow-xl hidden sm:flex items-center space-x-2 z-20"
-              >
-                <div className="w-7 h-7 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-bold shadow-sm">
-                  ✓
+              {/* FLOATING UI CARD 2: ⭐ 4.9 User Rating (Right side) */}
+              <div className={`absolute top-[30%] -right-[8%] md:-right-[14%] hidden sm:flex z-20 transition-all duration-700 ease-out delay-200 pointer-events-none ${
+                shouldAnimate 
+                  ? (isPhoneEntered ? "animate-float-badge-2 opacity-100 scale-100" : "opacity-0 scale-90 translate-y-4") 
+                  : "opacity-100 scale-100"
+              }`}>
+                <div className="badge-hover-container pointer-events-auto">
+                  <div className="bg-background/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-primary/10 shadow-xl flex items-center space-x-2">
+                    <div className="w-7 h-7 bg-amber-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-sm">
+                      ⭐
+                    </div>
+                    <div>
+                      <div className="text-xs font-extrabold text-foreground">4.9 User Rating</div>
+                      <div className="text-[9px] text-muted-foreground font-medium">Verified Reviews</div>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <div className="text-xs font-extrabold text-foreground">Verified Owner</div>
-                  <div className="text-[9px] text-muted-foreground font-medium">Deed Matched</div>
-                </div>
-              </motion.div>
+              </div>
 
-              {/* FLOATING UI CARD 2: No Brokerage */}
-              <motion.div
-                animate={prefersReduced ? {} : { y: [0, 8, 0], x: [0, -4, 0] }}
-                transition={prefersReduced ? {} : { duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                className="absolute bottom-[20%] -left-[12%] md:-left-[20%] bg-background/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-primary/20 shadow-xl hidden sm:flex items-center space-x-2 z-20"
-              >
-                <div className="w-7 h-7 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-bold shadow-sm">
-                  ✓
+              {/* FLOATING UI CARD 3: ✓ Verified Listing (Bottom Right) */}
+              <div className={`absolute bottom-[12%] -right-[10%] md:-right-[16%] hidden sm:flex z-20 transition-all duration-700 ease-out delay-300 pointer-events-none ${
+                shouldAnimate 
+                  ? (isPhoneEntered ? "animate-float-badge-3 opacity-100 scale-100" : "opacity-0 scale-90 translate-y-4") 
+                  : "opacity-100 scale-100"
+              }`}>
+                <div className="badge-hover-container pointer-events-auto">
+                  <div className="bg-background/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-primary/20 shadow-xl flex items-center space-x-2.5">
+                    <div className="w-7 h-7 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-bold shadow-sm">
+                      ✓
+                    </div>
+                    <div>
+                      <div className="text-xs font-extrabold text-foreground">Verified Listing</div>
+                      <div className="text-[9px] text-muted-foreground font-medium">Manual Check</div>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <div className="text-xs font-extrabold text-foreground">No Brokerage</div>
-                  <div className="text-[9px] text-muted-foreground font-medium">Direct Contract</div>
-                </div>
-              </motion.div>
+              </div>
 
-              {/* FLOATING UI CARD 3: ⭐ 4.9 User Rating */}
-              <motion.div
-                animate={prefersReduced ? {} : { y: [0, -10, 0], x: [0, -3, 0] }}
-                transition={prefersReduced ? {} : { duration: 4.6, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-                className="absolute top-[30%] -right-[8%] md:-right-[14%] bg-background/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-primary/10 shadow-xl hidden sm:flex items-center space-x-2 z-20"
-              >
-                <div className="w-7 h-7 bg-amber-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-sm">
-                  ⭐
+              {/* FLOATING UI CARD 4: ✓ No Brokerage (Bottom Left) */}
+              <div className={`absolute bottom-[20%] -left-[12%] md:-left-[20%] hidden sm:flex z-20 transition-all duration-700 ease-out delay-400 pointer-events-none ${
+                shouldAnimate 
+                  ? (isPhoneEntered ? "animate-float-badge-4 opacity-100 scale-100" : "opacity-0 scale-90 translate-y-4") 
+                  : "opacity-100 scale-100"
+              }`}>
+                <div className="badge-hover-container pointer-events-auto">
+                  <div className="bg-background/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-primary/20 shadow-xl flex items-center space-x-2">
+                    <div className="w-7 h-7 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-bold shadow-sm">
+                      ✓
+                    </div>
+                    <div>
+                      <div className="text-xs font-extrabold text-foreground">No Brokerage</div>
+                      <div className="text-[9px] text-muted-foreground font-medium">Direct Contract</div>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <div className="text-xs font-extrabold text-foreground">4.9 User Rating</div>
-                  <div className="text-[9px] text-muted-foreground font-medium">Verified Reviews</div>
-                </div>
-              </motion.div>
+              </div>
 
-              {/* FLOATING UI CARD 4: ✓ Verified Listing */}
-              <motion.div
-                animate={prefersReduced ? {} : { y: [0, 7, 0], x: [0, 5, 0] }}
-                transition={prefersReduced ? {} : { duration: 4.8, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
-                className="absolute bottom-[12%] -right-[10%] md:-right-[16%] bg-background/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-primary/20 shadow-xl hidden sm:flex items-center space-x-2.5 z-20"
-              >
-                <div className="w-7 h-7 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-bold shadow-sm">
-                  ✓
+              {/* FLOATING UI CARD 5: Verified Today (Top Right) */}
+              <div className={`absolute top-[3%] right-[10%] hidden sm:flex z-30 transition-all duration-700 ease-out delay-500 pointer-events-none ${
+                shouldAnimate 
+                  ? (isPhoneEntered ? "animate-float-badge-5 opacity-100 scale-100" : "opacity-0 scale-90 translate-y-4") 
+                  : "opacity-100 scale-100"
+              }`}>
+                <div className="badge-hover-container pointer-events-auto">
+                  <div className="bg-primary text-primary-foreground px-3.5 py-1.5 rounded-full shadow-lg flex items-center space-x-1.5 text-[10px] font-extrabold uppercase tracking-wider">
+                    <span className={`w-1.5 h-1.5 bg-primary-foreground rounded-full ${prefersReduced ? "" : "animate-ping"}`} />
+                    <span>Verified Today</span>
+                  </div>
                 </div>
-                <div>
-                  <div className="text-xs font-extrabold text-foreground">Verified Listing</div>
-                  <div className="text-[9px] text-muted-foreground font-medium">Manual Check</div>
-                </div>
-              </motion.div>
+              </div>
 
-              {/* FLOATING UI CARD 5: Verified Today */}
-              <motion.div
-                animate={prefersReduced ? {} : { scale: [1, 1.04, 1] }}
-                transition={prefersReduced ? {} : { duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute top-[3%] right-[10%] bg-primary text-primary-foreground px-3.5 py-1.5 rounded-full shadow-lg hidden sm:flex items-center space-x-1.5 z-30 text-[10px] font-extrabold uppercase tracking-wider"
-              >
-                <span className={`w-1.5 h-1.5 bg-primary-foreground rounded-full ${prefersReduced ? "" : "animate-ping"}`} />
-                <span>Verified Today</span>
-              </motion.div>
-
-            </motion.div>
+            </div>
           </div>
           
         </div>

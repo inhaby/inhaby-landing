@@ -27,7 +27,7 @@ const benefits = [
 
 export default function Benefits() {
   return (
-    <section id="benefits" className="py-24 bg-background">
+    <section id="benefits" className="py-12 md:py-24 bg-background">
       <div className="container px-5 sm:px-6 mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div

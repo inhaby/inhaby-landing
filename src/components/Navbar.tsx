@@ -11,10 +11,10 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/85 backdrop-blur-md border-b border-border transition-all">
-      <div className="container px-5 sm:px-6 py-4 mx-auto flex justify-between items-center">
+      <div className="container px-4 sm:px-6 py-2.5 md:py-4 mx-auto flex justify-between items-center">
         {/* Left: INHABY Logo */}
         <Link to="/" className="hover:opacity-90 transition-opacity flex items-center">
-          <Logo className="h-9 md:h-10" />
+          <Logo className="h-7.5 md:h-10" />
         </Link>
         
         {/* Center: Main Links (Desktop) */}

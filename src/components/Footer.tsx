@@ -70,7 +70,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-background border-t border-border pt-20 pb-12 relative z-10">
+    <footer className="bg-background border-t border-border pt-12 pb-12 relative z-10">
       <div className="container px-5 sm:px-6 mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
           

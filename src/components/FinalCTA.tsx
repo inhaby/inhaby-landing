@@ -3,13 +3,13 @@ import { ArrowRight, CheckCircle2, ShieldCheck, FileCheck, Landmark, Sparkles } 
 
 export default function FinalCTA() {
   return (
-    <section className="py-24 bg-[#0B091B] text-white relative overflow-hidden border-t border-primary/20">
+    <section className="py-12 md:py-24 bg-[#0B091B] text-white relative overflow-hidden border-t border-primary/20">
       {/* Background gradients and visual elements */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[160px] pointer-events-none" />
       <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="container px-5 sm:px-6 mx-auto relative z-10">
-        <div className="max-w-5xl mx-auto bg-gradient-to-br from-white/[0.03] to-white/[0.01] backdrop-blur-md rounded-[3.5rem] border border-white/10 p-8 md:p-16 shadow-2xl">
+      <div className="container px-4 sm:px-6 mx-auto relative z-10">
+        <div className="max-w-5xl mx-auto bg-gradient-to-br from-white/[0.03] to-white/[0.01] backdrop-blur-md rounded-3xl md:rounded-[3.5rem] p-6 md:p-16 shadow-2xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             {/* Left Content - Mission Statement & App stores */}

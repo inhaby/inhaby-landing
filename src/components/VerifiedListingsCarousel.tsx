@@ -81,7 +81,7 @@ export default function VerifiedListingsCarousel() {
   };
 
   return (
-    <section className="py-24 bg-background relative overflow-hidden border-b border-border">
+    <section className="py-12 md:py-24 bg-background relative overflow-hidden border-b border-border">
       {/* Background radial soft light glow */}
       <div className="absolute top-[40%] right-[-10%] w-96 h-96 bg-primary/3 rounded-full blur-[100px] pointer-events-none" />
 

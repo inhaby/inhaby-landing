@@ -41,7 +41,7 @@ export default function FAQ() {
   };
 
   return (
-    <section className="py-24 bg-muted/30 relative overflow-hidden border-t border-b border-border">
+    <section className="py-12 md:py-24 bg-muted/30 relative overflow-hidden border-t border-b border-border">
       {/* Background soft glow */}
       <div className="absolute bottom-[-10%] left-[10%] w-96 h-96 bg-primary/2 rounded-full blur-[100px] pointer-events-none" />
 

@@ -91,8 +91,8 @@
 }
 
 @layer base {
-  html, body {
-    @apply overflow-x-hidden w-full max-w-full;
+  html, body, #root {
+    @apply h-full overflow-x-hidden w-full max-w-full;
   }
   body {
     @apply font-sans text-foreground antialiased bg-background transition-colors duration-300;
@@ -134,4 +134,284 @@
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Custom Hero Animations for Desktop & Tablets (>=768px) */
+@media (min-width: 768px) {
+  /* Phone Entrance Animation */
+  .animate-phone-entrance {
+    animation: phoneEntrance 700ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    will-change: transform, opacity;
+  }
+
+  @keyframes phoneEntrance {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Phone Float Animation */
+  .animate-phone-float {
+    animation: phoneFloat 8s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  @keyframes phoneFloat {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  /* Badge Cycle Animation - Fade-in & slide up (300ms), Remain (2200ms), Fade-out & slide up (300ms) */
+  .animate-badge-cycle {
+    animation: badgeCycle 2800ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    will-change: transform, opacity;
+  }
+
+  @keyframes badgeCycle {
+    0% {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    10.71% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    89.29% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+  }
+
+  /* Background Glow Animation */
+  .animate-glow-pulse {
+    animation: glowPulse 14s ease-in-out infinite;
+    will-change: transform, opacity;
+  }
+
+  @keyframes glowPulse {
+    0%, 100% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0.05;
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.02);
+      opacity: 0.08;
+    }
+  }
+
+  /* Floating Trust Badges Independent Suspended Animations */
+  .animate-float-badge-1 {
+    animation: floatBadge1 6.5s ease-in-out infinite;
+    will-change: transform;
+  }
+  .animate-float-badge-2 {
+    animation: floatBadge2 7s ease-in-out infinite;
+    will-change: transform;
+  }
+  .animate-float-badge-3 {
+    animation: floatBadge3 7.5s ease-in-out infinite;
+    will-change: transform;
+  }
+  .animate-float-badge-4 {
+    animation: floatBadge4 8s ease-in-out infinite;
+    will-change: transform;
+  }
+  .animate-float-badge-5 {
+    animation: floatBadge5 8.5s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  @keyframes floatBadge1 {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  @keyframes floatBadge2 {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(5px); }
+  }
+  @keyframes floatBadge3 {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+  @keyframes floatBadge4 {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+  @keyframes floatBadge5 {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+
+  /* Search Cursor Blinking */
+  .animate-cursor-blink {
+    animation: cursorBlink 1s infinite step-end;
+    will-change: opacity;
+  }
+
+  @keyframes cursorBlink {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+  }
+
+  /* Property Image Slow Zooming */
+  .animate-slow-zoom {
+    animation: slowZoom 8s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  @keyframes slowZoom {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+  }
+
+  /* Verified Badge Soft Scaling Pulse */
+  .animate-badge-pulse {
+    animation: badgePulse 4s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  @keyframes badgePulse {
+    0%, 70%, 100% { transform: scale(1); }
+    85% { transform: scale(1.15); }
+  }
+
+  /* Heart Button Gentle Filling */
+  .animate-heart-fill {
+    animation: heartFill 6s ease-in-out infinite;
+    will-change: transform, opacity;
+  }
+
+  @keyframes heartFill {
+    0%, 100% { fill: transparent; stroke: currentColor; opacity: 0.6; }
+    40%, 60% { fill: #ef4444; stroke: #ef4444; opacity: 1; transform: scale(1.1); }
+  }
+
+  /* Notification dot gentle blinks */
+  .animate-notification-blink {
+    animation: notificationBlink 5s ease-in-out infinite;
+    will-change: transform, opacity;
+  }
+
+  @keyframes notificationBlink {
+    0%, 80%, 100% { opacity: 1; transform: scale(1); }
+    90% { opacity: 0.3; transform: scale(0.85); }
+  }
+
+  /* Avatar online status indicator soft pulse */
+  .animate-avatar-pulse {
+    animation: avatarPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    will-change: transform, opacity;
+  }
+
+  @keyframes avatarPulse {
+    0% { transform: scale(1); opacity: 0.75; }
+    100% { transform: scale(2.2); opacity: 0; }
+  }
+
+  /* Center Verification Overlay Fade In */
+  .animate-fade-in {
+    animation: fadeIn 350ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    will-change: opacity;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* Center Verification Card Scale Up */
+  .animate-scale-up {
+    animation: scaleUp 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    will-change: transform;
+  }
+  @keyframes scaleUp {
+    from { transform: scale(0.9) translateY(10px); }
+    to { transform: scale(1) translateY(0); }
+  }
+
+  /* Hover Interaction */
+  .hero-phone-group {
+    pointer-events: auto;
+  }
+  
+  .hero-phone-group .phone-hover-container {
+    transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 250ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+  }
+
+  .hero-phone-group:hover .phone-hover-container {
+    transform: translateY(-6px);
+    box-shadow: 0 35px 75px -12px rgba(0, 0, 0, 0.4);
+  }
+
+  .hero-phone-group .badge-hover-container {
+    transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+  }
+
+  .hero-phone-group:hover .badge-hover-container {
+    transform: scale(1.02);
+  }
+
+  .hero-phone-group .property-card-elevate {
+    transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+  }
+
+  .hero-phone-group:hover .property-card-elevate {
+    transform: translateY(-4px);
+  }
+
+  .bg-themed-radial-glow {
+    background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+  }
+}
+
+/* Accessibility: respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-phone-entrance,
+  .animate-phone-float,
+  .animate-badge-cycle,
+  .animate-glow-pulse,
+  .animate-cursor-blink,
+  .animate-slow-zoom,
+  .animate-badge-pulse,
+  .animate-heart-fill,
+  .animate-notification-blink,
+  .animate-avatar-pulse,
+  .animate-float-badge-1,
+  .animate-float-badge-2,
+  .animate-float-badge-3,
+  .animate-float-badge-4,
+  .animate-float-badge-5 {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  
+  .hero-phone-group .phone-hover-container,
+  .hero-phone-group:hover .phone-hover-container,
+  .hero-phone-group .badge-hover-container,
+  .hero-phone-group:hover .badge-hover-container,
+  .hero-phone-group .property-card-elevate,
+  .hero-phone-group:hover .property-card-elevate {
+    transform: none !important;
+    box-shadow: none !important;
+    transition: none !important;
+  }
 }

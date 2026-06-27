@@ -3,7 +3,7 @@ import { ArrowRight, BarChart3, Users, Building2, Bell, ShieldCheck, Sparkles } 
 
 export default function OwnerSection() {
   return (
-    <section id="owner-portal" className="py-24 bg-muted/30 border-y border-border/80 relative overflow-hidden">
+    <section id="owner-portal" className="py-12 md:py-24 bg-muted/30 border-y border-border/80 relative overflow-hidden">
       {/* Soft abstract glowing shapes */}
       <div className="absolute top-[20%] left-[-10%] w-[350px] h-[350px] bg-primary/3 rounded-full blur-[90px] pointer-events-none" />
       <div className="absolute bottom-[10%] right-[-10%] w-[400px] h-[400px] bg-primary/2 rounded-full blur-[110px] pointer-events-none" />

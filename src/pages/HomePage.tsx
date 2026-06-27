@@ -1,5 +1,4 @@
 import Hero from "../components/Hero";
-import TrustBanner from "../components/TrustBanner";
 import UserJourneys from "../components/UserJourneys";
 import TrustSection from "../components/TrustSection";
 import OwnerSection from "../components/OwnerSection";
@@ -16,7 +15,6 @@ export default function HomePage() {
   return (
     <main>
       <Hero />
-      <TrustBanner />
       <UserJourneys />
       <TrustSection />
       <OwnerSection />

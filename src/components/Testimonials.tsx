@@ -64,7 +64,7 @@ export default function Testimonials() {
   };
 
   return (
-    <section id="testimonials" className="py-24 bg-background relative overflow-hidden border-t border-border">
+    <section id="testimonials" className="py-12 md:py-24 bg-background relative overflow-hidden border-t border-border">
       {/* Visual background accents */}
       <div className="absolute top-[20%] left-[-5%] w-80 h-80 bg-primary/3 rounded-full blur-[90px] pointer-events-none" />
       <div className="absolute bottom-[20%] right-[-5%] w-[350px] h-[350px] bg-primary/2 rounded-full blur-[110px] pointer-events-none" />
