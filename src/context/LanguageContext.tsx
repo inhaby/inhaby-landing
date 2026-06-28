@@ -390,8 +390,15 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  // Try to load language from localStorage
+  // Try to load language from URL parameter first, then localStorage
   const [language, setLanguageState] = useState<LanguageCode>(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const urlLang = params.get("lang") as LanguageCode;
+      if (urlLang && ["en", "hi", "ja", "zh", "ko"].includes(urlLang)) {
+        return urlLang;
+      }
+    }
     const saved = localStorage.getItem("inhaby_language");
     return (saved as LanguageCode) || "en";
   });
@@ -403,6 +410,12 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     if (found) {
       localStorage.setItem("inhaby_language_name", found.name);
     }
+    // Update URL query parameter without page reload
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.set("lang", code);
+      window.history.pushState({}, "", url.toString());
+    }
   };
 
   const t = (key: string): string => {
@@ -413,6 +426,32 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // 1. Correctly identify lang on HTML element for accessibility & screen readers
     document.documentElement.lang = language;
+
+    // Update or add hreflang tags in the document head to prevent layout shifts & improve SEO
+    const existingHreflangs = document.querySelectorAll("link[rel='alternate'][hreflang]");
+    existingHreflangs.forEach((el) => el.remove());
+
+    const currentUrl = new URL(window.location.href);
+    
+    // Add alternate links for each language
+    languages.forEach((lang) => {
+      const link = document.createElement("link");
+      link.rel = "alternate";
+      link.hreflang = lang.code;
+      const url = new URL(currentUrl.toString());
+      url.searchParams.set("lang", lang.code);
+      link.href = url.toString();
+      document.head.appendChild(link);
+    });
+
+    // Add x-default pointing to English or default URL without query param
+    const defaultLink = document.createElement("link");
+    defaultLink.rel = "alternate";
+    defaultLink.hreflang = "x-default";
+    const defaultUrl = new URL(currentUrl.toString());
+    defaultUrl.searchParams.delete("lang");
+    defaultLink.href = defaultUrl.toString();
+    document.head.appendChild(defaultLink);
 
     // 2. Trigger initial complete scan of document body
     translateNode(document.body, language);

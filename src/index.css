@@ -419,3 +419,34 @@
     transition: none !important;
   }
 }
+
+/* Locale-Specific Typography Overrides for Japanese (ja), Chinese (zh), and Korean (ko) */
+/* Designed to improve line-height, text alignment, legibility, and prevent layout shifts */
+html[lang="ja"] {
+  font-family: "Inter", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Meiryo", sans-serif;
+  --font-sans: "Inter", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI", "Meiryo", sans-serif;
+  line-height: 1.625;
+  letter-spacing: 0.02em;
+}
+
+html[lang="zh"] {
+  font-family: "Inter", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", sans-serif;
+  --font-sans: "Inter", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", sans-serif;
+  line-height: 1.625;
+  letter-spacing: 0.03em;
+}
+
+html[lang="ko"] {
+  font-family: "Inter", "Apple SD Gothic Neo", "Malgun Gothic", "Nanum Gothic", sans-serif;
+  --font-sans: "Inter", "Apple SD Gothic Neo", "Malgun Gothic", "Nanum Gothic", sans-serif;
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+}
+
+/* Ensure CJK inputs, textareas, and interactive elements inherit proper font-family */
+html[lang="ja"] input, html[lang="ja"] textarea, html[lang="ja"] button, html[lang="ja"] select,
+html[lang="zh"] input, html[lang="zh"] textarea, html[lang="zh"] button, html[lang="zh"] select,
+html[lang="ko"] input, html[lang="ko"] textarea, html[lang="ko"] button, html[lang="ko"] select {
+  font-family: inherit;
+}
+
