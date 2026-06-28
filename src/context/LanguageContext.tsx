@@ -263,6 +263,679 @@ const translations: Record<LanguageCode, Record<string, string>> = {
 // Global map to track original English values of DOM text nodes and input placeholders
 const originalTexts = new WeakMap<Node, string>();
 
+const wordDictionary: Record<Exclude<LanguageCode, "en">, Record<string, string>> = {
+  hi: {
+    "savings": "बचत",
+    "calculator": "कैलकुलेटर",
+    "careers": "करियर",
+    "pricing": "मूल्य निर्धारण",
+    "blog": "ब्लॉग",
+    "help": "सहायता",
+    "login": "लॉगिन",
+    "explore": "खोजें",
+    "verified": "सत्यापित",
+    "brokerage": "दलाली",
+    "home": "घर",
+    "back": "पीछे",
+    "send": "भेजें",
+    "free": "मुफ़्त",
+    "value": "मूल्य",
+    "check": "जांचें",
+    "rent": "किराया",
+    "trust": "ट्रस्ट",
+    "score": "स्कोर",
+    "verify": "सत्यापित करें",
+    "property": "संपत्ति",
+    "owner": "मालिक",
+    "tenant": "किराएदार",
+    "direct": "सीधा",
+    "zero": "शून्य",
+    "e-stamp": "ई-स्टांप",
+    "privacy": "गोपनीयता",
+    "terms": "शर्तें",
+    "service": "सेवा",
+    "security": "सुरक्षा",
+    "support": "सहायता",
+    "contact": "संपर्क",
+    "about": "के बारे में",
+    "mission": "मिशन",
+    "portal": "पोर्टل",
+    "agreement": "समझौता",
+    "contract": "अनुबंध",
+    "escrow": "एस्क्रो",
+    "deposit": "जमा",
+    "safe": "सुरक्षित",
+    "metro": "मेट्रो",
+    "cities": "शहर",
+    "live": "लाइव",
+    "daily": "दैनिक",
+    "updated": "अपडेट किया गया",
+    "listings": "सूचियां",
+    "view": "देखें",
+    "all": "सभी",
+    "room": "कमरा",
+    "actual": "वास्तविक",
+    "wide-angle": "वाइड-एंगल",
+    "wide": "वाइड",
+    "angle": "कोण",
+    "cgi": "सीजीआई",
+    "render": "रेंडर",
+    "photos": "तस्वीरें",
+    "real": "वास्तविक",
+    "honest": "ईमानदार",
+    "genuine": "असली",
+    "deed": "विलेख",
+    "identity": "पहचान",
+    "aadhaar": "आधार",
+    "passport": "पासपोर्ट",
+    "government": "सरकार",
+    "credentials": "साख",
+    "matched": "मेल खाता",
+    "ananya": "अनन्या",
+    "roy": "रॉय",
+    "lease": "पट्टा",
+    "drafting": "प्रारूपण",
+    "society": "सोसाइटी",
+    "maintenance": "रखरखाव",
+    "fee": "शुल्क",
+    "fees": "शुल्क",
+    "hidden": "छिपा हुआ",
+    "lock": "ताला",
+    "ecosystem": "पारिस्थितिकी तंत्र",
+    "fraud": "धोखाधड़ी",
+    "report": "रिपोर्ट",
+    "kyc": "केवाईसी",
+    "status": "स्थिति",
+    "notification": "अधिसूचना",
+    "filter": "फिल्टर",
+    "dashboard": "डैशबोर्ड",
+    "labels": "लेबल",
+    "stamps": "स्टांप",
+    "stamp": "स्टांप",
+    "legal": "कानूनी",
+    "blockchain": "ब्लॉकचेन",
+    "immutable": "अपरिवर्तनीय",
+    "registry": "रजिस्ट्री",
+    "inspection": "निरीक्षण",
+    "manual": "मैन्युअल",
+    "ai": "एआई",
+    "document": "दस्तावेज़",
+    "ownership": "स्वामित्व",
+    "landlord": "मकान मालिक",
+    "preparing": "तैयार करना",
+    "relocation": "स्थानांतरण",
+    "affordability": "किफायती",
+    "co-living": "सह-रहना",
+    "pg": "पीजी",
+    "hostel": "छात्रावास",
+    "apartment": "अपार्टमेंट",
+    "house": "मकान",
+    "roommate": "कमरे का साथी",
+    "e-sign": "ई-साइन",
+    "stamping": "स्टांपिंग",
+    "refund": "वापसी",
+    "dispute": "विवाद",
+    "resolution": "समाधान",
+    "ledger": "बहीखाता",
+    "rejected": "अस्वीकृत",
+    "pending": "लंबित",
+    "active": "सक्रिय",
+    "inactive": "निष्क्रिय",
+    "successful": "सफल",
+    "failed": "विफल",
+    "processing": "प्रसंस्करण",
+    "completed": "पूरा हुआ",
+    "yes": "हाँ",
+    "no": "नहीं",
+    "month": "महीना",
+    "months": "महीने",
+    "year": "साल",
+    "years": "साल",
+    "day": "दिन",
+    "days": "दिन",
+    "ago": "पहले",
+    "just": "अभी",
+    "now": "अभी",
+    "today": "आज",
+    "tomorrow": "कल",
+    "yesterday": "कल",
+    "search": "खोजें",
+    "select": "चुनें",
+    "enter": "दर्ज करें",
+    "submit": "जमा करें",
+    "cancel": "रद्द करें",
+    "save": "सहेजें",
+    "close": "बंद करें",
+    "open": "खोलें",
+    "total": "कुल",
+    "amount": "राशि",
+    "price": "कीमत"
+  },
+  ja: {
+    "savings": "節約",
+    "calculator": "計算ツール",
+    "careers": "採用情報",
+    "pricing": "料金プラン",
+    "blog": "ブログ",
+    "help": "ヘルプ",
+    "login": "ログイン",
+    "explore": "探す",
+    "verified": "検証済み",
+    "brokerage": "仲介手数料",
+    "home": "ホーム",
+    "back": "戻る",
+    "send": "送信",
+    "free": "無料",
+    "value": "価値",
+    "check": "チェック",
+    "rent": "家賃",
+    "trust": "信頼",
+    "score": "スコア",
+    "verify": "検証する",
+    "property": "物件",
+    "owner": "オーナー",
+    "tenant": "テナント",
+    "direct": "直接",
+    "zero": "ゼロ",
+    "e-stamp": "電子スタンプ",
+    "privacy": "プライバシー",
+    "terms": "規約",
+    "service": "サービス",
+    "security": "セキュリティ",
+    "support": "サポート",
+    "contact": "連絡先",
+    "about": "概要",
+    "mission": "ミッション",
+    "portal": "ポータル",
+    "agreement": "合意",
+    "contract": "契約",
+    "escrow": "エスクロー",
+    "deposit": "預金",
+    "safe": "安全",
+    "metro": "メトロ",
+    "cities": "都市",
+    "live": "ライブ",
+    "daily": "毎日",
+    "updated": "更新済み",
+    "listings": "物件一覧",
+    "view": "見る",
+    "all": "すべて",
+    "room": "部屋",
+    "actual": "実際",
+    "wide-angle": "広角",
+    "wide": "広角",
+    "angle": "アングル",
+    "cgi": "CGI",
+    "render": "レンダリング",
+    "photos": "写真",
+    "real": "リアル",
+    "honest": "誠実",
+    "genuine": "本物",
+    "deed": "権利証書",
+    "identity": "身元",
+    "aadhaar": "Aadhaar",
+    "passport": "パスポート",
+    "government": "政府",
+    "credentials": "認証情報",
+    "matched": "一致",
+    "ananya": "アナニヤ",
+    "roy": "ロイ",
+    "lease": "賃貸借",
+    "drafting": "作成",
+    "society": "ソサエティ",
+    "maintenance": "維持費",
+    "fee": "手数料",
+    "fees": "料金",
+    "hidden": "隠れた",
+    "lock": "ロック",
+    "ecosystem": "エコシステム",
+    "fraud": "詐欺",
+    "report": "報告",
+    "kyc": "KYC",
+    "status": "ステータス",
+    "notification": "通知",
+    "filter": "フィルター",
+    "dashboard": "ダッシュボード",
+    "labels": "ラベル",
+    "stamps": "スタンプ",
+    "stamp": "スタンプ",
+    "legal": "法的",
+    "blockchain": "ブロックチェーン",
+    "immutable": "不変",
+    "registry": "登記簿",
+    "inspection": "調査",
+    "manual": "目視",
+    "ai": "AI",
+    "document": "書類",
+    "ownership": "所有権",
+    "landlord": "大家",
+    "preparing": "準備",
+    "relocation": "転居",
+    "affordability": "手頃さ",
+    "co-living": "コリービング",
+    "pg": "PG",
+    "hostel": "ホステル",
+    "apartment": "アパート",
+    "house": "一軒家",
+    "roommate": "ルームメイト",
+    "e-sign": "電子署名",
+    "stamping": "スタンプ処理",
+    "refund": "返金",
+    "dispute": "紛争",
+    "resolution": "解決",
+    "ledger": "台帳",
+    "rejected": "却下",
+    "pending": "保留中",
+    "active": "有効",
+    "inactive": "無効",
+    "successful": "成功",
+    "failed": "失敗",
+    "processing": "処理中",
+    "completed": "完了",
+    "yes": "はい",
+    "no": "いいえ",
+    "month": "月",
+    "months": "ヶ月",
+    "year": "年",
+    "years": "年",
+    "day": "日",
+    "days": "日",
+    "ago": "前",
+    "just": "たった今",
+    "now": "今",
+    "today": "今日",
+    "tomorrow": "明日",
+    "yesterday": "昨日",
+    "search": "検索",
+    "select": "選択",
+    "enter": "入力",
+    "submit": "送信",
+    "cancel": "キャンセル",
+    "save": "保存",
+    "close": "閉じる",
+    "open": "開く",
+    "total": "合計",
+    "amount": "金額",
+    "price": "価格"
+  },
+  zh: {
+    "savings": "省钱",
+    "calculator": "计算器",
+    "careers": "职业生涯",
+    "pricing": "价格",
+    "blog": "博客",
+    "help": "帮助",
+    "login": "登录",
+    "explore": "探索",
+    "verified": "已验证",
+    "brokerage": "中介费",
+    "home": "首页",
+    "back": "返回",
+    "send": "发送",
+    "free": "免费",
+    "value": "价值",
+    "check": "检查",
+    "rent": "租金",
+    "trust": "信任",
+    "score": "分数",
+    "verify": "验证",
+    "property": "房源",
+    "owner": "业主",
+    "tenant": "租客",
+    "direct": "直连",
+    "zero": "零",
+    "e-stamp": "电子印花",
+    "privacy": "隐私",
+    "terms": "条款",
+    "service": "服务",
+    "security": "安全",
+    "support": "客服",
+    "contact": "联系",
+    "about": "关于",
+    "mission": "使命",
+    "portal": "门户",
+    "agreement": "协议",
+    "contract": "合同",
+    "escrow": "托管",
+    "deposit": "押金",
+    "safe": "安全",
+    "metro": "都市",
+    "cities": "城市",
+    "live": "在线",
+    "daily": "每日",
+    "updated": "更新",
+    "listings": "房源列表",
+    "view": "查看",
+    "all": "全部",
+    "room": "房间",
+    "actual": "真实",
+    "wide-angle": "广角",
+    "wide": "广角",
+    "angle": "角度",
+    "cgi": "CGI",
+    "render": "渲染",
+    "photos": "照片",
+    "real": "真实",
+    "honest": "诚实",
+    "genuine": "正版",
+    "deed": "产权证",
+    "identity": "身份",
+    "aadhaar": "Aadhaar",
+    "passport": "护照",
+    "government": "政府",
+    "credentials": "凭证",
+    "matched": "匹配",
+    "ananya": "阿南雅",
+    "roy": "罗伊",
+    "lease": "租赁",
+    "drafting": "起草",
+    "society": "物业",
+    "maintenance": "维护费",
+    "fee": "费用",
+    "fees": "费用",
+    "hidden": "隐藏",
+    "lock": "锁定",
+    "ecosystem": "生态系统",
+    "fraud": "欺诈",
+    "report": "举报",
+    "kyc": "实名认证",
+    "status": "状态",
+    "notification": "通知",
+    "filter": "筛选",
+    "dashboard": "控制台",
+    "labels": "标签",
+    "stamps": "印花税",
+    "stamp": "印花",
+    "legal": "法律",
+    "blockchain": "区块链",
+    "immutable": "不可篡改",
+    "registry": "登记",
+    "inspection": "实地考察",
+    "manual": "人工",
+    "ai": "人工智能",
+    "document": "文档",
+    "ownership": "产权",
+    "landlord": "房东",
+    "preparing": "准备",
+    "relocation": "搬迁",
+    "affordability": "承受力",
+    "co-living": "合租",
+    "pg": "PG",
+    "hostel": "旅馆",
+    "apartment": "公寓",
+    "house": "住宅",
+    "roommate": "室友",
+    "e-sign": "电子签名",
+    "stamping": "盖印",
+    "refund": "退款",
+    "dispute": "争议",
+    "resolution": "解决",
+    "ledger": "账本",
+    "rejected": "已拒绝",
+    "pending": "待审核",
+    "active": "活跃",
+    "inactive": "不活跃",
+    "successful": "成功",
+    "failed": "失败",
+    "processing": "处理中",
+    "completed": "已完成",
+    "yes": "是",
+    "no": "否",
+    "month": "月",
+    "months": "个月",
+    "year": "年",
+    "years": "年",
+    "day": "天",
+    "days": "天",
+    "ago": "前",
+    "just": "刚刚",
+    "now": "现在",
+    "today": "今天",
+    "tomorrow": "明天",
+    "yesterday": "昨天",
+    "search": "搜索",
+    "select": "选择",
+    "enter": "输入",
+    "submit": "提交",
+    "cancel": "取消",
+    "save": "保存",
+    "close": "关闭",
+    "open": "打开",
+    "total": "总计",
+    "amount": "金额",
+    "price": "价格"
+  },
+  ko: {
+    "savings": "절약",
+    "calculator": "계산기",
+    "careers": "채용",
+    "pricing": "요금",
+    "blog": "블로그",
+    "help": "도움말",
+    "login": "로그인",
+    "explore": "둘러보기",
+    "verified": "검증됨",
+    "brokerage": "중개 수수료",
+    "home": "홈",
+    "back": "뒤로가기",
+    "send": "전송",
+    "free": "무료",
+    "value": "가치",
+    "check": "확인",
+    "rent": "임대료",
+    "trust": "신뢰",
+    "score": "점수",
+    "verify": "검증하기",
+    "property": "매물",
+    "owner": "집주인",
+    "tenant": "세입자",
+    "direct": "직거래",
+    "zero": "제로",
+    "e-stamp": "전자 인지세",
+    "privacy": "개인정보",
+    "terms": "약관",
+    "service": "서비스",
+    "security": "보안",
+    "support": "지원",
+    "contact": "연락",
+    "about": "소개",
+    "mission": "미션",
+    "portal": "포탈",
+    "agreement": "합의",
+    "contract": "계약",
+    "escrow": "에스크로",
+    "deposit": "보증금",
+    "safe": "안전",
+    "metro": "대도시",
+    "cities": "도시",
+    "live": "라이브",
+    "daily": "매일",
+    "updated": "업데이트됨",
+    "listings": "매물목록",
+    "view": "보기",
+    "all": "전체",
+    "room": "방",
+    "actual": "실제",
+    "wide-angle": "광각",
+    "wide": "광각",
+    "angle": "앵글",
+    "cgi": "CGI",
+    "render": "렌더",
+    "photos": "사진",
+    "real": "실제",
+    "honest": "정직",
+    "genuine": "진짜",
+    "deed": "등기부",
+    "identity": "신원",
+    "aadhaar": "Aadhaar",
+    "passport": "여권",
+    "government": "정부",
+    "credentials": "인증서",
+    "matched": "일치",
+    "ananya": "아난야",
+    "roy": "로이",
+    "lease": "임대",
+    "drafting": "작성",
+    "society": "관리단",
+    "maintenance": "관리비",
+    "fee": "요금",
+    "fees": "요금",
+    "hidden": "숨겨진",
+    "lock": "잠금",
+    "ecosystem": "생태계",
+    "fraud": "사기",
+    "report": "신고",
+    "kyc": "신원인증",
+    "status": "상태",
+    "notification": "알림",
+    "filter": "필터",
+    "dashboard": "대시보드",
+    "labels": "라벨",
+    "stamps": "스탬프",
+    "stamp": "도장",
+    "legal": "법적",
+    "blockchain": "블록체인",
+    "immutable": "변경불가",
+    "registry": "등기",
+    "inspection": "실사",
+    "manual": "수동",
+    "ai": "인공지능",
+    "document": "서류",
+    "ownership": "소유권",
+    "landlord": "임대인",
+    "preparing": "준비",
+    "relocation": "이전",
+    "affordability": "적정성",
+    "co-living": "셰어하우스",
+    "pg": "PG",
+    "hostel": "호스텔",
+    "apartment": "아파트",
+    "house": "단독주택",
+    "roommate": "룸메이트",
+    "e-sign": "전자서명",
+    "stamping": "인장날인",
+    "refund": "환불",
+    "dispute": "분쟁",
+    "resolution": "해결",
+    "ledger": "원장",
+    "rejected": "반려됨",
+    "pending": "대기중",
+    "active": "활성",
+    "inactive": "비활성",
+    "successful": "성공",
+    "failed": "실패",
+    "processing": "처리중",
+    "completed": "완료됨",
+    "yes": "예",
+    "no": "아니오",
+    "month": "월",
+    "months": "개월",
+    "year": "년",
+    "years": "년",
+    "day": "일",
+    "days": "일",
+    "ago": "전",
+    "just": "방금",
+    "now": "지금",
+    "today": "오늘",
+    "tomorrow": "내일",
+    "yesterday": "어제",
+    "search": "검색",
+    "select": "선택",
+    "enter": "입력",
+    "submit": "제출",
+    "cancel": "취소",
+    "save": "저장",
+    "close": "닫기",
+    "open": "열기",
+    "total": "합계",
+    "amount": "금액",
+    "price": "가격"
+  }
+};
+
+function translateWordByWord(text: string, lang: LanguageCode): string {
+  if (lang === "en") return text;
+  const dict = wordDictionary[lang];
+  if (!dict) return text;
+
+  // Split by alphanumeric boundaries while keeping non-alphanumeric chars intact
+  return text.replace(/\b[a-zA-Z0-9-]+\b/g, (match) => {
+    const lower = match.toLowerCase();
+    if (dict[lower]) {
+      const translated = dict[lower];
+      if (match === match.toUpperCase()) {
+        return translated.toUpperCase();
+      }
+      return translated;
+    }
+    return match;
+  });
+}
+
+/**
+ * Automatically formats numbers, currencies, and dates/months to match the locale of the active language.
+ */
+function localizeNumbersAndDatesInText(text: string, lang: LanguageCode): string {
+  const localeMap: Record<LanguageCode, string> = {
+    en: "en-IN", // Indian Rupee numbering format
+    hi: "hi-IN",
+    ja: "ja-JP",
+    zh: "zh-CN",
+    ko: "ko-KR",
+  };
+  const locale = localeMap[lang] || "en-US";
+
+  let result = text;
+
+  // 1. Matches integers/decimals with optional currency symbol (₹ or $) and comma formatting
+  const numberRegex = /(?:₹|\$)?\s*\d{1,3}(?:,\d{2,3})*(?:\.\d+)?|\b\d{4,12}\b/g;
+  result = result.replace(numberRegex, (match) => {
+    const hasRupee = match.includes("₹");
+    const hasDollar = match.includes("$");
+    const digitsOnly = match.replace(/[^\d.]/g, "");
+    const parsedNum = parseFloat(digitsOnly);
+
+    if (isNaN(parsedNum)) return match;
+
+    let formatted = parsedNum.toLocaleString(locale);
+
+    if (hasRupee) {
+      formatted = "₹" + formatted;
+    } else if (hasDollar) {
+      formatted = "$" + formatted;
+    }
+    return formatted;
+  });
+
+  // 2. Localize English month names into respective languages
+  if (lang !== "en") {
+    const monthsEng = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const monthsHi = ["जनवरी", "फ़रवरी", "मार्च", "अप्रैल", "मई", "जून", "जुलाई", "अगस्त", "सितंबर", "अक्टूबर", "नवंबर", "दिसंबर"];
+    const monthsJa = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
+    const monthsZh = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
+    const monthsKo = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
+
+    const monthMap: Record<LanguageCode, string[]> = {
+      en: monthsEng,
+      hi: monthsHi,
+      ja: monthsJa,
+      zh: monthsZh,
+      ko: monthsKo,
+    };
+
+    const targets = monthMap[lang];
+    if (targets) {
+      monthsEng.forEach((m, idx) => {
+        const regex = new RegExp(`\\b${m}\\b`, "gi");
+        result = result.replace(regex, targets[idx]);
+      });
+    }
+  }
+
+  return result;
+}
+
 /**
  * Normalizes text and searches both the base structured translations and 
  * the deep translation dictionary to locate a perfect translation.
@@ -273,10 +946,20 @@ function getTranslationForText(text: string, lang: LanguageCode): string {
   const trimmed = text.trim();
   if (!trimmed) return text;
 
+  // Collapse consecutive whitespaces and newlines into single spaces for robust matching across JSX formatting
+  const normalizedInput = trimmed.replace(/\s+/g, " ");
+
   // 1. Direct match in the comprehensive extended dictionary
   const extDict = extendedTranslations[lang] || {};
   if (extDict[trimmed]) {
     return extDict[trimmed];
+  }
+
+  // 1b. Normalized match in extended dictionary
+  for (const [key, val] of Object.entries(extDict)) {
+    if (key.replace(/\s+/g, " ") === normalizedInput) {
+      return val;
+    }
   }
 
   // 2. Lookup matching English text in the base translations object
@@ -287,6 +970,14 @@ function getTranslationForText(text: string, lang: LanguageCode): string {
     return langBase[foundKey];
   }
 
+  // 2b. Normalized lookup in the base translations object
+  const foundKeyNormalized = Object.keys(enBase).find(
+    (k) => enBase[k].replace(/\s+/g, " ") === normalizedInput
+  );
+  if (foundKeyNormalized && langBase[foundKeyNormalized]) {
+    return langBase[foundKeyNormalized];
+  }
+
   // 3. Fallback: Case-insensitive dictionary lookup
   const lowerTrimmed = trimmed.toLowerCase();
   for (const [enKey, transVal] of Object.entries(extDict)) {
@@ -295,15 +986,18 @@ function getTranslationForText(text: string, lang: LanguageCode): string {
     }
   }
 
-  // 4. Exact dictionary fallback for core terms
-  if (trimmed === "Brokerage") {
-    return lang === "hi" ? "दलाली" : lang === "ja" ? "仲介手数料" : lang === "zh" ? "中介费" : lang === "ko" ? "중개 수수료" : trimmed;
+  // 3b. Case-insensitive and normalized dictionary lookup
+  const lowerNormalized = normalizedInput.toLowerCase();
+  for (const [enKey, transVal] of Object.entries(extDict)) {
+    if (enKey.replace(/\s+/g, " ").toLowerCase() === lowerNormalized) {
+      return transVal;
+    }
   }
-  if (trimmed === "Free") {
-    return lang === "hi" ? "मुफ़्त" : lang === "ja" ? "無料" : lang === "zh" ? "免费" : lang === "ko" ? "무료" : trimmed;
-  }
-  if (trimmed === "Value") {
-    return lang === "hi" ? "मूल्य" : lang === "ja" ? "価値" : lang === "zh" ? "价值" : lang === "ko" ? "가치" : trimmed;
+
+  // 4. Fallback: Translate word-by-word
+  const wordTranslated = translateWordByWord(trimmed, lang);
+  if (wordTranslated !== trimmed) {
+    return wordTranslated;
   }
 
   return text;
@@ -330,8 +1024,9 @@ function translateNode(node: Node, lang: LanguageCode) {
         }
       } else {
         const translated = getTranslationForText(trimmedOriginal, lang);
-        if (translated !== trimmedOriginal) {
-          const finalVal = originalVal.replace(trimmedOriginal, translated);
+        const localized = localizeNumbersAndDatesInText(translated, lang);
+        if (localized !== trimmedOriginal) {
+          const finalVal = originalVal.replace(trimmedOriginal, localized);
           if (node.nodeValue !== finalVal) {
             node.nodeValue = finalVal;
           }
@@ -364,8 +1059,9 @@ function translateNode(node: Node, lang: LanguageCode) {
             }
           } else {
             const translatedPlaceholder = getTranslationForText(trimmedOriginalPlaceholder, lang);
-            if (translatedPlaceholder !== trimmedOriginalPlaceholder) {
-              inputEl.placeholder = translatedPlaceholder;
+            const localizedPlaceholder = localizeNumbersAndDatesInText(translatedPlaceholder, lang);
+            if (localizedPlaceholder !== trimmedOriginalPlaceholder) {
+              inputEl.placeholder = localizedPlaceholder;
             }
           }
         }
@@ -390,31 +1086,67 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  // Try to load language from URL parameter first, then localStorage
+  // Try to load language following strict priority order:
+  // 0. URL Parameter (lang)
+  // 1. Logged-in user preference (inhaby_user_lang)
+  // 2. Local Storage (inhaby_language)
+  // 3. Browser Language (navigator.language)
+  // 4. Default to English (en)
   const [language, setLanguageState] = useState<LanguageCode>(() => {
     if (typeof window !== "undefined") {
+      // Prioritize manual user selection over everything (including stale URL query parameters)
+      const manualSelection = localStorage.getItem("inhaby_manual_lang_selected");
+      const userPref = localStorage.getItem("inhaby_user_lang") as LanguageCode;
+      if (manualSelection === "true" && userPref && ["en", "hi", "ja", "zh", "ko"].includes(userPref)) {
+        return userPref;
+      }
+
+      // 0. URL search parameter
       const params = new URLSearchParams(window.location.search);
       const urlLang = params.get("lang") as LanguageCode;
       if (urlLang && ["en", "hi", "ja", "zh", "ko"].includes(urlLang)) {
         return urlLang;
       }
+
+      // 1. Logged-in user preference
+      if (userPref && ["en", "hi", "ja", "zh", "ko"].includes(userPref)) {
+        return userPref;
+      }
+
+      // 2. Local Storage
+      const saved = localStorage.getItem("inhaby_language") as LanguageCode;
+      if (saved && ["en", "hi", "ja", "zh", "ko"].includes(saved)) {
+        return saved;
+      }
+
+      // 3. Browser Language
+      const bLang = (navigator.language || "").split("-")[0].toLowerCase() as LanguageCode;
+      if (["en", "hi", "ja", "zh", "ko"].includes(bLang)) {
+        return bLang;
+      }
     }
-    const saved = localStorage.getItem("inhaby_language");
-    return (saved as LanguageCode) || "en";
+    // 4. Default
+    return "en";
   });
 
   const setLanguage = (code: LanguageCode) => {
     setLanguageState(code);
     localStorage.setItem("inhaby_language", code);
+    localStorage.setItem("inhaby_user_lang", code); // Sync both storage keys to preserve preference
+    localStorage.setItem("inhaby_manual_lang_selected", "true"); // Flag manual selection to bypass stale url params
     const found = languages.find((l) => l.code === code);
     if (found) {
       localStorage.setItem("inhaby_language_name", found.name);
     }
-    // Update URL query parameter without page reload
+    // Update URL query parameter without page reload safely (wrapped to handle sandboxed iframe rules)
     if (typeof window !== "undefined") {
-      const url = new URL(window.location.href);
-      url.searchParams.set("lang", code);
-      window.history.pushState({}, "", url.toString());
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.set("lang", code);
+        window.history.pushState({}, "", url.toString());
+      } catch (err) {
+        console.warn("Failed to push history state in iframe sandbox:", err);
+      }
     }
   };
 
@@ -424,8 +1156,8 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   // Real-time DOM Translation hook and MutationObserver
   useEffect(() => {
-    // 1. Correctly identify lang on HTML element for accessibility & screen readers
-    document.documentElement.lang = language;
+    // 1. Correctly identify lang on HTML element for accessibility & SEO (Chinese -> zh-CN)
+    document.documentElement.lang = language === "zh" ? "zh-CN" : language;
 
     // Update or add hreflang tags in the document head to prevent layout shifts & improve SEO
     const existingHreflangs = document.querySelectorAll("link[rel='alternate'][hreflang]");
