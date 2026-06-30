@@ -39,10 +39,11 @@ const footerColumns = [
 ];
 
 const socialLinks = [
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Instagram, href: "#", label: "Instagram" },
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
-  { icon: Github, href: "#", label: "GitHub" },
+  { icon: Twitter, href: "https://x.com/inhaby", label: "Twitter" },
+  { icon: Instagram, href: "https://instagram.com/officialinhaby", label: "Instagram (Official)" },
+  { icon: Instagram, href: "https://instagram.com/inhabyindia", label: "Instagram (India)" },
+  { icon: Linkedin, href: "https://linkedin.com/company/inhaby", label: "LinkedIn" },
+  { icon: Github, href: "https://github.com/inhaby", label: "GitHub" },
 ];
 
 export default function Footer() {
@@ -277,6 +278,8 @@ export default function Footer() {
               <motion.a
                 key={social.label}
                 href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ y: -2 }}
                 className="w-8 h-8 bg-muted rounded-full flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary-soft transition-all"
                 aria-label={social.label}

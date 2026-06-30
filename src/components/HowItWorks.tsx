@@ -91,7 +91,7 @@ export default function HowItWorks() {
       if (!reduceMotion) {
         setIsPlaying(true);
       }
-    }, 5000); // Resume autoplay after 5 seconds of inactivity
+    }, 6000); // Resume autoplay after 6 seconds of inactivity
     setInteractionTimeout(timeout);
   };
 

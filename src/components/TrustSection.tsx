@@ -7,19 +7,28 @@ import OptimizedImage from "./OptimizedImage";
 export default function TrustSection() {
   const [photoComparison, setPhotoComparison] = useState<"real" | "stock">("real");
   const [activeCard, setActiveCard] = useState(0);
+  const [lastInteraction, setLastInteraction] = useState(Date.now());
+
+  const handleManualAction = () => {
+    setLastInteraction(Date.now());
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setActiveCard((prev) => (prev + 1) % 4);
-    }, 4500); // Auto slide every 4.5s
+      if (Date.now() - lastInteraction >= 6000) {
+        setActiveCard((prev) => (prev + 1) % 4);
+      }
+    }, 4500); // Auto slide every 4.5s if inactive for 6s
     return () => clearInterval(timer);
-  }, [activeCard]);
+  }, [lastInteraction]);
 
   const handleNextCard = () => {
+    handleManualAction();
     setActiveCard((prev) => (prev + 1) % 4);
   };
 
   const handlePrevCard = () => {
+    handleManualAction();
     setActiveCard((prev) => (prev - 1 + 4) % 4);
   };
 
@@ -315,7 +324,10 @@ export default function TrustSection() {
               {[0, 1, 2, 3].map((idx) => (
                 <button
                   key={idx}
-                  onClick={() => setActiveCard(idx)}
+                  onClick={() => {
+                    setActiveCard(idx);
+                    handleManualAction();
+                  }}
                   className={`h-1.5 rounded-full transition-all duration-300 ${idx === activeCard ? "w-5 bg-primary" : "w-1.5 bg-border"}`}
                   aria-label={`Go to card ${idx + 1}`}
                 />

@@ -1394,5 +1394,617 @@ Join us on this journey. Experience our transparent direct-owner search platform
         }
       ]
     }
+  },
+  {
+    id: "day-29-building-company",
+    slug: "day-29-building-company",
+    title: "Building Inhaby — Day 29: The Day We Stopped Building Features and Started Building a Company",
+    category: "Founders Diary",
+    phase: "Phase 3 — Scale & Security",
+    phaseNum: 3,
+    description: "Most startup updates celebrate shiny new features. Today wasn't one of those days. Today was about architecture, debugging, authentication, deployment strategy, and making decisions that determine whether Inhaby can support millions of people.",
+    image: "https://images.unsplash.com/photo-1605371924599-2d0365da1ae0?auto=format&fit=crop&q=80&w=1200",
+    author: {
+      name: "Vikram Dev",
+      role: "CTO & Co-Founder",
+      avatar: "VD",
+      bio: "Vikram is the co-founder and CTO at INHABY. He loves building highly-scalable cloud architectures, monorepos, and developer tools.",
+      socials: {
+        twitter: "https://twitter.com/inhaby",
+        linkedin: "https://linkedin.com/company/inhaby"
+      }
+    },
+    publishedDate: "June 29, 2026",
+    readingTime: "5 min read",
+    trending: true,
+    popular: true,
+    tags: ["Startup Architecture", "Supabase", "Founders Diary", "Monorepo"],
+    content: `# Building Inhaby — Day 29: The Day We Stopped Building Features and Started Building a Company
+
+Most startup updates celebrate shiny new features.
+
+Today wasn't one of those days.
+
+Today was about architecture, debugging, authentication, deployment strategy, and making decisions that most users will never notice—but that will determine whether Inhaby can support thousands, or even millions, of people in the future.
+
+---
+
+## Three Platforms, One Vision
+
+By this point, Inhaby had already evolved into three independent applications:
+
+* **inhaby.com** — Tenant Platform
+* **owner.inhaby.com** — Owner Portal
+* **admin.inhaby.com** — Internal Admin Dashboard
+
+Each application was working independently, but they all relied on the same authentication logic, Supabase client, shared types, utility functions, and storage services.
+
+Initially, these files lived inside a shared folder that every application referenced locally.
+
+It worked.
+
+Until we realized it wouldn't scale.
+
+---
+
+## The First Major Architecture Decision
+
+The question became:
+
+Should we keep copying shared files into every repository?
+
+Or should we build something reusable?
+
+We chose the second option.
+
+Instead of duplicating code, we converted our shared folder into a standalone TypeScript package called:
+
+**@inhaby/shared**
+
+This package now contains:
+- **Shared Supabase Client:** Centralized initialization logic for database, real-time channels, and storage buckets.
+- **Authentication Helpers:** Uniform handlers for session states, token refreshes, and route guards.
+- **Storage Utilities:** Reusable helper functions for securely uploading and retrieving property assets.
+- **Global TypeScript Models:** Unified type definitions for properties, bookings, and users.
+- **Common Interfaces:** Reusable UI payload structures.
+- **Shared Business Logic:** Pricing formulas and date math calculations.
+
+This means every Inhaby application now depends on a single source of truth.
+
+One bug fix.
+
+Three applications updated.
+
+No duplicated code.
+
+---
+
+## When Things Broke...
+
+Of course, nothing worked immediately.
+
+Imports failed.
+
+TypeScript complained.
+
+Path aliases stopped resolving.
+
+Applications couldn't find shared modules.
+
+Every repository had to be updated carefully.
+
+Package exports had to be redesigned.
+
+Build outputs had to be generated correctly.
+
+Eventually, after several iterations...
+
+The package finally compiled successfully.
+
+---
+
+## The Admin Login Problem
+
+Another challenge appeared inside our Admin Portal.
+
+The authentication system kept throwing mysterious errors:
+- **HTTP 400** (Bad Request) on token exchange.
+- **HTTP 500** (Internal Server Error) during credential validation.
+- **Invalid credentials** prompts on valid logins.
+- **Missing identity records** in user profiles.
+- **Supabase authentication failures**.
+
+At first, it looked like a password issue.
+
+Then an email issue.
+
+Then a database issue.
+
+After tracing the authentication flow, we discovered the real cause.
+
+The administrator account had been inserted manually into database tables instead of being created through the official Supabase Authentication API.
+
+That meant critical authentication records were missing.
+
+The user existed...
+
+But couldn't actually log in.
+
+Once we recreated the admin account properly using the official authentication flow, everything finally started working.
+
+The Admin Dashboard became accessible again.
+
+---
+
+## Rethinking Admin Authentication
+
+While fixing authentication, another design question came up.
+
+Should administrators log in using personal email addresses?
+
+For an internal operations panel, the answer was no.
+
+Instead, we designed a future system where administrators authenticate using:
+1. **A unique internal username** instead of public email domains.
+2. **A secure password** enforced with strict complexity checks.
+
+Email becomes optional profile information after login rather than the primary login identifier.
+
+This provides more flexibility for internal staff while keeping authentication independent from personal email ownership.
+
+---
+
+## The Visit Request Mystery
+
+Next came a frustrating bug.
+
+Owner-created properties appeared correctly inside the Tenant application.
+
+Everything looked perfect.
+
+Except one button.
+
+**"Request Viewing Tour"**
+
+Nothing happened.
+
+No errors.
+
+No loading state.
+
+No request.
+
+Seed data worked perfectly.
+
+Real properties didn't.
+
+The bug turned out to be surprisingly simple.
+
+The booking flow was still searching inside the hardcoded development property array.
+
+Owner-created properties came from the database.
+
+Because they weren't part of the mock dataset, the lookup silently returned nothing.
+
+The booking pipeline stopped before making any database request.
+
+Replacing every hardcoded lookup with dynamic property resolution solved the architectural issue.
+
+The lesson wasn't just to fix one button.
+
+It was to remove every remaining dependency on fake data.
+
+---
+
+## Local Development Challenges
+
+Running three separate applications simultaneously also introduced development issues.
+
+Ports collided.
+
+WebSocket servers competed for the same development port.
+
+Multiple Vite servers were running together.
+
+These weren't product problems.
+
+They were engineering workflow problems.
+
+Solving them now saves countless hours later.
+
+---
+
+## Preparing for Scale
+
+One question stayed in our minds throughout the day:
+
+\"What happens when Inhaby has 100 users?\"
+
+\"What about 10,000?\"
+
+\"What about one million?\"
+
+We realized our architecture had to grow before our user base did.
+
+That led to one of today's biggest milestones.
+
+---
+
+## Publishing Our First Internal Package
+
+After converting our shared code into a package, we decided not to keep it local forever.
+
+Instead, we published it as an internal GitHub Package.
+
+The journey wasn't easy.
+
+Repository ownership changed.
+
+Git remotes had to be updated.
+
+Authentication tokens were regenerated.
+
+GitHub Package permissions rejected our requests.
+
+Repository history had to be merged after transferring ownership.
+
+Several publishing attempts failed with permission errors.
+
+Eventually...
+
+Everything aligned.
+
+The package finally published successfully.
+
+Our first internal SDK was officially live.
+
+---
+
+## Why This Matters
+
+Most users will never know this package exists.
+
+They won't see it.
+
+They won't click it.
+
+They won't interact with it.
+
+But every future feature inside Inhaby will depend on it.
+
+Whenever we improve authentication...
+
+Fix storage...
+
+Update shared types...
+
+Improve security...
+
+Every application benefits instantly.
+
+This single package will save hundreds of development hours over the lifetime of the company.
+
+---
+
+## Looking Ahead
+
+Today wasn't about adding visible features.
+
+It was about building foundations.
+
+The next milestones are now clear:
+- Complete the live visit request workflow
+- Owner approval and rejection flow
+- Viewing completion system
+- Contact unlocking
+- Real-time messaging
+- Booking confirmations
+- Full production deployment
+
+The architecture is becoming stable.
+
+The foundations are becoming stronger.
+
+And with every obstacle solved, Inhaby becomes a little more ready for the future we imagine.
+
+---
+
+**Progress isn't always measured by what users can see.**
+
+Sometimes it's measured by how many future problems you quietly prevented before they ever had the chance to happen.`,
+    seo: {
+      seoTitle: "Building Inhaby Day 29: Architecture, Debugging, and Scaling SDK",
+      seoSlug: "day-29-building-company",
+      metaTitle: "Building Inhaby — Day 29: Building @inhaby/shared SDK",
+      metaDescription: "Learn how we shifted Inhaby from custom features to a robust company architecture with @inhaby/shared, resolved Supabase auth bugs, and built a dynamic booking pipeline.",
+      openGraphTitle: "Inhaby Day 29: Building a Scalable Startup Monorepo Package",
+      openGraphDesc: "From copy-pasting code to creating @inhaby/shared. How we redesigned Inhaby's shared SDK, solved Supabase authentication blocks, and fixed real property booking issues.",
+      canonicalUrl: "https://inhaby.com/blog/day-29-building-company",
+      primaryCategory: "Founders Diary",
+      secondaryCategory: "Engineering",
+      tags: ["Monorepo", "Supabase Auth", "Startup Architecture", "GitHub Packages"],
+      readingTime: "5 min read",
+      publishedDate: "June 29, 2026",
+      updatedDate: "June 29, 2026",
+      targetAudience: "Founders, Developers, Technical Product Managers, PropTech Enthusiasts",
+      featuredImage: {
+        url: "https://images.unsplash.com/photo-1605371924599-2d0365da1ae0?auto=format&fit=crop&q=80&w=1200",
+        suggestion: "A technical terminal and modern dev setup symbolizing professional package publishing and compiler success.",
+        alt: "Modern developer code editor displaying compiled packages"
+      },
+      lsiKeywords: [
+        { word: "monorepo shared package", count: 3, type: "Primary Keyword" },
+        { word: "Supabase auth admin login", count: 2, type: "Secondary Keyword" },
+        { word: "dynamic property rental search", count: 2, type: "Semantic/LSI Keyword" }
+      ],
+      geoAeoFeatures: [
+        {
+          type: "Direct Answer (AEO)",
+          desc: "Describes the architecture shift of modularizing shared code into @inhaby/shared to prevent scaling bottlenecks in multitenant structures."
+        }
+      ]
+    }
+  },
+  {
+    id: "engineering-milestone-scaling-foundation",
+    slug: "engineering-milestone-scaling-foundation",
+    title: "Engineering Milestone: Building the Foundation That Will Scale Inhaby to Millions",
+    category: "Engineering",
+    phase: "Phase 3 — Scale & Security",
+    phaseNum: 3,
+    description: "Today's work wasn't about adding another page or another button. It was about redesigning Inhaby's entire software architecture so that the platform can continue growing without becoming impossible to maintain.",
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=1200",
+    author: {
+      name: "Genofogu",
+      role: "Co-Founder",
+      avatar: "GF",
+      bio: "Genofogu is the Co-Founder at INHABY, focused on core engineering and scaling infrastructures to support millions of home seekers.",
+      socials: {
+        twitter: "https://twitter.com/inhaby",
+        linkedin: "https://linkedin.com/company/inhaby"
+      }
+    },
+    publishedDate: "June 29, 2026",
+    readingTime: "6 min read",
+    trending: false,
+    popular: true,
+    tags: ["Engineering", "Startup Architecture", "Scaling", "GitHub Packages"],
+    content: `# Engineering Milestone: Building the Foundation That Will Scale Inhaby to Millions
+
+When people think about startup progress, they usually imagine new features, beautiful UI updates, or exciting announcements. However, some of the most important milestones happen entirely behind the scenes.
+
+Today's work wasn't about adding another page or another button. It was about redesigning Inhaby's entire software architecture so that the platform can continue growing without becoming impossible to maintain.
+
+This engineering milestone represents one of the biggest structural improvements since the project began.
+
+---
+
+## The Challenge
+
+Inhaby is no longer a single website.
+
+It has evolved into multiple independent applications that work together as one ecosystem.
+
+Current applications include:
+- **Tenant Application** (inhaby.com)
+- **Owner Portal** (owner.inhaby.com)
+- **Internal Admin Panel** (admin.inhaby.com)
+
+Although these applications look different, they all require many of the same components.
+
+For example:
+- Authentication logic
+- Supabase database connection
+- Storage services
+- TypeScript interfaces
+- Utility functions
+- Common business logic
+- Shared validation methods
+
+Initially, every application referenced a common local folder called "shared".
+
+While this approach works during early development, it creates several long-term problems.
+
+Whenever a shared file changes:
+- Every repository must be updated manually.
+- Multiple versions of the same code appear.
+- Bugs become inconsistent between applications.
+- Developers accidentally overwrite each other's work.
+- Future team collaboration becomes increasingly difficult.
+
+As the platform grows, this architecture becomes expensive to maintain.
+
+The solution was to redesign the shared code into an independent software package.
+
+---
+
+## Creating the Inhaby Shared SDK
+
+Instead of treating the shared folder as just another directory, it was converted into its own standalone project.
+
+The new package is called:
+
+**@inhaby/shared**
+
+Rather than copying code into multiple repositories, every application now installs this package as a dependency.
+
+The package contains:
+
+### Database Layer
+A centralized Supabase client. Every application now communicates with the database through the same configuration, reducing inconsistencies and simplifying maintenance.
+
+---
+
+### Authentication Layer
+All authentication helpers were moved into the package. Instead of three different implementations, every application now follows identical authentication behavior. Future improvements automatically benefit every platform.
+
+---
+
+### Storage Services
+Image uploads, signed URLs, file management, and storage helpers now live in one place. When storage behavior changes, only the package needs to be updated.
+
+---
+
+### Shared Types
+TypeScript models were centralized. This guarantees that Owner Portal, Tenant App, and Admin Panel all understand the same database structures:
+- Property model
+- User model
+- Booking model
+- Visit model
+- Notification model
+
+Type mismatches between applications are dramatically reduced.
+
+---
+
+### Utility Functions
+Validation methods and reusable helper functions are now maintained once instead of being copied across projects.
+
+---
+
+## Building the Package
+
+The shared module became a proper TypeScript package.
+- A professional project structure was created.
+- Source files moved into a dedicated \`src\` directory.
+- Compiled JavaScript is generated inside a \`dist\` directory.
+- Type definitions are generated automatically.
+
+The package now exports only its public API through a single entry point. This makes the package easier to maintain while preventing applications from depending on internal implementation details.
+
+---
+
+## Publishing the Package
+
+After building the package locally, the next goal was making it available through GitHub Packages.
+
+This required significantly more work than expected. Several infrastructure problems appeared during publishing:
+- Repository ownership changed after transferring the package repository to the official Inhaby GitHub account.
+- Git remotes had to be updated.
+- Authentication tokens had to be regenerated.
+- Repository histories had to be merged.
+- GitHub Package permissions rejected publishing requests multiple times.
+
+Eventually, the package was successfully published. The result is an internal package registry that every Inhaby application can install directly.
+
+---
+
+## Why GitHub Packages?
+
+Instead of copying folders between projects, every application now depends on a versioned package.
+
+For example:
+- **Tenant App** ──► @inhaby/shared
+- **Owner Portal** ──► @inhaby/shared
+- **Admin Panel** ──► @inhaby/shared
+
+When improvements are made:
+1. Update shared code.
+2. Build the package.
+3. Publish a new version.
+4. Update applications.
+
+No manual file copying. No duplicated code. No synchronization mistakes.
+
+---
+
+## Solving Authentication Problems
+
+Today's work also included redesigning internal administrator authentication.
+
+During testing, repeated HTTP 400 and HTTP 500 errors occurred. Investigation revealed that administrator accounts had been created incorrectly inside Supabase. Although database records existed, they were missing critical authentication information because they were inserted manually instead of using the official authentication API.
+
+The administrator account was recreated correctly. Authentication now works as expected.
+
+---
+
+## Rethinking Internal Login
+
+Another architectural decision was made regarding administrator access.
+
+Instead of relying on personal email addresses for internal staff accounts, the future system will authenticate administrators using unique internal usernames and secure passwords. This approach provides greater flexibility while allowing email addresses to become profile information rather than login credentials.
+
+---
+
+## Debugging the Visit Booking Pipeline
+
+One of today's largest debugging sessions focused on property viewing requests.
+
+Seed properties worked correctly. Owner-created properties did not.
+
+After tracing the execution pipeline, the issue became clear. The booking system still depended on hardcoded development data. Production properties loaded from Supabase could not be found inside the local mock dataset. The booking process silently stopped before sending requests to the database.
+
+The property resolution system was redesigned to search dynamic production data first while keeping mock data only as a development fallback. This removed another dependency on temporary development data.
+
+---
+
+## Why These Changes Matter
+
+None of today's improvements significantly changed what users see. Instead, they changed how engineers build the platform.
+
+These improvements provide:
+- Better maintainability
+- Easier collaboration
+- Safer deployments
+- Faster feature development
+- Consistent authentication
+- Centralized business logic
+- Reduced duplication
+- Version-controlled shared code
+- Production-ready architecture
+
+Most importantly, these changes prepare Inhaby for future growth.
+
+---
+
+## The Road Ahead
+
+With the architecture now significantly improved, future development becomes much faster.
+
+Upcoming engineering priorities include:
+- Live viewing request workflow
+- Owner approval and rejection system
+- Visit completion tracking
+- Contact unlocking after successful visits
+- Booking confirmation pipeline
+- Real-time messaging
+- Notification synchronization
+- Production deployment across all platforms
+
+Today's milestone was not about adding another feature. It was about building the infrastructure that every future feature will rely on.
+
+Today, Inhaby's foundation became much stronger.`,
+    seo: {
+      seoTitle: "Engineering Milestone: Building Inhaby's Shared SDK Foundation",
+      seoSlug: "engineering-milestone-scaling-foundation",
+      metaTitle: "Engineering Milestone: Building Inhaby's @inhaby/shared Foundation",
+      metaDescription: "Read about how we redesigned Inhaby's architecture to scale to millions of users by building @inhaby/shared, resolving administrative logins, and fixing viewing pipelines.",
+      openGraphTitle: "Inhaby Engineering Milestone: Scaling to Millions",
+      openGraphDesc: "How we centralized Inhaby's authentication, database, and storage helpers into versioned GitHub Packages.",
+      canonicalUrl: "https://inhaby.com/blog/engineering-milestone-scaling-foundation",
+      primaryCategory: "Engineering",
+      secondaryCategory: "Startup Architecture",
+      tags: ["Monorepo", "TypeScript", "GitHub Packages", "Supabase Architecture"],
+      readingTime: "6 min read",
+      publishedDate: "June 29, 2026",
+      updatedDate: "June 29, 2026",
+      targetAudience: "Technical Leads, CTOs, PropTech Developers, Monorepo Enthusiasts",
+      featuredImage: {
+        url: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=1200",
+        suggestion: "A deep abstract technical background representing cloud infrastructure, binary compilation, or high-performance computer architectures.",
+        alt: "Complex server room networking cables and microcontrollers representing enterprise scale software"
+      },
+      lsiKeywords: [
+        { word: "shared typescript package", count: 3, type: "Primary Keyword" },
+        { word: "Supabase authentication pipeline", count: 2, type: "Secondary Keyword" },
+        { word: "GitHub Packages private registry", count: 2, type: "Semantic/LSI Keyword" }
+      ],
+      geoAeoFeatures: [
+        {
+          type: "Direct Answer (AEO)",
+          desc: "Explains how the centralization of business logic inside @inhaby/shared improves maintainability and guarantees zero runtime type discrepancies between React applications."
+        }
+      ]
+    }
   }
 ];

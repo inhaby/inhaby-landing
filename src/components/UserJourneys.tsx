@@ -52,56 +52,82 @@ export default function UserJourneys() {
   const [activeJourney, setActiveJourney] = useState<"renter" | "landlord">("renter");
   const { t } = useLanguage();
 
-  // 1. Auto switch journey and verification in every 9 sec
+  const [lastInteraction, setLastInteraction] = useState(Date.now());
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [loopIndex, setLoopIndex] = useState(0);
+
+  const loopStates = [
+    { tab: "journey" as const, journey: "renter" as const, step: 0, duration: 3000 },
+    { tab: "journey" as const, journey: "landlord" as const, step: 0, duration: 3000 },
+    { tab: "verification" as const, journey: "landlord" as const, step: 0, duration: 1500 },
+    { tab: "verification" as const, journey: "landlord" as const, step: 1, duration: 1500 },
+    { tab: "verification" as const, journey: "landlord" as const, step: 2, duration: 1500 },
+    { tab: "verification" as const, journey: "landlord" as const, step: 3, duration: 1500 },
+    { tab: "verification" as const, journey: "landlord" as const, step: 4, duration: 1500 },
+    { tab: "verification" as const, journey: "landlord" as const, step: 5, duration: 3500 },
+  ];
+
+  // Monitor inactivity to resume auto play
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveTab((prev) => {
-        const next = prev === "journey" ? "verification" : "journey";
-        if (next === "verification") {
-          setActiveStep(0);
-        } else {
-          setActiveJourney("renter");
-        }
-        return next;
-      });
-    }, 9000);
+    const checkInactivity = setInterval(() => {
+      if (!isAutoPlaying && Date.now() - lastInteraction >= 6000) {
+        setIsAutoPlaying(true);
+        setLoopIndex(0); // Restart linear flow from step 1
+      }
+    }, 1000);
 
-    return () => clearInterval(interval);
-  }, []);
+    return () => clearInterval(checkInactivity);
+  }, [isAutoPlaying, lastInteraction]);
 
-  // 2. Inside journey, automatically switch looking for home and list property in every 3 sec
+  // Handle sequential state transitions
   useEffect(() => {
-    if (activeTab !== "journey") return;
+    if (!isAutoPlaying) return;
 
-    const interval = setInterval(() => {
-      setActiveJourney((prev) => (prev === "renter" ? "landlord" : "renter"));
-    }, 3000);
+    const currentState = loopStates[loopIndex];
+    setActiveTab(currentState.tab);
+    setActiveJourney(currentState.journey);
+    setActiveStep(currentState.step);
 
-    return () => clearInterval(interval);
-  }, [activeTab]);
+    const timer = setTimeout(() => {
+      setLoopIndex((prev) => (prev + 1) % loopStates.length);
+    }, currentState.duration);
 
-  // 3. Inside verification, auto scroll steps until 100% (step 6, index 5) in 9 sec (1.5 sec per step)
-  useEffect(() => {
-    if (activeTab !== "verification") return;
+    return () => clearTimeout(timer);
+  }, [isAutoPlaying, loopIndex]);
 
-    const interval = setInterval(() => {
-      setActiveStep((prev) => {
-        if (prev < verificationSteps.length - 1) {
-          return prev + 1;
-        }
-        return prev; // Stay at 100% until tab switches
-      });
-    }, 1500);
+  const handleUserAction = () => {
+    setIsAutoPlaying(false);
+    setLastInteraction(Date.now());
+  };
 
-    return () => clearInterval(interval);
-  }, [activeTab]);
+  const handleTabChange = (tab: "journey" | "verification") => {
+    setActiveTab(tab);
+    if (tab === "verification") {
+      setActiveStep(0);
+    } else {
+      setActiveJourney("renter");
+    }
+    handleUserAction();
+  };
+
+  const handleJourneyChange = (journey: "renter" | "landlord") => {
+    setActiveJourney(journey);
+    handleUserAction();
+  };
+
+  const handleStepSelect = (idx: number) => {
+    setActiveStep(idx);
+    handleUserAction();
+  };
 
   const handleNextStep = () => {
     setActiveStep((prev) => (prev + 1) % verificationSteps.length);
+    handleUserAction();
   };
 
   const handlePrevStep = () => {
     setActiveStep((prev) => (prev - 1 + verificationSteps.length) % verificationSteps.length);
+    handleUserAction();
   };
 
   return (
@@ -131,7 +157,7 @@ export default function UserJourneys() {
           {/* Segmented Control Switcher */}
           <div className="flex bg-muted p-1 rounded-full max-w-xs mx-auto mb-8 border border-border/40 shadow-xs">
             <button
-              onClick={() => setActiveTab("journey")}
+              onClick={() => handleTabChange("journey")}
               className={`flex-1 py-2 text-xs font-bold rounded-full transition-all cursor-pointer ${
                 activeTab === "journey" 
                   ? "bg-primary text-primary-foreground shadow-sm scale-102" 
@@ -141,7 +167,7 @@ export default function UserJourneys() {
               {t("journey.tab_journey").split(" ")[0]}
             </button>
             <button
-              onClick={() => setActiveTab("verification")}
+              onClick={() => handleTabChange("verification")}
               className={`flex-1 py-2 text-xs font-bold rounded-full transition-all cursor-pointer ${
                 activeTab === "verification" 
                   ? "bg-primary text-primary-foreground shadow-sm scale-102" 
@@ -167,17 +193,17 @@ export default function UserJourneys() {
                   {/* Sub-selector for Journey: Renter vs Landlord */}
                   <div className="flex bg-muted/50 p-1 rounded-xl max-w-[240px] mx-auto border border-border/20">
                     <button
-                      onClick={() => setActiveJourney("renter")}
+                      onClick={() => handleJourneyChange("renter")}
                       className={`flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all cursor-pointer ${
                         activeJourney === "renter" 
-                          ? "bg-background text-primary border border-border/40 shadow-xs" 
+                           ? "bg-background text-primary border border-border/40 shadow-xs" 
                           : "text-muted-foreground"
                       }`}
                     >
                       Looking for Home
                     </button>
                     <button
-                      onClick={() => setActiveJourney("landlord")}
+                      onClick={() => handleJourneyChange("landlord")}
                       className={`flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all cursor-pointer ${
                         activeJourney === "landlord" 
                           ? "bg-background text-primary border border-border/40 shadow-xs" 
@@ -355,7 +381,7 @@ export default function UserJourneys() {
                       {verificationSteps.map((_, idx) => (
                         <button
                           key={idx}
-                          onClick={() => setActiveStep(idx)}
+                          onClick={() => handleStepSelect(idx)}
                           className={`h-1.5 rounded-full transition-all duration-300 ${
                             idx === activeStep ? "w-5 bg-primary" : "w-1.5 bg-border"
                           }`}

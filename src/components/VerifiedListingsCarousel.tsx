@@ -60,6 +60,7 @@ const carouselListings = [
 export default function VerifiedListingsCarousel() {
   const [isLoading, setIsLoading] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
+  const [lastInteraction, setLastInteraction] = useState(Date.now());
   const containerRef = useRef<HTMLDivElement>(null);
   const prefersReduced = usePrefersReducedMotion();
   const { t } = useLanguage();
@@ -71,28 +72,37 @@ export default function VerifiedListingsCarousel() {
     return () => clearTimeout(timer);
   }, []);
 
+  const handleManualAction = () => {
+    setLastInteraction(Date.now());
+  };
+
   // Automatic smooth horizontal scrolling
   useEffect(() => {
-    if (isLoading || prefersReduced || isPaused) return;
+    if (isLoading || prefersReduced) return;
 
     const interval = setInterval(() => {
-      if (containerRef.current) {
-        const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
-        // If we are at the end, wrap back to the start
-        if (scrollLeft + clientWidth >= scrollWidth - 25) {
-          containerRef.current.scrollTo({ left: 0, behavior: "smooth" });
-        } else {
-          // Slide by roughly one card width plus gap
-          const cardWidth = window.innerWidth < 768 ? 332 : 412; // 300+32 or 380+32
-          containerRef.current.scrollBy({ left: cardWidth, behavior: "smooth" });
+      if (isPaused) return;
+      const now = Date.now();
+      if (now - lastInteraction >= 6000) {
+        if (containerRef.current) {
+          const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
+          // If we are at the end, wrap back to the start
+          if (scrollLeft + clientWidth >= scrollWidth - 25) {
+            containerRef.current.scrollTo({ left: 0, behavior: "smooth" });
+          } else {
+            // Slide by roughly one card width plus gap
+            const cardWidth = window.innerWidth < 768 ? 332 : 412; // 300+32 or 380+32
+            containerRef.current.scrollBy({ left: cardWidth, behavior: "smooth" });
+          }
         }
       }
     }, 4500);
 
     return () => clearInterval(interval);
-  }, [isLoading, prefersReduced, isPaused]);
+  }, [isLoading, prefersReduced, isPaused, lastInteraction]);
 
   const slideLeft = () => {
+    handleManualAction();
     if (containerRef.current) {
       const cardWidth = window.innerWidth < 768 ? 332 : 412;
       containerRef.current.scrollBy({ left: -cardWidth, behavior: prefersReduced ? "auto" : "smooth" });
@@ -100,6 +110,7 @@ export default function VerifiedListingsCarousel() {
   };
 
   const slideRight = () => {
+    handleManualAction();
     if (containerRef.current) {
       const cardWidth = window.innerWidth < 768 ? 332 : 412;
       containerRef.current.scrollBy({ left: cardWidth, behavior: prefersReduced ? "auto" : "smooth" });
@@ -147,9 +158,15 @@ export default function VerifiedListingsCarousel() {
         {/* Horizontal Scrollable Carousel Track */}
         <div 
           ref={containerRef}
-          onMouseEnter={() => setIsPaused(true)}
+          onMouseEnter={() => {
+            setIsPaused(true);
+            handleManualAction();
+          }}
           onMouseLeave={() => setIsPaused(false)}
-          onTouchStart={() => setIsPaused(true)}
+          onTouchStart={() => {
+            setIsPaused(true);
+            handleManualAction();
+          }}
           onTouchEnd={() => setIsPaused(false)}
           className="flex overflow-x-auto gap-8 pb-10 scrollbar-none snap-x snap-mandatory no-scrollbar -mx-5 sm:-mx-6 px-5 sm:px-6"
           style={{ scrollSnapType: "x mandatory", scrollbarWidth: "none" }}
